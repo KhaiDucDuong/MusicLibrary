@@ -141,7 +141,7 @@ div .thumbnail {
     height: 100%;
 }
 
-.thumbnail img {
+.thumbnail img{
     height: 60%;
 }
 
@@ -149,14 +149,64 @@ div .thumbnail {
     width: 100%;
 }
 
+
+.btn-circle {
+    padding: 4px 0;
+    font-size: 8px;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 1.42;
+    border-radius: 50%;
+}
+
+.button-appear-onHover{
+    position: absolute;
+    z-index: 2;
+    display: none;
+}
+.thumbnail:hover .button-appear-onHover{
+    display: inline-block;
+}
+
+.add-btn{
+    width: 19%;
+    text-align: center;
+    left: 14%;
+    bottom: 25%;
+
+}
+
+.play-btn{
+    width:29%;
+    text-align: center;
+    left: 35%;
+    bottom: 25%;
+}
+
+.delete-btn{
+    width:19%;
+    text-align: center;
+    left: 66%;
+    bottom: 25%;
+
+}
+
+.center-items{
+    position: relative;
+}
 /*(481px  and up) */
 @media only screen and (min-width: 481px) {
     #user-deatails-MW {
         font-size: 5px;
     }
-    
+
     #user-uploaded-music {
         font-size: 5px;
+    }
+
+    .btn-circle{
+
     }
 }
 
@@ -168,6 +218,10 @@ div .thumbnail {
 
     #user-uploaded-music {
         font-size: 7px;
+    }
+
+    .btn-circle {
+        /*        font-size: 10px;*/
     }
 }
 
@@ -181,6 +235,13 @@ div .thumbnail {
     #user-uploaded-music {
         font-size: 10px;
     }
+
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        padding: 6px auto;
+        font-size: 12px;
+    }
 }
 
 
@@ -193,5 +254,12 @@ div .thumbnail {
 
     #user-uploaded-music {
         font-size: 12px;
+    }
+
+    .btn-circle {
+        padding: 8px 0;
+        font-size: 16px;
+        width: 40px;
+        height: 40px;
     }
 }

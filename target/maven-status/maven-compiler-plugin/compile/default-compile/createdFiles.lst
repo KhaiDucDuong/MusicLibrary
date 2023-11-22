@@ -1,9 +1,11 @@
 Webservlet\MusicServlet.class
 LibraryClass\Playlist_.class
 Webservlet\PlaylistServlet.class
+Webservlet\adminServlet.class
 LibraryClass\Music_.class
 com\mycompany\musiclibrary\JakartaRestConfiguration.class
 LibraryClass\Music.class
+Webservlet\searchServlet.class
 Webservlet\UserServlet.class
 LibraryClass\User.class
 DBUtil\UserDB.class

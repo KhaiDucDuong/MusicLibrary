@@ -14,8 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
 
+import java.util.HashSet;
+import java.util.Set;
 import LibraryClass.Music;
+import LibraryClass.Playlist;
 import DBUtil.MusicDB;
+import DBUtil.PlaylistDB;
 import LibraryClass.User;
 import java.util.List;
 
@@ -44,22 +48,30 @@ public class MusicServlet extends HttpServlet {
         String url = "/profile.jsp";
         //get action
         String action = request.getParameter("action");
+        String message;
 
         //get current logged in User info
         User user = (User) request.getSession().getAttribute("loggeduser");
         List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
         request.setAttribute("userUploadedSongs", userUploadedSongs);
+        //get user's playlists
+        List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+        request.setAttribute("userPlaylists", userPlaylists);
         //upload a song, author is set to current logged in user
         if (action.equals("createMusic")) {
-            String message;
+
             javax.servlet.http.HttpSession session = request.getSession();
 
             if (session.getAttribute("insertMusicflag") == null) {
 
                 try {
                     message = createMusic(request, response, user);
+
                     userUploadedSongs = MusicDB.selectMusicbyUserID(user);
                     request.setAttribute("userUploadedSongs", userUploadedSongs);
+                    //get user's playlists
+                    userPlaylists = PlaylistDB.selectPlaylist(user);
+                    request.setAttribute("userPlaylists", userPlaylists);
                 } catch (Exception e) {
                     message = "Failed to upload song!";
                     System.out.println("Failed to upload song!");
@@ -74,6 +86,17 @@ public class MusicServlet extends HttpServlet {
             //return back to profile.jsp after uploading a song (new song is displayed there)
             //should change this to a playlist url that is dedicated for uploaded songs
             url = "/profile.jsp";
+            request.setAttribute("message", message);
+        } else if (action.equals("Delete song")) {
+            Long deletingSongID = Long.parseLong(request.getParameter("deletingSongID"));
+            MusicDB.setMusicExistenceFalse(deletingSongID);
+            url = "/profile.jsp";
+            userUploadedSongs = MusicDB.selectMusicbyUserID(user);
+            request.setAttribute("userUploadedSongs", userUploadedSongs);
+            //get user's playlists
+            userPlaylists = PlaylistDB.selectPlaylist(user);
+            request.setAttribute("userPlaylists", userPlaylists);
+            message = "Deleted song successfully!";
             request.setAttribute("message", message);
         }
 
@@ -123,12 +146,11 @@ public class MusicServlet extends HttpServlet {
                         MusicDB.deleteMusic(music.getMusicID());
                         return "Song File is not in the correct format!";
                     }
-                    
+
                     String songPath = "songs/" + rename;
                     String absolutePath = request.getServletContext().getRealPath(songPath);
                     songFile.write(absolutePath);
-                } 
-                else {
+                } else {
                     MusicDB.deleteMusic(music.getMusicID());
                     return "Song file is empty!";
                 }
@@ -156,6 +178,11 @@ public class MusicServlet extends HttpServlet {
 
             music.setImage(imgPath);
             MusicDB.updateMusic(music);
+//            Playlist playlistID = new Playlist();
+//            playlistID.setPlaylistID(3);
+//            Set<Music> addedSongs = new HashSet<Music>();
+//            addedSongs.add(music);
+//            PlaylistDB.addSongsToPlaylist(playlistID, addedSongs);
             return "Upload song succesfully!";
         }
 

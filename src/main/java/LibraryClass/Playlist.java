@@ -20,6 +20,7 @@ public class Playlist implements Serializable {
     private String name;
     @Temporal(TemporalType.DATE)
     private Date created;
+    String cover;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
@@ -30,12 +31,21 @@ public class Playlist implements Serializable {
     public Playlist(){
         
     }
-    public Playlist(long playlistID, String name, Date created, User user, Set<Music> Songs) {
+    public Playlist(long playlistID, String name, Date created, User user, Set<Music> Songs, String cover) {
         this.playlistID = playlistID;
         this.name = name;
         this.created = created;
         this.user = user;
         this.Songs = Songs;
+        this.cover = cover;
+    }
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     

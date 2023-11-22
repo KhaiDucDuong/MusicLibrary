@@ -2,6 +2,8 @@
 <%@page import="java.util.List"%>
 <%@page import="LibraryClass.Playlist"%>
 <%@page import="LibraryClass.User"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
 <html>
           <%
@@ -159,13 +161,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="menu-right">
 					<div class="profile_details">		
 						  <div class="col-md-4 serch-part">
-								<div id="sb-search" class="sb-search">
-									<form>
-										<input class="sb-search-input" placeholder="Search" type="search" name="search" id="search">
-										<input class="sb-search-submit" type="submit" value="">
-										<span class="sb-icon-search"> </span>
-									</form>
-								</div>
+								 <div id="sb-search" class="sb-search">
+                                    <form action="search" method="post">
+                                        <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
+                                        <input class="sb-search-submit" type="submit" name="action" value="search">
+                                        <span class="sb-icon-search"> </span>
+                                    </form>
+                                </div>
 							</div>
 							  <!-- search-scripts -->
 									<script src="js/classie.js"></script>
@@ -210,31 +212,48 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 											 </ul>	
 											</div>
 											<div class="col-md-4 login-pop">
-												 <div id="loginpop"> <a href="#" id="loginButton"><span>Signed in</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox">  
+												<c:if test="${loggeduser.getUserID()!=1}">
+                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox" style="margin-top:10px">  
                                                 <form action="login" method="post" id="loginForm">
-
-
                                                     <fieldset id="body">
                                                         <fieldset>
                                                             <label>Username = ${loggeduser.getName()}</label>
-
                                                         </fieldset>
                                                         <fieldset>
                                                             <label>Email = ${loggeduser.getGmail()}</label>
-
                                                         </fieldset>
-
-                                                    </fieldset>
+                                                         <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </c:if>
+                                        <c:if test="${loggeduser.getUserID() ==1}" >
+                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                    <input type="submit" name ="action" value="Account Manager">
                                                     <input type="submit" name="action" value="Playlist" > 
                                                     <input type="submit" name ="action" id="My profile" value="My profile">
                                                     <input type="submit" name ="action" id="setting" value="Setting">
-                                                    <input type="submit" name="action" value="Log out" id="login">
-                                                    
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
                                                 </form>
 
                                             </div>
                                         </div>
+                                        </c:if>
 
 											</div>
 										<div class="clearfix"> </div>
@@ -284,8 +303,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                                                            showplaylist = playlist.get(i); %>
                                                                                              
 								<div class="col-md-3 browse-grid">
-									<a  href="single.html"><img src="images/v11.jpg" title=<%=showplaylist.getName()%>></a>
-									 <a href="single.html"><i class="glyphicon glyphicon-play-circle"></i></a>
+									<a  href="single.html"><img src="<%=showplaylist.getCover()%>" style="width:215px;height:215px" ></a>
 									<a class="sing" href="single.html"><%=showplaylist.getName()%></a>
                                                                         <button class="setting-button"><a href="#" data-toggle="modal" data-target="#myModal6" style="text-decoration:none;" onclick="passIDToModal(<%=showplaylist.getPlaylistID()%>)"><i class="fa fa-gear" style="font-size:24px"></i></a></button>
                                                                         <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -298,12 +316,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="sign-grids">
 								<div class="sign">
 									<div class="sign-right" style="width:85%">
-										<form action="playlist" method="post">
+										<form action="playlist" method="post" enctype="multipart/form-data">
                                                                                         <input id="PlaylistID" type="hidden" name="playlistID">
-                                                                                        <h3>Setting</h3>
+                                                                                        <h3>Playlist Setting</h3>
+                                                                                        <input type="file" name="cover">
                                                                                         <label>Playlist's new name:</label>
                                                                                         <input type="text" name="renamePlaylist" value="" >
 											<input  type="submit" name="action" value="Rename playlist" >
+                                                                                        <input  type="submit" name="action" value="Change cover" >
                                                                                         <input type="submit" name="action" value="Delete playlist">
 										</form>
 									</div>

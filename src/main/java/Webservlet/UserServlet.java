@@ -17,6 +17,7 @@ import java.util.Date;
 
 import LibraryClass.User;
 import LibraryClass.Music;
+import LibraryClass.Playlist;
 import DBUtil.*;
 import java.io.File;
 import java.util.Set;
@@ -46,17 +47,22 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String url ="/blog.html";
         String action = request.getParameter("action");
         if(action.equals("registerUser")){
+        String email = request.getParameter("Email");
+        boolean check = UserDB.checkUser(email);
+        if (check == false)
         registerUser(request, response);
-        url= "/index.jsp";
+        else request.setAttribute("message", "Email is already existed");
+        url ="/index.jsp";
         }
         else if(action.equals("loginUser")){
             List<User> u = loginUser(request,response);
             
             if(u == null){
-                request.setAttribute("message", "Unknown email, please try again");
+                request.setAttribute("message", "Wrong email or password");
                 url="/index.jsp";
             }
             else{
@@ -73,13 +79,18 @@ public class UserServlet extends HttpServlet {
         else if(action.equals("My profile")){
             //get user's uploaded songs
             User user = (User)request.getSession().getAttribute("loggeduser");
-            //long userID = user.getUserID();
             List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
             request.setAttribute("userUploadedSongs", userUploadedSongs);
+            //get user's playlists
+            List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+            request.setAttribute("userPlaylists", userPlaylists);
             url="/profile.jsp";
         }
         else if(action.equals("Setting")){
             url= "/user.jsp";
+        }
+         else if(action.equals("Account Manager")){
+            url= "/admin";
         }
         else if(action.equals("save")){
             String message = updateUser(request,response);
@@ -158,22 +169,17 @@ public class UserServlet extends HttpServlet {
          String changeInfor = request.getParameter("changeInfor"); 
          String ID = request.getParameter("userID");
          User logged = (User) request.getSession().getAttribute("loggeduser");
-         String imgPath;
+         String imgPath = logged.getImage();
         try {
-            
             Part userfile = request.getPart("userprofile");
             String type = userfile.getContentType();
-            if (type != null && (type.equals("image/jpeg") || type.equals("image/png")))
-            {
-             String rename = "user" + logged.getUserID() + ".jpg";
+            if(type.equals("image/jpeg") || type.equals("image/png"))
+                {
+                 String rename = "user" + logged.getUserID() + ".jpg";
                 imgPath = "images/users_img/" + rename;  
                  String absolutePath = request.getServletContext().getRealPath(imgPath);
                  userfile.write(absolutePath);
-            }
-            else {
-                imgPath = logged.getImage();
-                return "Image must be a JPG or PNG";
-            }
+                }
         } catch (IOException | ServletException ex) {
             imgPath = logged.getImage();
         }
