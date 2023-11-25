@@ -36,35 +36,16 @@
                 <div class="logo-icon text-center">
                     <a href="index.jsp">M </a>
                 </div>
-
+                <!-- /w3l-agile -->
+                <!--logo and iconic logo end-->
                 <div class="left-side-inner">
 
                     <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-                        <li><a href="#"><i class="camera"></i> <span>Radio</span></a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-th"></i><span>Apps</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-users"></i> <span>Artists</span></a></li> 
-                        <li><a href="#"><i class="lnr lnr-music-note"></i> <span>Albums</span></a></li>						
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-indent-increase"></i> <span>Browser</span></a>  
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Artists</a> </li>
-                                <li><a href="#">Services</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="lnr lnr-book"></i><span>Blog</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favourities</span></a> 
-                            <ul class="sub-menu-list">
-                                <li><a href="#">All Songs</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-list"><a href="#"><i class="fa fa-thumb-tack"></i><span>Contact</span></a>
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Location</a> </li>
-                            </ul>
-                        </li>
-                        <li class="active"><a href="profile.jsp"><i class="lnr lnr-user"></i><span>Profile: ${loggeduser.name}</span></a></li>
+                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
                     </ul>
                     <!--sidebar nav end-->
                 </div>

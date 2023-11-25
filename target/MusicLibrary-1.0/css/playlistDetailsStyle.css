@@ -154,14 +154,42 @@
 .song-info {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     text-align: left;
     font-size: 0.9em;
 }
 
 .song-author, .song-name {
-    width: 25%;
+    width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.song-action2 {
+    flex-basis: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    align-self: center;
+    text-align: center;
+}
+
+.song-delete-action button{
+    background: transparent;
+    border: none;
+}
+
+.song-delete-action button:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.song-like-action button{
+    background: transparent;
+    border: none;
+}
+
+.song-like-action button:hover{
+    opacity: 0.5;
+    cursor: pointer;
 }

@@ -45,81 +45,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
     <section>
       <!-- left side start-->
-		<div class="left-side sticky-left-side">
+		 <div class="left-side sticky-left-side">
 
-			<!--logo and iconic logo start-->
-			<div class="logo">
-				<h1><a href="index.html">Mosai<span>c</span></a></h1>
-			</div>
-			<div class="logo-icon text-center">
-				<a href="index.html">M </a>
-			</div>
- 	 <!-- /w3layouts-agile -->
-			<!--logo and iconic logo end-->
-					<div class="left-side-inner">
+                <!--logo and iconic logo start-->
+                <div class="logo">
+                    <h1><a href="index.jsp">Mosai<span>c</span></a></h1>
+                </div>
+                <div class="logo-icon text-center">
+                    <a href="index.jsp">M </a>
+                </div>
+                <!-- /w3l-agile -->
+                <!--logo and iconic logo end-->
+                <div class="left-side-inner">
 
-				<!--sidebar nav start-->
-					<ul class="nav nav-pills nav-stacked custom-nav">
-						<li class="active"><a href="index.html"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-						
-						<li><a href="radio.html"><i class="camera"></i> <span>Radio</span></a></li>
-						<li><a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-th"></i><span>Apps</span></a></li>
-						<li><a href="radio.html"><i class="lnr lnr-users"></i> <span>Artists</span></a></li> 
-						<li><a href="browse.html"><i class="lnr lnr-music-note"></i> <span>Albums</span></a></li>						
-						<li class="menu-list"><a href="browse.html"><i class="lnr lnr-indent-increase"></i> <span>Browser</span></a>  
-							<ul class="sub-menu-list">
-								<li><a href="browse.html">Artists</a> </li>
-								<li><a href="404.html">Services</a> </li>
-							</ul>
-						</li>
-						<li><a href="blog.html"><i class="lnr lnr-book"></i><span>Blog</span></a></li>
-						<li><a href="typography.html"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-						<li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favourities</span></a> 
-							<ul class="sub-menu-list">
-								<li><a href="radio.html">All Songs</a></li>
-							</ul>
-						</li>
-						<li class="menu-list"><a href="contact.html"><i class="fa fa-thumb-tack"></i><span>Contact</span></a>
-							<ul class="sub-menu-list">
-								<li><a href="contact.html">Location</a> </li>
-							</ul>
-						</li>     
-					</ul>
-				<!--sidebar nav end-->
-			</div>
-		</div>
+                    <!--sidebar nav start-->
+                    <ul class="nav nav-pills nav-stacked custom-nav">
+                        <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
+                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
+                    </ul>
+                    <!--sidebar nav end-->
+                </div>
+            </div>
 		<!-- left side end-->
-					<!-- app-->
-			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog facebook" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
-						</div>
-						<div class="modal-body">
-							<div class="app-grids">
-								<div class="app">
-						<div class="col-md-5 app-left mpl">
-							<h3>Mosaic mobile app on your smartphone!</h3>
-							<p>Download and Avail Special Songs Videos and Audios.</p>
-							<div class="app-devices">
-								<h5>Gets the app from</h5>
-								<a href="#"><img src="images/1.png" alt=""></a>
-								<a href="#"><img src="images/2.png" alt=""></a>
-								<div class="clearfix"> </div>
-							</div>
-						</div>
-						<div class="col-md-7 app-image">
-							<img src="images/apps.png" alt="">
-						</div>
-						<div class="clearfix"></div>
-					</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- //app-->
 			 	 <!-- /w3l-agile -->
 		<!-- signup -->
 			<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -298,7 +247,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<div class="tittle-head two">
                                                                     <h3 class="tittle">${loggeduser.getName()}'s Playlist</h3> <p><i>${message}</i></p>
                                                                         <a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><button class="btn">Create a new playlist</button></a>
-                                                                        <a class="top-sign" ><form action="playlist"><button type="submit" value="viewAllPlaylist" class="btn">See all playlist</button></form></a>
+                                                                        <a class="top-sign" href="admin?action=showAllPlaylist"><button class="btn">See all playlist</button></a>
 									<div class="clearfix"> </div>
                                                                         
 								</div>

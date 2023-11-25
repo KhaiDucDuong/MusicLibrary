@@ -216,7 +216,7 @@
                                                         <input type="submit" id="login" value="Sign in" onclick="showPopup()">
                                                         <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
                                                     </fieldset>
-                                                    <span><a href="#">Forgot your password?</a></span>
+                                                    <span><a href="forgotPassword.jsp">Forgot your password?</a></span>
                                                 </form>
                                             </div>
                                         </div>

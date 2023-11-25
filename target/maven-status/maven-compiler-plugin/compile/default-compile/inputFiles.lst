@@ -1,14 +1,17 @@
-E:\NetBeansProjects\MusicLibrary\src\main\java\com\mycompany\musiclibrary\JakartaRestConfiguration.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\LibraryClass\User.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\DBUtil\MusicDB.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\Webservlet\adminServlet.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\Webservlet\UserServlet.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\com\mycompany\musiclibrary\resources\JakartaEE8Resource.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\DBUtil\UserDB.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\DBUtil\DButil.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\Webservlet\MusicServlet.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\Webservlet\PlaylistServlet.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\DBUtil\PlaylistDB.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\Webservlet\searchServlet.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\LibraryClass\Music.java
-E:\NetBeansProjects\MusicLibrary\src\main\java\LibraryClass\Playlist.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\DBUtil\PlaylistDB.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\com\mycompany\musiclibrary\JakartaRestConfiguration.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\searchServlet.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\LibraryClass\User.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\ValidateOtp.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\DBUtil\MusicDB.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\DBUtil\UserDB.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\com\mycompany\musiclibrary\resources\JakartaEE8Resource.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\ForgotPassword.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\PlaylistServlet.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\UserServlet.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\adminServlet.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\DBUtil\DButil.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\MusicServlet.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\LibraryClass\Playlist.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\Webservlet\NewPassword.java
+C:\Users\Trong Vu\Documents\Ho Chi Minh University of Technology and Educaion\HCMUTE\3rd Year\Semester I\Web Programming\Music web\MusicLibrary-master\src\main\java\LibraryClass\Music.java

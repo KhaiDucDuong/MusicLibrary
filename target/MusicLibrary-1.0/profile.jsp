@@ -38,40 +38,53 @@
                 <div class="logo-icon text-center">
                     <a href="index.jsp">M </a>
                 </div>
-
+                <!-- /w3l-agile -->
+                <!--logo and iconic logo end-->
                 <div class="left-side-inner">
 
                     <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-                        <li><a href="#"><i class="camera"></i> <span>Radio</span></a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-th"></i><span>Apps</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-users"></i> <span>Artists</span></a></li> 
-                        <li><a href="#"><i class="lnr lnr-music-note"></i> <span>Albums</span></a></li>						
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-indent-increase"></i> <span>Browser</span></a>  
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Artists</a> </li>
-                                <li><a href="#">Services</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="lnr lnr-book"></i><span>Blog</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favourities</span></a> 
-                            <ul class="sub-menu-list">
-                                <li><a href="#">All Songs</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-list"><a href="#"><i class="fa fa-thumb-tack"></i><span>Contact</span></a>
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Location</a> </li>
-                            </ul>
-                        </li>
-                        <li class="active"><a href="profile.jsp"><i class="lnr lnr-user"></i><span>Profile: ${loggeduser.name}</span></a></li>
+                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
                     </ul>
                     <!--sidebar nav end-->
                 </div>
             </div>
+            <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content modal-info">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
+                        </div>
+                        <div class="modal-body modal-spa">
+                            <div class="sign-grids">
+                                <div class="sign">
+                                    <div class="sign-right">
+                                        <form action="login" method="post" onsubmit="return validateForm()">
+                                            <h3>Create your account </h3>
+                                            <input type="hidden" name="action" value="registerUser">
+                                            <label>Name</label><br>
+                                            <input type="text" name="Name"  required>
+                                            <label>Phone number</label><br>
+                                            <input type="text" name="Number"  required>
+                                            <label>Email</label><br>
+                                            <input type="text" name="Email" required>	
+                                            <label>Password</label><br>
+                                            <input type="password" name="Password" required>	
 
+                                            <input type="submit" value="CREATE ACCOUNT" >
+                                        </form>
+                                    </div>
+                                    <div class="clearfix"></div>								
+                                </div>
+                                <p>By logging in you agree to our <span>Terms and Conditions</span> and <span>Privacy Policy</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- main content start-->
             <div class="main-content">
                 <!-- header-starts -->
@@ -95,12 +108,12 @@
                             <script src="js/classie.js"></script>
                             <script src="js/uisearch.js"></script>
                             <script>
-        new UISearch(document.getElementById('sb-search'));
+                                            new UISearch(document.getElementById('sb-search'));
                             </script>
                             <!-- //search-scripts -->
                             <!---->
-                             <div class="col-md-4 player">
-                                 
+                            <div class="col-md-4 player">
+
                                 <div class="audio-player">
                                     <audio id="audio-player"  controls="controls">
                                         <source src="" type="audio/ogg"></source>
@@ -130,11 +143,11 @@
                                 <!--//-->
                                 <ul class="next-top">
                                     <li><div class="audio-info">
-                                        <span id="songName"></span>
-                                        <span id="songAuthor"></span> 
-                                    </div></li>
-                                    <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
-                                    <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></a></li>
+                                            <span id="songName"></span>
+                                            <span id="songAuthor"></span> 
+                                        </div></li>
+                                    <li><a class="ar" onclick="playPrevious()"> <img src="images/arrow.png" alt=""/></a></li>
+                                    <li><a class="ar2" onclick="playNext()"><img src="images/arrow2.png" alt=""/></a></li>
                                 </ul>	
                             </div>
                             <div class="col-md-4 login-pop">
@@ -202,8 +215,8 @@
                                 <tr>
                                     <td class="col-xs-4 user-img" rowspan="4">
                                         <c:choose>
-                                            <c:when test="${loggeduser.getImage() != null}">
-                                                <img src="${loggeduser.getImage()}" alt="profile picture" 
+                                            <c:when test="${artist.getImage() != null}">
+                                                <img src="${artist.getImage()}" alt="profile picture" 
                                                      class = "img-rounded img-responsive"/>
                                             </c:when>
                                             <c:otherwise>
@@ -214,25 +227,29 @@
                                     </td>
 
                                     <td id="info-row" class="col-xs-4" colspan="1">
-                                        <h2 class="user-name">${loggeduser.getName()}</h2>
+                                        <h2 class="user-name">${artist.getName()}</h2>
                                     </td>
 
                                     <td id="info-row" class="col-xs-4" colspan="1">
-                                        <form method="post" action="login">
-                                            <button type="submit" name="action" value="start_create_newMusic" class="btn btn-light">Upload new song</button>
-                                            <p>${message}</p>  
-                                        </form>
+                                        <c:if test="${loggeduser.getUserID() == artist.getUserID()}">
+                                            <form method="post" action="login">
+                                                <button type="submit" name="action" value="start_create_newMusic" class="btn btn-light">Upload new song</button>
+                                                <p>${message}</p>  
+                                            </form>
+                                        </c:if>
                                     </td>
                                 </tr>
                                 <tr >
                                     <td id="info-row" class="col-xs-8" colspan="2">
-                                        <p class="user-id h3">User ID: ${loggeduser.getUserID()}</p>
-                                        <p class="user-email">Email: ${loggeduser.getGmail()}</p>
+                                        <c:if test="${loggeduser.getUserID() == artist.getUserID()}">
+                                            <p class="user-id h3">User ID: ${loggeduser.getUserID()}</p>
+                                        </c:if>
+                                        <p class="user-email">Email: ${artist.getGmail()}</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td id="info-row" class="col-xs-8 borderless-top borderless-bottom" colspan="2">
-                                        <p class="user-infor">${loggeduser.getInfor()}</p>
+                                        <p class="user-infor">${artist.getInfor()}</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -258,11 +275,11 @@
 
 
                     <script>
-                                    function passIDToModal(ID) {
-                                        var inputElement = document.getElementById('songID');
-                                        inputElement.value = ID;
-                                        inputElement.setAttribute('value', ID);
-                                    }
+                        function passIDToModal(ID) {
+                            var inputElement = document.getElementById('songID');
+                            inputElement.value = ID;
+                            inputElement.setAttribute('value', ID);
+                        }
                     </script>
 
                     <script>
@@ -301,11 +318,21 @@
                                         <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
                                              class="img-rounded img-responsive">
                                         <div class="center-items">
-                                            <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
+                                            <c:choose>
+                                                <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                    <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                    <a class="btn btn-default button-appear-onHover add-btn"><i class="fa fa-thumbs-up"></i></a>
+                                                    </c:otherwise>
+                                                </c:choose>
+
                                             <a class="btn btn-default  button-appear-onHover play-btn" 
                                                onclick="createNewPlaylist(${uploadedSong.getMusicID()}, '${uploadedSong.getName()}', '${uploadedSong.getAuthor().getName()}')"><i class="fa fa-play"></i></a>
                                             <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
-                                            <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                            <c:if test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                </c:if>
                                         </div>       
 
                                         <div class="caption music-info">
@@ -328,11 +355,20 @@
                                                     <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
                                                          class="img-rounded img-responsive">
                                                     <div class="center-items">
-                                                        <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
+                                                        <c:choose>
+                                                            <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                                <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                <a class="btn btn-default button-appear-onHover add-btn"><i class="fa fa-thumbs-up"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         <a class="btn btn-default  button-appear-onHover play-btn" 
                                                            onclick="createNewPlaylist(${uploadedSong.getMusicID()}, '${uploadedSong.getName()}', '${uploadedSong.getAuthor().getName()}')"><i class="fa fa-play"></i></a>
                                                         <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
-                                                        <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                        <c:if test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                            <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                            </c:if>
                                                     </div> 
 
                                                     <div class="caption music-info">

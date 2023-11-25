@@ -57,7 +57,7 @@ else
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
                         <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
-                        <li><a href="radio.html"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
                         <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
                     </ul>
                     <!--sidebar nav end-->
