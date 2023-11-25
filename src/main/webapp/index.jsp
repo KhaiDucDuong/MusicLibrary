@@ -110,7 +110,7 @@
                                             <label>Name</label><br>
                                             <input type="text" name="Name"  required>
                                             <label>Phone number</label><br>
-                                            <input type="text" name="Number"  required>
+                                            <input type="number" name="Number"  required>
                                             <label>Email</label><br>
                                             <input type="text" name="Email" required>	
                                             <label>Password</label><br>
@@ -430,7 +430,7 @@
                                        <form action="search" method="post"> 
                                                                         <input type="hidden" value="<%=playlist.getPlaylistID() %>" name="playlistID">
                                                                     <button class="btn" name="action" value="View playlist" type="submit">
-									<a  href="#"><img src="<%=playlist.getCover() %>" style="width:200px;height:200px"></a>
+									<a  href="#"><img src="<%=playlist.getCover()%>" style="width:200px;height:200px"></a>
 									<a class="sing"><%=playlist.getName() %></a>
                                                                     </button>
                                                                     </form>

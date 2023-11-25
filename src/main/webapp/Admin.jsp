@@ -432,7 +432,7 @@ function passToModal(userID, name, password) {
 		<!-- /wthree-agile -->
         <!--footer section start-->
 			<footer>
-			   <p>&copy 2016 Mosaic. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts.</a></p>
+			  <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
 			</footer>
         <!--footer section end-->
 
