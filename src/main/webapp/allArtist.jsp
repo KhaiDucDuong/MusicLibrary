@@ -275,7 +275,7 @@
                                 <div class="modal-body">
 
                                     <select class="form-control input-lg" name="addPlaylistID">
-                                        <c:forEach items="${userPlaylists}" var="userPlaylist">
+                                        <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
                                             <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
                                         </c:forEach>
                                     </select>

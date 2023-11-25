@@ -31,43 +31,43 @@
         <script src="js/jquery-2.1.4.js"></script>
         <script src="js/play_music_script.js"></script>
         <script>
-                                    function passIDToModal(ID) {
-                                        var inputElement = document.getElementById('songID');
-                                        inputElement.value = ID;
-                                        inputElement.setAttribute('value', ID);
-                                    }
-                    </script>
-                   
-        <% 
-        List<Music> newMusic = MusicDB.select12Songs();
-        List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
-        List<Playlist> first8Playlist = PlaylistDB.selectFirst8Playlist();
+            function passIDToModal(ID) {
+                var inputElement = document.getElementById('songID');
+                inputElement.value = ID;
+                inputElement.setAttribute('value', ID);
+            }
+        </script>
+
+        <%
+            List<Music> newMusic = MusicDB.select12Songs();
+            List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
+            List<Playlist> first8Playlist = PlaylistDB.selectFirst8Playlist();
         %>
 
     </head> 
     <!-- /w3layouts-agile -->
     <body class="sticky-header left-side-collapsed"  onload="initMap()">
         <script>
-            $(document).ready(function() {
-    var successMessage = "${messagelogin}";
-    if (successMessage.trim() !== "") {
-        $('#loginmodal').modal('show');
-    }
-});
+            $(document).ready(function () {
+                var successMessage = "${messagelogin}";
+                if (successMessage.trim() !== "") {
+                    $('#loginmodal').modal('show');
+                }
+            });
         </script>
         <c:if test ="${not empty messagelogin}">
             <div class="modal" id="loginmodal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-          <h3><span class="lnr lnr-enter" style="font-size: 22px;">  Notification</span></h3>
-      </div>
-      <div class="modal-body">
-        <p style="font-size: 18px;text-align: center">${messagelogin}</p>
-      </div>
-    </div>
-  </div>
-</div>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3><span class="lnr lnr-enter" style="font-size: 22px;">  Notification</span></h3>
+                        </div>
+                        <div class="modal-body">
+                            <p style="font-size: 18px;text-align: center">${messagelogin}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </c:if>
         <section>
             <!-- left side start-->
@@ -153,12 +153,12 @@
                             <script src="js/classie.js"></script>
                             <script src="js/uisearch.js"></script>
                             <script>
-        new UISearch(document.getElementById('sb-search'));
+                                            new UISearch(document.getElementById('sb-search'));
                             </script>
                             <!-- //search-scripts -->
                             <!---->
-                             <div class="col-md-4 player">
-                                 
+                            <div class="col-md-4 player">
+
                                 <div class="audio-player">
                                     <audio id="audio-player"  controls="controls">
                                         <source src="" type="audio/ogg"></source>
@@ -188,9 +188,9 @@
                                 <!--//-->
                                 <ul class="next-top">
                                     <li><div class="audio-info">
-                                        <span id="songName"></span>
-                                        <span id="songAuthor"></span> 
-                                    </div></li>
+                                            <span id="songName"></span>
+                                            <span id="songAuthor"></span> 
+                                        </div></li>
                                     <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
                                     <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></a></li>
                                 </ul>	
@@ -223,46 +223,46 @@
                                     </c:when>
                                     <c:otherwise>
                                         <c:if test="${loggeduser.getUserID()!=1}">
-                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox" style="margin-top:10px">  
-                                                <form action="login" method="post" id="loginForm">
-                                                    <fieldset id="body">
-                                                        <fieldset>
-                                                            <label>Username = ${loggeduser.getName()}</label>
-                                                        </fieldset>
-                                                        <fieldset>
-                                                            <label>Email = ${loggeduser.getGmail()}</label>
-                                                        </fieldset>
-                                                         <input type="submit" name="action" value="Playlist" > 
-                                                    <input type="submit" name ="action" id="My profile" value="My profile">
-                                                    <input type="submit" name ="action" id="setting" value="Setting">
-                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                    </fieldset>   
-                                                </form>
+                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                                <div id="loginBox" style="margin-top:10px">  
+                                                    <form action="login" method="post" id="loginForm">
+                                                        <fieldset id="body">
+                                                            <fieldset>
+                                                                <label>Username = ${loggeduser.getName()}</label>
+                                                            </fieldset>
+                                                            <fieldset>
+                                                                <label>Email = ${loggeduser.getGmail()}</label>
+                                                            </fieldset>
+                                                            <input type="submit" name="action" value="Playlist" > 
+                                                            <input type="submit" name ="action" id="My profile" value="My profile">
+                                                            <input type="submit" name ="action" id="setting" value="Setting">
+                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                        </fieldset>   
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
                                         </c:if>
                                         <c:if test="${loggeduser.getUserID() ==1}" >
-                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox">  
-                                                <form action="login" method="post" id="loginForm">
-                                                    <fieldset id="body">
-                                                        <fieldset>
-                                                            <label>Username = ${loggeduser.getName()}</label>
-                                                        </fieldset>
-                                                        <fieldset>
-                                                            <label>Email = ${loggeduser.getGmail()}</label>
-                                                        </fieldset>
-                                                    <input type="submit" name ="action" value="Account Manager">
-                                                    <input type="submit" name="action" value="Playlist" > 
-                                                    <input type="submit" name ="action" id="My profile" value="My profile">
-                                                    <input type="submit" name ="action" id="setting" value="Setting">
-                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                    </fieldset>   
-                                                </form>
+                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                                <div id="loginBox">  
+                                                    <form action="login" method="post" id="loginForm">
+                                                        <fieldset id="body">
+                                                            <fieldset>
+                                                                <label>Username = ${loggeduser.getName()}</label>
+                                                            </fieldset>
+                                                            <fieldset>
+                                                                <label>Email = ${loggeduser.getGmail()}</label>
+                                                            </fieldset>
+                                                            <input type="submit" name ="action" value="Account Manager">
+                                                            <input type="submit" name="action" value="Playlist" > 
+                                                            <input type="submit" name ="action" id="My profile" value="My profile">
+                                                            <input type="submit" name ="action" id="setting" value="Setting">
+                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                        </fieldset>   
+                                                    </form>
 
+                                                </div>
                                             </div>
-                                        </div>
                                         </c:if>
                                     </c:otherwise>
                                 </c:choose>
@@ -329,24 +329,24 @@
                                             <!--banner-->
                                             <script src="js/responsiveslides.min.js"></script>
                                             <script>
-                                            // You can also use "$(window).load(function() {"
-                                            $(function () {
-                                                // Slideshow 4
-                                                $("#slider4").responsiveSlides({
-                                                    auto: true,
-                                                    pager: true,
-                                                    nav: true,
-                                                    speed: 500,
-                                                    namespace: "callbacks",
-                                                    before: function () {
-                                                        $('.events').append("<li>before event fired.</li>");
-                                                    },
-                                                    after: function () {
-                                                        $('.events').append("<li>after event fired.</li>");
-                                                    }
-                                                });
+                                                                // You can also use "$(window).load(function() {"
+                                                                $(function () {
+                                                                    // Slideshow 4
+                                                                    $("#slider4").responsiveSlides({
+                                                                        auto: true,
+                                                                        pager: true,
+                                                                        nav: true,
+                                                                        speed: 500,
+                                                                        namespace: "callbacks",
+                                                                        before: function () {
+                                                                            $('.events').append("<li>before event fired.</li>");
+                                                                        },
+                                                                        after: function () {
+                                                                            $('.events').append("<li>after event fired.</li>");
+                                                                        }
+                                                                    });
 
-                                            });
+                                                                });
                                             </script>
                                             <div class="clearfix"> </div>
                                         </div>
@@ -357,19 +357,19 @@
                                     <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all">
                                     <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
                                     <script>
-                                            $(document).ready(function () {
-                                                $('.popup-with-zoom-anim').magnificPopup({
-                                                    type: 'inline',
-                                                    fixedContentPos: false,
-                                                    fixedBgPos: true,
-                                                    overflowY: 'auto',
-                                                    closeBtnInside: true,
-                                                    preloader: false,
-                                                    midClick: true,
-                                                    removalDelay: 300,
-                                                    mainClass: 'my-mfp-zoom-in'
-                                                });
-                                            });
+                                                                $(document).ready(function () {
+                                                                    $('.popup-with-zoom-anim').magnificPopup({
+                                                                        type: 'inline',
+                                                                        fixedContentPos: false,
+                                                                        fixedBgPos: true,
+                                                                        overflowY: 'auto',
+                                                                        closeBtnInside: true,
+                                                                        preloader: false,
+                                                                        midClick: true,
+                                                                        removalDelay: 300,
+                                                                        mainClass: 'my-mfp-zoom-in'
+                                                                    });
+                                                                });
                                     </script>		
                                     <!--//pop-up-box -->
                                     <div class="albums">
@@ -377,13 +377,13 @@
                                             <h3 class="tittle">New Releases <span class="new">New</span></h3>
                                             <div class="clearfix"> </div>
                                         </div>
-                                        <% for (Music music : newMusic) { %>
+                                        <% for (Music music : newMusic) {%>
                                         <div class="col-md-3 browse-grid">
-                                            <a ><img src="<%=music.getImage() %>" onclick="createNewPlaylist(<%=music.getMusicID()%>, '<%=music.getName() %>', '<%=music.getAuthor().getName()%>')" style="width:200px;height:200px"></a>
-                                            <c:if test="${not empty loggeduser}">
-                                              <a class="setting-button" data-toggle="modal" data-target="#addToPlaylist" style="text-decoration:none;" onclick="passIDToModal(<%=music.getMusicID()%>)"><i class="fa fa-plus" style="font-size:24px"></i></a>
-                                           </c:if>
-                                            <a class="button play-icon popup-with-zoom-anim"><%=music.getName() %></a>
+                                            <a ><img src="<%=music.getImage()%>" onclick="createNewPlaylist(<%=music.getMusicID()%>, '<%=music.getName()%>', '<%=music.getAuthor().getName()%>')" style="width:200px;height:200px"></a>
+                                                <c:if test="${not empty loggeduser}">
+                                                <a class="setting-button" data-toggle="modal" data-target="#addToPlaylist" style="text-decoration:none;" onclick="passIDToModal(<%=music.getMusicID()%>)"><i class="fa fa-plus" style="font-size:24px"></i></a>
+                                                </c:if>
+                                            <a class="button play-icon popup-with-zoom-anim"><%=music.getName()%></a>
                                         </div>
                                         <% } %>
                                         <div class="clearfix"> </div>
@@ -396,15 +396,15 @@
                                             <a href="admin?action=showAllPlaylist"><h4 class="tittle two">See all</h4></a>
                                             <div class="clearfix"> </div>
                                         </div>
-                                         <% for (Playlist playlist : randPlaylist) { %>
+                                        <% for (Playlist playlist : randPlaylist) {%>
                                         <div class="col-md-3 content-grid">
                                             <form action="search" method="post"> 
-                                                                        <input type="hidden" value="<%=playlist.getPlaylistID() %>" name="playlistID">
-                                                                    <button class="btn" name="action" value="View playlist" type="submit">
-									<a  href="#"><img src="<%=playlist.getCover() %>" style="width:320px;height:320px"></a>
-									<a class="sing"><%=playlist.getName() %></a>
-                                                                    </button>
-                                                                    </form>
+                                                <input type="hidden" value="<%=playlist.getPlaylistID()%>" name="playlistID">
+                                                <button class="btn" name="action" value="View playlist" type="submit">
+                                                    <a  href="#"><img src="<%=playlist.getCover()%>" style="width:320px;height:320px"></a>
+                                                    <a class="sing"><%=playlist.getName()%></a>
+                                                </button>
+                                            </form>
                                         </div>
                                         <% } %>
                                         <div class="clearfix"> </div>
@@ -425,46 +425,87 @@
                                     <div class="clearfix"> </div>
                                 </div>
                                 <ul id="flexiselDemo1">
-                                     <% for (Playlist playlist : first8Playlist) { %>
+                                    <% for (Playlist playlist : first8Playlist) {%>
                                     <li>
-                                       <form action="search" method="post"> 
-                                                                        <input type="hidden" value="<%=playlist.getPlaylistID() %>" name="playlistID">
-                                                                    <button class="btn" name="action" value="View playlist" type="submit">
-									<a  href="#"><img src="<%=playlist.getCover()%>" style="width:200px;height:200px"></a>
-									<a class="sing"><%=playlist.getName() %></a>
-                                                                    </button>
-                                                                    </form>
-                                                                     </li>
-                                        <% } %>
+                                        <form action="search" method="post"> 
+                                            <input type="hidden" value="<%=playlist.getPlaylistID()%>" name="playlistID">
+                                            <button class="btn" name="action" value="View playlist" type="submit">
+                                                <a  href="#"><img src="<%=playlist.getCover()%>" style="width:200px;height:200px"></a>
+                                                <a class="sing"><%=playlist.getName()%></a>
+                                            </button>
+                                        </form>
+                                    </li>
+                                    <% }%>
                                 </ul>
-                                 <div class="modal fade" id="addToPlaylist" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
+                                
+                                
+                                
+                                <div class="modal fade" id="addToPlaylist" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
 
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                                <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
+                                            </div>
+                                            <form method="post" action="playlist">
+                                                <div class="modal-body">
+                                                    <c:choose>
+                                                        <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
+                                                            <select class="form-control input-lg" name="playlistID">
+                                                                <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
+                                                                    <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <input type="hidden" id="songID" name="songID">
+                                                            <input type="hidden" name="currentURL" value="/index.jsp">
+                                                            <c:choose>
+                                                                <c:when test="${loggeduser.getUserID() == artist.getUserID()}">
+                                                                    <input type="hidden" name="updateUserInfo" value="Yes">
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <input type="hidden" name="updateUserInfo" value="No">
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                            <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:choose>
+                                                                <c:when test="${loggeduser != null}">
+                                                                    <p>You don't have a playlist yet. Please create one first!</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" id="songID" name="songID">
+                                                                    <input type="hidden" name="currentURL" value="/index.jsp">
+                                                                    <input type="submit" name="action" value="Playlist" class="btn btn-secondary">
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <p>Please sign in to use playlist feature!</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <input type="hidden" id="songID" name="songID">
+                                                                    <input type="hidden" name="currentURL" value="/index.jsp">
+                                                                    <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                </c:otherwise>
+                                                            </c:choose>
+
+                                                        </c:otherwise>
+                                                    </c:choose>
+
+
+
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div>
-                                <form action="playlist" method="post">
-                                    <div class="modal-body">
-
-                                        <select class="form-control input-lg" name="playlistID">
-                                            <c:forEach items="${userPlaylists}" var="userPlaylist">
-                                                <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
-                                            </c:forEach>
-                                        </select>
-
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="hidden" id="songID" name="songID">
-                                        <input type="submit" name="action" value="Add Song to Playlist Index" class="btn btn-secondary">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                                
+                                
+                                
                                 <script type="text/javascript">
                                     $(window).load(function () {
 
@@ -501,7 +542,7 @@
                     </div>
                     <!--body wrapper end-->
                     <div class="footer">
-                         <div class="footer-grid">
+                        <div class="footer-grid">
                             <h3>Group members:</h3>
                         </div>
                         <div class="footer-grid">
@@ -509,7 +550,7 @@
                         </div>
                         <div class="footer-grid">
                             <h3>Dương Đức Khải</h3>
-                           
+
                         </div>
                         <div class="footer-grid">
                             <h3>Mai Trọng Vũ</h3>

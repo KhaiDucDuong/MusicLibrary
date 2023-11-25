@@ -69,18 +69,19 @@ public class UserServlet extends HttpServlet {
                 User user = u.get(0);
                 request.getSession().setAttribute("loggeduser", user);
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-                request.getSession().setAttribute("userPlaylists", userPlaylists);
+                request.getSession().setAttribute("loggedUserPlaylists", userPlaylists);
                 url = "/index.jsp";
             }
         } else if (action.equals("Log out")) {
             request.getSession().invalidate();
             request.removeAttribute("loggeduser");
+            request.removeAttribute("loggedUserPlaylists");
             request.setAttribute("messagelogin", "Account logged out");
             url = "/index.jsp";
         } else if (action.equals("My profile")) {
             //get user's uploaded songs
             User user = (User) request.getSession().getAttribute("loggeduser");
-            request.setAttribute("artist", user);
+            request.getSession().setAttribute("artist", user);
             List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
             request.setAttribute("userUploadedSongs", userUploadedSongs);
             //get user's playlists
@@ -93,12 +94,12 @@ public class UserServlet extends HttpServlet {
             //check if the ID is not 1 (not admin account)
             if (userID != 1) {
                 User user = UserDB.selectUserFromID(userID);
-                request.setAttribute("artist", user);
+                request.getSession().setAttribute("artist", user);
                 List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
-                request.setAttribute("userUploadedSongs", userUploadedSongs);
+                request.getSession().setAttribute("userUploadedSongs", userUploadedSongs);
                 //get user's playlists
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-                request.setAttribute("userPlaylists", userPlaylists);
+                request.getSession().setAttribute("userPlaylists", userPlaylists);
                 url = "/profile.jsp";
             }
             else {

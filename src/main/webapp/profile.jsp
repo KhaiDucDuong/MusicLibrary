@@ -322,53 +322,67 @@
 
 
                     <section class="container-fluid" id="user-uploaded-music">
-                        <div class="row justify-content-center bg-danger">
-
-                            <div class="container-fluid">
-                                <div class="col-xs-6 no-padding">
-                                    <h2>Uploaded songs</h2>
+                        <c:choose>
+                            <c:when test="${userUploadedSongs.size() == 0}">
+                                <div class="row justify-content-center bg-danger playlist-row">
+                                    <div class="col-xs-12 ">
+                                        <h2>Uploaded songs</h2>
+                                    </div>                          
                                 </div>
-                                <div class="col-xs-6">
-                                    <c:if test="${userUploadedSongs.size() > 6}">
-                                        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">
-                                            See all
-                                        </button>
-                                    </c:if>
-                                </div>
-                            </div>
-                        </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="row justify-content-center bg-danger">
 
-                        <div class="row justify-content-center bg-danger equal-height">
-                            <c:forEach items="${userUploadedSongs}" begin="0" end="5" var="uploadedSong">
-                                <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
-                                    <div class="thumbnail">
-
-                                        <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
-                                             class="img-rounded img-responsive">
-                                        <div class="center-items">
-                                            <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
-                                            <a class="btn btn-default  button-appear-onHover play-btn" 
-                                               onclick="createNewPlaylist(${uploadedSong.getMusicID()}, '${uploadedSong.getName()}', '${uploadedSong.getAuthor().getName()}')"><i class="fa fa-play"></i></a>
-                                            <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
-                                            <c:choose>
-                                                <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
-                                                    <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                    <a class="btn btn-default button-appear-onHover delete-btn"><i class="fa fa-thumbs-up"></i></a>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                        </div>       
-
-                                        <div class="caption music-info">
-                                            <p class="text-primary">${uploadedSong.getName()}</p>
-                                            <p>Category: ${uploadedSong.getCategory()}</p>
-                                            <p>Uploaded: <fmt:formatDate type = "date" value = "${uploadedSong.getCreated()}" /></p>
+                                    <div class="container-fluid">
+                                        <div class="col-xs-6 no-padding">
+                                            <h2>Uploaded songs</h2>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <c:if test="${userUploadedSongs.size() > 6}">
+                                                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">
+                                                    See all
+                                                </button>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
-                            </c:forEach>
-                        </div>
+
+                                <div class="row justify-content-center bg-danger equal-height">
+
+
+                                    <c:forEach items="${userUploadedSongs}" begin="0" end="5" var="uploadedSong">
+                                        <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
+                                            <div class="thumbnail">
+
+                                                <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
+                                                     class="img-rounded img-responsive">
+                                                <div class="center-items">
+                                                    <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
+                                                    <a class="btn btn-default  button-appear-onHover play-btn" 
+                                                       onclick="createNewPlaylist(${uploadedSong.getMusicID()}, '${uploadedSong.getName()}', '${uploadedSong.getAuthor().getName()}')"><i class="fa fa-play"></i></a>
+                                                    <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
+                                                    <c:choose>
+                                                        <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                            <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                            <a class="btn btn-default button-appear-onHover delete-btn"><i class="fa fa-thumbs-up"></i></a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                </div>       
+
+                                                <div class="caption music-info">
+                                                    <p class="text-primary">${uploadedSong.getName()}</p>
+                                                    <p>Category: ${uploadedSong.getCategory()}</p>
+                                                    <p>Uploaded: <fmt:formatDate type = "date" value = "${uploadedSong.getCreated()}" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
 
                         <div class="row justify-content-center bg-danger">
                             <c:if test="${userUploadedSongs.size() > 6}">
@@ -380,20 +394,18 @@
                                                     <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
                                                          class="img-rounded img-responsive">
                                                     <div class="center-items">
-                                                        <c:choose>
-                                                            <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
-                                                                <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                <a class="btn btn-default button-appear-onHover add-btn"><i class="fa fa-thumbs-up"></i></a>
-                                                                </c:otherwise>
-                                                            </c:choose>
+                                                        <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
                                                         <a class="btn btn-default  button-appear-onHover play-btn" 
                                                            onclick="createNewPlaylist(${uploadedSong.getMusicID()}, '${uploadedSong.getName()}', '${uploadedSong.getAuthor().getName()}')"><i class="fa fa-play"></i></a>
                                                         <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
-                                                        <c:if test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
-                                                            <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
-                                                            </c:if>
+                                                        <c:choose>
+                                                            <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                                <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                <a class="btn btn-default button-appear-onHover delete-btn"><i class="fa fa-thumbs-up"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                     </div> 
 
                                                     <div class="caption music-info">
@@ -426,9 +438,9 @@
                                 <form method="post" action="playlist">
                                     <div class="modal-body">
                                         <c:choose>
-                                            <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                            <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
                                                 <select class="form-control input-lg" name="playlistID">
-                                                    <c:forEach items="${userPlaylists}" var="userPlaylist">
+                                                    <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
                                                         <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
                                                     </c:forEach>
                                                 </select>
@@ -436,6 +448,14 @@
                                             <div class="modal-footer">
                                                 <input type="hidden" id="songID" name="songID">
                                                 <input type="hidden" name="currentURL" value="/profile.jsp">
+                                                <c:choose>
+                                                    <c:when test="${loggeduser.getUserID() == artist.getUserID()}">
+                                                        <input type="hidden" name="updateUserInfo" value="Yes">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="hidden" name="updateUserInfo" value="No">
+                                                    </c:otherwise>
+                                                </c:choose>
                                                 <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
                                             </c:when>
                                             <c:otherwise>
