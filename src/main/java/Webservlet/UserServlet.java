@@ -69,7 +69,7 @@ public class UserServlet extends HttpServlet {
                 User user = u.get(0);
                 request.getSession().setAttribute("loggeduser", user);
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-                request.setAttribute("userPlaylists", userPlaylists);
+                request.getSession().setAttribute("userPlaylists", userPlaylists);
                 url = "/index.jsp";
             }
         } else if (action.equals("Log out")) {

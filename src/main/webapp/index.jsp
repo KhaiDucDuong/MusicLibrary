@@ -430,7 +430,7 @@
                                        <form action="search" method="post"> 
                                                                         <input type="hidden" value="<%=playlist.getPlaylistID() %>" name="playlistID">
                                                                     <button class="btn" name="action" value="View playlist" type="submit">
-									<a  href="#"><img src="<%=playlist.getCover() %>" style="width:200px;height:200px"></a>
+									<a  href="#"><img src="<%=playlist.getCover()%>" style="width:200px;height:200px"></a>
 									<a class="sing"><%=playlist.getName() %></a>
                                                                     </button>
                                                                     </form>
