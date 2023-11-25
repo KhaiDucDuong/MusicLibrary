@@ -110,7 +110,7 @@
                                             <label>Name</label><br>
                                             <input type="text" name="Name"  required>
                                             <label>Phone number</label><br>
-                                            <input type="text" name="Number"  required>
+                                            <input type="number" name="Number"  required>
                                             <label>Email</label><br>
                                             <input type="text" name="Email" required>	
                                             <label>Password</label><br>

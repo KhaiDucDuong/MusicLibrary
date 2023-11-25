@@ -83,7 +83,7 @@
             <!-- //app-->
             <!-- /w3l-agile -->
             <!-- signup -->
-            <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+           <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content modal-info">
                         <div class="modal-header">
@@ -93,20 +93,17 @@
                             <div class="sign-grids">
                                 <div class="sign">
                                     <div class="sign-right">
-                                        <form action="#" method="post">
+                                        <form action="login" method="post" onsubmit="return validateForm()">
                                             <h3>Create your account </h3>
-                                            <input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Name';
-                                                    }" required="">
-                                            <input type="text" value="Mobile number" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Mobile number';
-                                                    }" required="">
-                                            <input type="text" value="Email id" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Email id';
-                                                    }" required="">	
-                                            <input type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Password';
-                                                    }" required="">	
+                                            <input type="hidden" name="action" value="registerUser">
+                                            <label>Name</label><br>
+                                            <input type="text" name="Name"  required>
+                                            <label>Phone number</label><br>
+                                            <input type="number" name="Number"  required>
+                                            <label>Email</label><br>
+                                            <input type="text" name="Email" required>	
+                                            <label>Password</label><br>
+                                            <input type="password" name="Password" required>	
 
                                             <input type="submit" value="CREATE ACCOUNT" >
                                         </form>
@@ -335,7 +332,7 @@
 
                                                     <c:forEach items="${allArtists}" var="artist" >
                                                         <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
-                                                            <a id="toArtistSubmitBtn"   onclick="setToArtistID_SubmitForm(${artist.getUserID()})">
+                                                            <a id="toArtistSubmitBtn" onclick="setToArtistID_SubmitForm(${artist.getUserID()})">
                                                                 <div class="thumbnail artist-thumbnail">
 
                                                                     <img src="${artist.getImage()}" alt="${artist.getName()} image"
@@ -417,65 +414,26 @@
                 <!-- /w3l-agile-info -->
             </div>
             <!--body wrapper end-->
-            <div class="footer two">
-                <div class="footer-grid">
-                    <h3>Navigation</h3>
-                    <ul class="list1">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="radio.html">All Songs</a></li>
-                        <li><a href="browse.html">Albums</a></li>
-                        <li><a href="radio.html">New Collections</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-grid">
-                    <h3>Our Account</h3>
-                    <ul class="list1">
-                        <li><a href="#" data-toggle="modal" data-target="#myModal5">Your Account</a></li>
-                        <li><a href="#">Personal information</a></li>
-                        <li><a href="#">Addresses</a></li>
-                        <li><a href="#">Discount</a></li>
-                        <li><a href="#">Orders history</a></li>
-                        <li><a href="#">Addresses</a></li>
-                        <li><a href="#">Search Terms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-grid">
-                    <h3>Our Support</h3>
-                    <ul class="list1">
-                        <li><a href="contact.html">Site Map</a></li>
-                        <li><a href="#">Search Terms</a></li>
-                        <li><a href="#">Advanced Search</a></li>
-                        <li><a href="#">Mobile</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="#">Mobile</a></li>
-                        <li><a href="#">Addresses</a></li>
-                    </ul>
-                </div>
-                <div class="footer-grid">
-                    <h3>Newsletter</h3>
-                    <p class="footer_desc">Nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</p>
-                    <div class="search_footer">
-                        <form>
-                            <input type="text" placeholder="Email...." required="">
-                            <input type="submit" value="Submit">
-                        </form>
+            <div class="footer">
+                         <div class="footer-grid">
+                            <h3>Group members:</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Trần Mạnh Tiến</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Dương Đức Khải</h3>
+                           
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Mai Trọng Vũ</h3>
+                        </div>
                     </div>
                 </div>
-                <div class="footer-grid footer-grid_last">
-                    <h3>About Us</h3>
-                    <p class="footer_desc">Diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat enim ad minim veniam,.</p>
-                    <p class="f_text">Phone:  &nbsp;&nbsp;&nbsp;00-250-2131</p>
-                    <p class="email">Email : &nbsp;<span><a href="mailto:mail@example.com">info(at)mailing.com</a></span></p>	
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
-        <!--footer section start-->
-        <footer>
-            <p>&copy 2016 Mosaic. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts.</a></p>
-        </footer>
+                <!--footer section start-->
+                <footer>
+                    <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
+                </footer>
         <!--footer section end-->
         <!-- /wthree-agile -->
         <!-- main content end-->
