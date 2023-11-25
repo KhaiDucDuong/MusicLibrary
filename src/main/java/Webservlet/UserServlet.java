@@ -89,6 +89,7 @@ public class UserServlet extends HttpServlet {
             url = "/profile.jsp";
         } else if (action.equals("toArtistProfile")) {
             Long userID = Long.parseLong(request.getParameter("toArtistID"));
+            request.setAttribute("artistID", userID);
             //check if the ID is not 1 (not admin account)
             if (userID != 1) {
                 User user = UserDB.selectUserFromID(userID);
@@ -136,7 +137,6 @@ public class UserServlet extends HttpServlet {
             }
             url = "/addMusic.jsp";
         }
-        System.out.println("Test message: " + request.getAttribute("messagelogin"));
         getServletContext()
                 .getRequestDispatcher(url)
                 .forward(request, response);

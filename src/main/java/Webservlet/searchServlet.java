@@ -76,7 +76,6 @@ public class searchServlet extends HttpServlet {
             String playlistOwnerName = UserDB.selectUserNameFromID(playlistOwner.getUserID());
             request.setAttribute("playlistOwnerName", playlistOwnerName);
             url = "/playlistDetails.jsp";
-            
         }
          getServletContext()
                 .getRequestDispatcher(url)

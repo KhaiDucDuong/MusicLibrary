@@ -92,13 +92,6 @@
                         <div class="modal-body modal-spa">
                             <div class="sign-grids">
                                 <div class="sign">
-                                    <div class="sign-left">
-                                        <ul>
-                                            <li><a class="fb" href="#"><i></i>Sign in with Facebook</a></li>
-                                            <li><a class="goog" href="#"><i></i>Sign in with Google</a></li>
-                                            <li><a class="linkin" href="#"><i></i>Sign in with Linkedin</a></li>
-                                        </ul>
-                                    </div>
                                     <div class="sign-right">
                                         <form action="#" method="post">
                                             <h3>Create your account </h3>
@@ -193,7 +186,7 @@
                                     <li><a class="ar2" onclick="playNext()"><img src="images/arrow2.png" alt=""/></a></li>
                                 </ul>	
                             </div>
-                            <div class="col-md-4 login-pop">
+                              <div class="col-md-4 login-pop">
                                 <c:choose>
                                     <c:when test="${loggeduser == null}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
@@ -211,7 +204,7 @@
                                                             <label for="password">Password</label>
                                                             <input type="password" name="loginPass" id="password">
                                                         </fieldset>
-                                                        <input type="submit" id="login" value="Sign in">
+                                                        <input type="submit" id="login" value="Sign in" onclick="showPopup()">
                                                         <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
                                                     </fieldset>
                                                     <span><a href="#">Forgot your password?</a></span>
@@ -221,46 +214,46 @@
                                     </c:when>
                                     <c:otherwise>
                                         <c:if test="${loggeduser.getUserID()!=1}">
-                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                                <div id="loginBox" style="margin-top:10px">  
-                                                    <form action="login" method="post" id="loginForm">
-                                                        <fieldset id="body">
-                                                            <fieldset>
-                                                                <label>Username = ${loggeduser.getName()}</label>
-                                                            </fieldset>
-                                                            <fieldset>
-                                                                <label>Email = ${loggeduser.getGmail()}</label>
-                                                            </fieldset>
-                                                            <input type="submit" name="action" value="Playlist" > 
-                                                            <input type="submit" name ="action" id="My profile" value="My profile">
-                                                            <input type="submit" name ="action" id="setting" value="Setting">
-                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                        </fieldset>   
-                                                    </form>
-                                                </div>
+                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox" style="margin-top:10px">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                         <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
                                             </div>
+                                        </div>
                                         </c:if>
                                         <c:if test="${loggeduser.getUserID() ==1}" >
-                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                                <div id="loginBox">  
-                                                    <form action="login" method="post" id="loginForm">
-                                                        <fieldset id="body">
-                                                            <fieldset>
-                                                                <label>Username = ${loggeduser.getName()}</label>
-                                                            </fieldset>
-                                                            <fieldset>
-                                                                <label>Email = ${loggeduser.getGmail()}</label>
-                                                            </fieldset>
-                                                            <input type="submit" name ="action" value="Account Manager">
-                                                            <input type="submit" name="action" value="Playlist" > 
-                                                            <input type="submit" name ="action" id="My profile" value="My profile">
-                                                            <input type="submit" name ="action" id="setting" value="Setting">
-                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                        </fieldset>   
-                                                    </form>
+                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                    <input type="submit" name ="action" value="Account Manager">
+                                                    <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
 
-                                                </div>
                                             </div>
+                                        </div>
                                         </c:if>
                                     </c:otherwise>
                                 </c:choose>

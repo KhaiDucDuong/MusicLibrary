@@ -35,6 +35,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         inputElement.value = ID;
                                         inputElement.setAttribute('value', ID);
                                     }
+                                         
                     </script>
 </head> 
 
@@ -326,11 +327,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                                         <p>No result</p>
                                                                     </c:if>
                                                                 <c:forEach items="${userResults}" var="userResult">
-                                                                        
+                                                                    <form method="post" action="login" >
 								<div class="col-md-3 browse-grid">
+                                                                     <button>
                                                                         <input type="hidden" value="${userResult.getUserID()}" name="playlistID">
-									<a  href="#"><img src="${userResult.getImage()}" style="width:200px;height:200px"></a>
+									<a><img src="${userResult.getImage()}" style="width:200px;height:200px"></a>
 									<a class="sing">${userResult.getName()}</a>
+                                                                     </button>
+                                                                       <input type="hidden" name="toArtistID" value="${userResult.getUserID()}">
+                                                                       <input type="hidden" name="action" value="toArtistProfile">
                                                                         </div>	
                                                                 </c:forEach>
                                                 </div>
