@@ -61,6 +61,9 @@ public class PlaylistServlet extends HttpServlet {
             request.setAttribute("message", message);
             playlist = PlaylistDB.selectPlaylist(user);
             request.setAttribute("playlist", playlist);
+            if (ID != 1) {
+                request.getSession().setAttribute("loggedUserPlaylists", playlist);
+            }
             url = "/Playlist.jsp";
         }
         if (action.equals("Change cover")) {
@@ -107,15 +110,18 @@ public class PlaylistServlet extends HttpServlet {
             Long playlistID = Long.parseLong(request.getParameter("playlistID"));
             Long songID = Long.parseLong(request.getParameter("songID"));
             addSongToPlaylist(playlistID, songID);
-            String message = "Added song to playlist!";
-            request.setAttribute("message", message);
+            String updateFlag = request.getParameter("updateUserInfo");
             url = request.getParameter("currentURL");
-            //get user's uploaded songs
-            List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
-            request.setAttribute("userUploadedSongs", userUploadedSongs);
-            //get user's playlists
-            List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("userPlaylists", userPlaylists);
+            if (updateFlag.equals("Yes")) {
+                String message = "Added song to playlist!";
+                request.setAttribute("message", message);
+                //get user's uploaded songs
+                List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
+                request.getSession().setAttribute("userUploadedSongs", userUploadedSongs);
+                //get user's playlists
+                List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+                request.getSession().setAttribute("userPlaylists", userPlaylists);
+            }
         }
         if (action.equals("Add Song to Playlist Index")) {
             Long playlistID = Long.parseLong(request.getParameter("playlistID"));
@@ -148,14 +154,14 @@ public class PlaylistServlet extends HttpServlet {
             Long playlistID = Long.parseLong(request.getParameter("selectedPlaylistID"));
             Long songID = Long.parseLong(request.getParameter("deletingSongID"));
             PlaylistDB.removeSongFromPlaylist(playlistID, songID);
-            
+
             //get data again to refresh the changes
             Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
             request.setAttribute("selectedPlaylist", selectedPlaylist);
             //get the songs in the playlist
             Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
             request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
-            
+
             url = "/playlistDetails.jsp";
         }
         getServletContext()

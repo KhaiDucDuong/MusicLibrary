@@ -40,6 +40,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         inputElement.setAttribute('value', ID);
                                     }
                     </script>
+                    
 </head> 
 
     	 <!-- /w3layouts-agile -->
@@ -262,20 +263,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </button>
                                     <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
                                 </div>
-                                <form action="search" method="post">
+                                <form method="post" action="playlist">
                                     <div class="modal-body">
+                                        <c:choose>
+                                            <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
+                                                <select class="form-control input-lg" name="playlistID">
+                                                    <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
+                                                        <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" id="songID" name="songID">
+                                                <input type="hidden" name="currentURL" value="/index.jsp">
+                                                <c:choose>
+                                                    <c:when test="${loggeduser.getUserID() == artist.getUserID()}">
+                                                        <input type="hidden" name="updateUserInfo" value="Yes">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="hidden" name="updateUserInfo" value="No">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${loggeduser != null}">
+                                                        <p>You don't have a playlist yet. Please create one first!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/index.jsp">
+                                                        <input type="submit" name="action" value="Playlist" class="btn btn-secondary">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <p>Please sign in to use playlist feature!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/index.jsp">
+                                                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </c:otherwise>
+                                                </c:choose>
 
-                                        <select class="form-control input-lg" name="addPlaylistID">
-                                            <c:forEach items="${userPlaylists}" var="userPlaylist">
-                                                <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
-                                            </c:forEach>
-                                        </select>
+                                            </c:otherwise>
+                                        </c:choose>
 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="hidden" id="songID" name="songID">
-                                        <input type="hidden" name="songSearch" value ="${pattern}">
-                                        <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+
+
                                     </div>
                                 </form>
                             </div>
