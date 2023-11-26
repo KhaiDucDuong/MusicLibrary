@@ -1,12 +1,7 @@
 
-<!--
-Author: W3layouts
-Author URL: http://w3layouts.com
-License: Creative Commons Attribution 3.0 Unported
-License URL: http://creativecommons.org/licenses/by/3.0/
--->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -45,120 +40,34 @@ else
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
     <section>
       <!-- left side start-->
-		<div class="left-side sticky-left-side">
+		 <div class="left-side sticky-left-side">
 
-			<!--logo and iconic logo start-->
-			<div class="logo">
-				<h1><a href="index.jsp">Mosai<span>c</span></a></h1>
-			</div>
-			<div class="logo-icon text-center">
-				<a href="index.jsp">M </a>
-			</div>
+                <!--logo and iconic logo start-->
+                <div class="logo">
+                    <h1><a href="index.jsp">Mosai<span>c</span></a></h1>
+                </div>
+                <div class="logo-icon text-center">
+                    <a href="index.jsp">M </a>
+                </div>
+                <!-- /w3l-agile -->
+                <!--logo and iconic logo end-->
+                <div class="left-side-inner">
 
-			<!--logo and iconic logo end-->
-					<div class="left-side-inner">
-
-				<!--sidebar nav start-->
-					<ul class="nav nav-pills nav-stacked custom-nav">
-						<li class="active"><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-						
-						<li><a href="radio.html"><i class="camera"></i> <span>Radio</span></a></li>
-						<li><a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-th"></i><span>Apps</span></a></li>
-						<li><a href="radio.html"><i class="lnr lnr-users"></i> <span>Artists</span></a></li> 
-						<li><a href="browse.html"><i class="lnr lnr-music-note"></i> <span>Albums</span></a></li>						
-						<li class="menu-list"><a href="browse.html"><i class="lnr lnr-indent-increase"></i> <span>Browser</span></a>  
-							<ul class="sub-menu-list">
-								<li><a href="browse.html">Artists</a> </li>
-								<li><a href="404.html">Services</a> </li>
-							</ul>
-						</li>
-						<li><a href="blog.html"><i class="lnr lnr-book"></i><span>Blog</span></a></li>
-						<li><a href="typography.html"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-						<li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favourities</span></a> 
-							<ul class="sub-menu-list">
-								<li><a href="radio.html">All Songs</a></li>
-							</ul>
-						</li>
-						<li class="menu-list"><a href="contact.html"><i class="fa fa-thumb-tack"></i><span>Contact</span></a>
-							<ul class="sub-menu-list">
-								<li><a href="contact.html">Location</a> </li>
-							</ul>
-						</li>     
-					</ul>
-				<!--sidebar nav end-->
-			</div>
-		</div>
+                    <!--sidebar nav start-->
+                    <ul class="nav nav-pills nav-stacked custom-nav">
+                        <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
+                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
+                    </ul>
+                    <!--sidebar nav end-->
+                </div>
+            </div>
 		<!-- left side end-->
 			 <!-- /w3layouts-agile -->
-					<!-- app-->
-			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog facebook" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
-						</div>
-						<div class="modal-body">
-							<div class="app-grids">
-								<div class="app">
-						<div class="col-md-5 app-left mpl">
-							<h3>Mosaic mobile app on your smartphone!</h3>
-							<p>Download and Avail Special Songs Videos and Audios.</p>
-							<div class="app-devices">
-								<h5>Gets the app from</h5>
-								<a href="#"><img src="images/1.png" alt=""></a>
-								<a href="#"><img src="images/2.png" alt=""></a>
-								<div class="clearfix"> </div>
-							</div>
-						</div>
-						<div class="col-md-7 app-image">
-							<img src="images/apps.png" alt="">
-						</div>
-						<div class="clearfix"></div>
-					</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- //app-->
 				 <!-- /w3l-agile -->
 		<!-- signup -->
-			<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content modal-info">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
-						</div>
-						<div class="modal-body modal-spa">
-							<div class="sign-grids">
-								<div class="sign">
-									<div class="sign-left">
-										<ul>
-											<li><a class="fb" href="#"><i></i>Sign in with Facebook</a></li>
-											<li><a class="goog" href="#"><i></i>Sign in with Google</a></li>
-											<li><a class="linkin" href="#"><i></i>Sign in with Linkedin</a></li>
-										</ul>
-									</div>
-									<div class="sign-right">
-										<form action="#" method="post">
-											<h3>Create your account </h3>
-											<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}" required="">
-											<input type="text" value="Mobile number" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Mobile number';}" required="">
-											<input type="text" value="Email id" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email id';}" required="">	
-											<input type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}" required="">	
-											
-											<input type="submit" value="CREATE ACCOUNT" >
-										</form>
-									</div>
-									<div class="clearfix"></div>								
-								</div>
-								<p>By logging in you agree to our <span>Terms and Conditions</span> and <span>Privacy Policy</span></p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- //signup -->
+			<!- //signup -->-
 	 <!-- /w3l-agile -->
 		<!-- main content start-->
 		<div class="main-content">
@@ -171,13 +80,13 @@ else
 				<div class="menu-right">
 					<div class="profile_details">		
 						  <div class="col-md-4 serch-part">
-								<div id="sb-search" class="sb-search">
-									<form action="#" method="post">
-										<input class="sb-search-input" placeholder="Search" type="search" name="search" id="search">
-										<input class="sb-search-submit" type="submit" value="">
-										<span class="sb-icon-search"> </span>
-									</form>
-								</div>
+								 <div id="sb-search" class="sb-search">
+                                    <form action="search" method="post">
+                                        <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
+                                        <input class="sb-search-submit" type="submit" name="action" value="search">
+                                        <span class="sb-icon-search"> </span>
+                                    </form>
+                                </div>
 							</div>
 							  <!-- search-scripts -->
 									<script src="js/classie.js"></script>
@@ -188,93 +97,86 @@ else
 									<!-- //search-scripts -->
 											 <!---->
 											  <div class="col-md-4 player">
-													<div class="audio-player">
-														<audio id="audio-player"  controls="controls">
-														<source src="media/Blue Browne.ogg" type="audio/ogg"></source>
-																<source src="media/Blue Browne.mp3" type="audio/mpeg"></source>
-																<source src="media/Georgia.ogg" type="audio/ogg"></source>
-																<source src="media/Georgia.mp3" type="audio/mpeg"></source></audio>
-														</div>
-												<!---->
-												<script type="text/javascript">
-													$(function(){
-													  $('#audio-player').mediaelementplayer({
-														alwaysShowControls: true,
-														features: ['playpause','progress','volume'],
-														audioVolume: 'horizontal',
-														iPadUseNativeControls: true,
-														iPhoneUseNativeControls: true,
-														AndroidUseNativeControls: true
-													});
-												 });
-												</script>
-												<!--audio-->
-													<link rel="stylesheet" type="text/css" media="all" href="css/audio.css">
-													<script type="text/javascript" src="js/mediaelement-and-player.min.js"></script>
-													<!---->
+                                 
+                                <div class="audio-player">
+                                    <audio id="audio-player"  controls="controls">
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source>
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source></audio>
+                                </div>
+                                <!---->
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#audio-player').mediaelementplayer({
+                                            alwaysShowControls: true,
+                                            features: ['playpause', 'progress', 'volume'],
+                                            audioVolume: 'horizontal',
+                                            iPadUseNativeControls: true,
+                                            iPhoneUseNativeControls: true,
+                                            AndroidUseNativeControls: true
+                                        });
+                                    });
+                                </script>
+                                <!--audio-->
+                                <link rel="stylesheet" type="text/css" media="all" href="css/audio.css">
+                                <script type="text/javascript" src="js/mediaelement-and-player.min.js"></script>
+                                <!---->
 
 
-												<!--//-->
-												<ul class="next-top">
-													<li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
-													<li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></i></a></li>
-														
-											 </ul>	
-											</div>
+                                <!--//-->
+                                <ul class="next-top">
+                                    <li><div class="audio-info">
+                                        <span id="songName"></span>
+                                        <span id="songAuthor"></span> 
+                                    </div></li>
+                                    <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
+                                    <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></a></li>
+                                </ul>	
+                            </div>
 											<div class="col-md-4 login-pop">
-												  <c:choose>
-                                                                                                <c:when test="${loggeduser == null}">
-												<div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
-														<div id="loginBox">  
-												<form action="login" method="post" id="loginForm">
-                                                                                                                                          <p>${message}</p>
-                                                                                                    <input type="hidden" name="action" value="loginUser">
-                                                              
-																	<fieldset id="body">
-																		<fieldset>
-																			  <label for="email">Email Address</label>
-																			  <input type="text" name="loginEmail" id="email">
-																		</fieldset>
-																		<fieldset>
-																				<label for="password">Password</label>
-																				<input type="password" name="loginPass" id="password">
-																		 </fieldset>
-																		<input type="submit" id="login" value="Sign in">
-																		<label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
-																	</fieldset>
-																<span><a href="#">Forgot your password?</a></span>
-														 </form>
-													</div>
-												</div>
-                                                                                                </c:when>
-                                                                                                <c:otherwise>
-                                                                                                     <div id="loginpop"> <a href="#" id="loginButton"><span>Signed in</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox">  
+                                                                                                 <c:if test="${loggeduser.getUserID()!=1}">
+                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox" style="margin-top:10px">  
                                                 <form action="login" method="post" id="loginForm">
-                                                    <input type="hidden" name="imgPath" value = "${loggeduser.getImage()}" />
                                                     <fieldset id="body">
                                                         <fieldset>
                                                             <label>Username = ${loggeduser.getName()}</label>
-
                                                         </fieldset>
                                                         <fieldset>
                                                             <label>Email = ${loggeduser.getGmail()}</label>
-
                                                         </fieldset>
-
-                                                    </fieldset>
+                                                         <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </c:if>
+                                        <c:if test="${loggeduser.getUserID() ==1}" >
+                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                    <input type="submit" name ="action" value="Account Manager">
                                                     <input type="submit" name="action" value="Playlist" > 
                                                     <input type="submit" name ="action" id="My profile" value="My profile">
                                                     <input type="submit" name ="action" id="setting" value="Setting">
-                                                    <input type="submit" name="action" value="Log out" id="login">
-                                                    
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
                                                 </form>
 
                                             </div>
                                         </div>
-                                                                                                </c:otherwise>
-                                                                                            </c:choose>
-
+                                        </c:if>
 											</div>
 										<div class="clearfix"> </div>
 								</div>
@@ -329,7 +231,7 @@ else
        <label for="profilePhoto">
         Profile Photo:
        </label>
-       <input class="form-control-file" id="profilePhoto" type="file" name="userprofile" />
+       <input class="form-control-file" id="profilePhoto" type="file" name="userprofile" accept="image/png, image/jpeg"/>
       </div>
                <p><i>${message}</i></p>
       <button class="btn btn-primary" type="submit" name="action" value="save" >

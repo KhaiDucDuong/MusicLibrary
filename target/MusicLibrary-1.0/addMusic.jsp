@@ -1,10 +1,10 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="Cache-control" content="no-cache">
         <title>Profile</title>
         <meta name="keywords" content="Mosaic Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
               Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
@@ -36,35 +36,16 @@
                 <div class="logo-icon text-center">
                     <a href="index.jsp">M </a>
                 </div>
-
+                <!-- /w3l-agile -->
+                <!--logo and iconic logo end-->
                 <div class="left-side-inner">
 
                     <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-                        <li><a href="#"><i class="camera"></i> <span>Radio</span></a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-th"></i><span>Apps</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-users"></i> <span>Artists</span></a></li> 
-                        <li><a href="#"><i class="lnr lnr-music-note"></i> <span>Albums</span></a></li>						
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-indent-increase"></i> <span>Browser</span></a>  
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Artists</a> </li>
-                                <li><a href="#">Services</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="lnr lnr-book"></i><span>Blog</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favourities</span></a> 
-                            <ul class="sub-menu-list">
-                                <li><a href="#">All Songs</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-list"><a href="#"><i class="fa fa-thumb-tack"></i><span>Contact</span></a>
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Location</a> </li>
-                            </ul>
-                        </li>
-                        <li class="active"><a href="profile.jsp"><i class="lnr lnr-user"></i><span>Profile: ${loggeduser.name}</span></a></li>
+                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
                     </ul>
                     <!--sidebar nav end-->
                 </div>
@@ -82,10 +63,9 @@
                         <div class="profile_details">		
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
-                                    <form action="#" method="post">
-
-                                        <input class="sb-search-input" placeholder="Search" type="search" name="search" id="search">
-                                        <input class="sb-search-submit" type="submit" value="">
+                                    <form action="search" method="post">
+                                        <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
+                                        <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
                                     </form>
                                 </div>
@@ -98,13 +78,14 @@
                             </script>
                             <!-- //search-scripts -->
                             <!---->
-                            <div class="col-md-4 player">
+                             <div class="col-md-4 player">
+                                 
                                 <div class="audio-player">
                                     <audio id="audio-player"  controls="controls">
-                                        <source src="media/Blue Browne.ogg" type="audio/ogg"></source>
-                                        <source src="media/Blue Browne.mp3" type="audio/mpeg"></source>
-                                        <source src="media/Georgia.ogg" type="audio/ogg"></source>
-                                        <source src="media/Georgia.mp3" type="audio/mpeg"></source></audio>
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source>
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source></audio>
                                 </div>
                                 <!---->
                                 <script type="text/javascript">
@@ -127,13 +108,16 @@
 
                                 <!--//-->
                                 <ul class="next-top">
+                                    <li><div class="audio-info">
+                                        <span id="songName"></span>
+                                        <span id="songAuthor"></span> 
+                                    </div></li>
                                     <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
-                                    <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></i></a></li>
-
+                                    <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></a></li>
                                 </ul>	
                             </div>
                             <div class="col-md-4 login-pop">
-                                <c:choose>
+                                 <c:choose>
                                     <c:when test="${loggeduser == null}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
@@ -159,31 +143,48 @@
                                         </div>
                                     </c:when>
                                     <c:otherwise>
-                                        <div id="loginpop"> <a href="#" id="loginButton"><span>Signed in</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox">  
+                                        <c:if test="${loggeduser.getUserID()!=1}">
+                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox" style="margin-top:10px">  
                                                 <form action="login" method="post" id="loginForm">
-
-
                                                     <fieldset id="body">
                                                         <fieldset>
                                                             <label>Username = ${loggeduser.getName()}</label>
-
                                                         </fieldset>
                                                         <fieldset>
                                                             <label>Email = ${loggeduser.getGmail()}</label>
-
                                                         </fieldset>
-
-                                                    </fieldset>
+                                                         <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </c:if>
+                                        <c:if test="${loggeduser.getUserID() ==1}" >
+                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                    <input type="submit" name ="action" value="Account Manager">
                                                     <input type="submit" name="action" value="Playlist" > 
                                                     <input type="submit" name ="action" id="My profile" value="My profile">
                                                     <input type="submit" name ="action" id="setting" value="Setting">
-                                                    <input type="submit" name="action" value="Log out" id="login">
-
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
                                                 </form>
 
                                             </div>
                                         </div>
+                                        </c:if>
                                     </c:otherwise>
                                 </c:choose>
                             </div>
@@ -245,7 +246,7 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="musicFile">Song's file - accepts mp3/wav only</label>
+                                    <label for="musicFile">Song's file - accepts mp3 only</label>
                                     <input type="file" name="musicFile"
                                            class="form-control" id="musicFile">
                                 </div>    

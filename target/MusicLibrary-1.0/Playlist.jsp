@@ -2,6 +2,8 @@
 <%@page import="java.util.List"%>
 <%@page import="LibraryClass.Playlist"%>
 <%@page import="LibraryClass.User"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
 <html>
           <%
@@ -43,81 +45,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  <body class="sticky-header left-side-collapsed"  onload="initMap()">
     <section>
       <!-- left side start-->
-		<div class="left-side sticky-left-side">
+		 <div class="left-side sticky-left-side">
 
-			<!--logo and iconic logo start-->
-			<div class="logo">
-				<h1><a href="index.html">Mosai<span>c</span></a></h1>
-			</div>
-			<div class="logo-icon text-center">
-				<a href="index.html">M </a>
-			</div>
- 	 <!-- /w3layouts-agile -->
-			<!--logo and iconic logo end-->
-					<div class="left-side-inner">
+                <!--logo and iconic logo start-->
+                <div class="logo">
+                    <h1><a href="index.jsp">Mosai<span>c</span></a></h1>
+                </div>
+                <div class="logo-icon text-center">
+                    <a href="index.jsp">M </a>
+                </div>
+                <!-- /w3l-agile -->
+                <!--logo and iconic logo end-->
+                <div class="left-side-inner">
 
-				<!--sidebar nav start-->
-					<ul class="nav nav-pills nav-stacked custom-nav">
-						<li class="active"><a href="index.html"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-						
-						<li><a href="radio.html"><i class="camera"></i> <span>Radio</span></a></li>
-						<li><a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-th"></i><span>Apps</span></a></li>
-						<li><a href="radio.html"><i class="lnr lnr-users"></i> <span>Artists</span></a></li> 
-						<li><a href="browse.html"><i class="lnr lnr-music-note"></i> <span>Albums</span></a></li>						
-						<li class="menu-list"><a href="browse.html"><i class="lnr lnr-indent-increase"></i> <span>Browser</span></a>  
-							<ul class="sub-menu-list">
-								<li><a href="browse.html">Artists</a> </li>
-								<li><a href="404.html">Services</a> </li>
-							</ul>
-						</li>
-						<li><a href="blog.html"><i class="lnr lnr-book"></i><span>Blog</span></a></li>
-						<li><a href="typography.html"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-						<li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favourities</span></a> 
-							<ul class="sub-menu-list">
-								<li><a href="radio.html">All Songs</a></li>
-							</ul>
-						</li>
-						<li class="menu-list"><a href="contact.html"><i class="fa fa-thumb-tack"></i><span>Contact</span></a>
-							<ul class="sub-menu-list">
-								<li><a href="contact.html">Location</a> </li>
-							</ul>
-						</li>     
-					</ul>
-				<!--sidebar nav end-->
-			</div>
-		</div>
+                    <!--sidebar nav start-->
+                    <ul class="nav nav-pills nav-stacked custom-nav">
+                        <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
+                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
+                    </ul>
+                    <!--sidebar nav end-->
+                </div>
+            </div>
 		<!-- left side end-->
-					<!-- app-->
-			<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog facebook" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
-						</div>
-						<div class="modal-body">
-							<div class="app-grids">
-								<div class="app">
-						<div class="col-md-5 app-left mpl">
-							<h3>Mosaic mobile app on your smartphone!</h3>
-							<p>Download and Avail Special Songs Videos and Audios.</p>
-							<div class="app-devices">
-								<h5>Gets the app from</h5>
-								<a href="#"><img src="images/1.png" alt=""></a>
-								<a href="#"><img src="images/2.png" alt=""></a>
-								<div class="clearfix"> </div>
-							</div>
-						</div>
-						<div class="col-md-7 app-image">
-							<img src="images/apps.png" alt="">
-						</div>
-						<div class="clearfix"></div>
-					</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- //app-->
 			 	 <!-- /w3l-agile -->
 		<!-- signup -->
 			<div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -159,13 +110,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="menu-right">
 					<div class="profile_details">		
 						  <div class="col-md-4 serch-part">
-								<div id="sb-search" class="sb-search">
-									<form>
-										<input class="sb-search-input" placeholder="Search" type="search" name="search" id="search">
-										<input class="sb-search-submit" type="submit" value="">
-										<span class="sb-icon-search"> </span>
-									</form>
-								</div>
+								 <div id="sb-search" class="sb-search">
+                                    <form action="search" method="post">
+                                        <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
+                                        <input class="sb-search-submit" type="submit" name="action" value="search">
+                                        <span class="sb-icon-search"> </span>
+                                    </form>
+                                </div>
 							</div>
 							  <!-- search-scripts -->
 									<script src="js/classie.js"></script>
@@ -176,65 +127,86 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<!-- //search-scripts -->
 											 <!---->
 											  <div class="col-md-4 player">
-													<div class="audio-player">
-														<audio id="audio-player"  controls="controls">
-														<source src="media/Blue Browne.ogg" type="audio/ogg"></source>
-																<source src="media/Blue Browne.mp3" type="audio/mpeg"></source>
-																<source src="media/Georgia.ogg" type="audio/ogg"></source>
-																<source src="media/Georgia.mp3" type="audio/mpeg"></source></audio>
-														</div>
-												<!---->
-												<script type="text/javascript">
-													$(function(){
-													  $('#audio-player').mediaelementplayer({
-														alwaysShowControls: true,
-														features: ['playpause','progress','volume'],
-														audioVolume: 'horizontal',
-														iPadUseNativeControls: true,
-														iPhoneUseNativeControls: true,
-														AndroidUseNativeControls: true
-													});
-												 });
-												</script>
-												<!--audio-->
-													<link rel="stylesheet" type="text/css" media="all" href="css/audio.css">
-													<script type="text/javascript" src="js/mediaelement-and-player.min.js"></script>
-													<!---->
- 	 <!-- /agileits -->
+                                 
+                                <div class="audio-player">
+                                    <audio id="audio-player"  controls="controls">
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source>
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source></audio>
+                                </div>
+                                <!---->
+                                <script type="text/javascript">
+                                    $(function () {
+                                        $('#audio-player').mediaelementplayer({
+                                            alwaysShowControls: true,
+                                            features: ['playpause', 'progress', 'volume'],
+                                            audioVolume: 'horizontal',
+                                            iPadUseNativeControls: true,
+                                            iPhoneUseNativeControls: true,
+                                            AndroidUseNativeControls: true
+                                        });
+                                    });
+                                </script>
+                                <!--audio-->
+                                <link rel="stylesheet" type="text/css" media="all" href="css/audio.css">
+                                <script type="text/javascript" src="js/mediaelement-and-player.min.js"></script>
+                                <!---->
 
-												<!--//-->
-												<ul class="next-top">
-													<li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
-													<li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></i></a></li>
-														
-											 </ul>	
-											</div>
+
+                                <!--//-->
+                                <ul class="next-top">
+                                    <li><div class="audio-info">
+                                        <span id="songName"></span>
+                                        <span id="songAuthor"></span> 
+                                    </div></li>
+                                    <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
+                                    <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></a></li>
+                                </ul>	
+                            </div>
 											<div class="col-md-4 login-pop">
-												 <div id="loginpop"> <a href="#" id="loginButton"><span>Signed in</span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox">  
+												<c:if test="${loggeduser.getUserID()!=1}">
+                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox" style="margin-top:10px">  
                                                 <form action="login" method="post" id="loginForm">
-
-
                                                     <fieldset id="body">
                                                         <fieldset>
                                                             <label>Username = ${loggeduser.getName()}</label>
-
                                                         </fieldset>
                                                         <fieldset>
                                                             <label>Email = ${loggeduser.getGmail()}</label>
-
                                                         </fieldset>
-
-                                                    </fieldset>
+                                                         <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
+                                            </div>
+                                        </div>
+                                        </c:if>
+                                        <c:if test="${loggeduser.getUserID() ==1}" >
+                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                    <input type="submit" name ="action" value="Account Manager">
                                                     <input type="submit" name="action" value="Playlist" > 
                                                     <input type="submit" name ="action" id="My profile" value="My profile">
                                                     <input type="submit" name ="action" id="setting" value="Setting">
-                                                    <input type="submit" name="action" value="Log out" id="login">
-                                                    
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
                                                 </form>
 
                                             </div>
                                         </div>
+                                        </c:if>
 
 											</div>
 										<div class="clearfix"> </div>
@@ -274,21 +246,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="browse">
 								<div class="tittle-head two">
                                                                     <h3 class="tittle">${loggeduser.getName()}'s Playlist</h3> <p><i>${message}</i></p>
-                                                                        <a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><button>Create a new playlist</button></a>
-									<a href="browse.html"><h4 class="tittle third">See all</h4></a>
+                                                                        <a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><button class="btn">Create a new playlist</button></a>
+                                                                        <a class="top-sign" href="admin?action=showAllPlaylist"><button class="btn">See all playlist</button></a>
 									<div class="clearfix"> </div>
                                                                         
 								</div>
                                                                          <% for(int i = 0; i < playlist.size(); i++) {
                                                                                       Playlist showplaylist = new Playlist();
                                                                                            showplaylist = playlist.get(i); %>
-                                                                                             
-								<div class="col-md-3 browse-grid">
-									<a  href="single.html"><img src="images/v11.jpg" title=<%=showplaylist.getName()%>></a>
-									 <a href="single.html"><i class="glyphicon glyphicon-play-circle"></i></a>
+                                                                                           <div class="col-md-3 browse-grid">
+                                                                                           <form action="playlist" method="post"> 
+                                                                                               <input type="hidden" value="<%=showplaylist.getPlaylistID()%>" name="playlistID">
+                                                                    <button name="action" value="View playlist" type="submit">
+                                                                            <img src="<%=showplaylist.getCover()%>" style="width:215px;height:215px" ></button>
 									<a class="sing" href="single.html"><%=showplaylist.getName()%></a>
-                                                                        <button class="setting-button"><a href="#" data-toggle="modal" data-target="#myModal6" style="text-decoration:none;" onclick="passIDToModal(<%=showplaylist.getPlaylistID()%>)"><i class="fa fa-gear" style="font-size:24px"></i></a></button>
+                                                                        <a class="setting-button" data-toggle="modal" data-target="#myModal6" style="text-decoration:none;" onclick="passIDToModal(<%=showplaylist.getPlaylistID()%>)"><i class="fa fa-gear" style="font-size:24px"></i></a>
                                                                         <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                                            </form> 
 				<div class="modal-dialog" role="document">
 					<div class="modal-content modal-info">
 						<div class="modal-header">
@@ -298,12 +272,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<div class="sign-grids">
 								<div class="sign">
 									<div class="sign-right" style="width:85%">
-										<form action="playlist" method="post">
+										<form action="playlist" method="post" enctype="multipart/form-data">
                                                                                         <input id="PlaylistID" type="hidden" name="playlistID">
-                                                                                        <h3>Setting</h3>
+                                                                                        <h3>Playlist Setting</h3>
+                                                                                        <input type="file" name="cover">
                                                                                         <label>Playlist's new name:</label>
                                                                                         <input type="text" name="renamePlaylist" value="" >
 											<input  type="submit" name="action" value="Rename playlist" >
+                                                                                        <input  type="submit" name="action" value="Change cover" >
                                                                                         <input type="submit" name="action" value="Delete playlist">
 										</form>
 									</div>

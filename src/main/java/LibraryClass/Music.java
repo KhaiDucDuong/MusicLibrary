@@ -21,12 +21,14 @@ public class Music implements Serializable {
     private User author;
     private String category;
     private int liked;
+    private boolean existed;
     private int listen;
     private String image;
     @Temporal(TemporalType.DATE)
     private Date created;
     
-    public Music(){    
+    public Music(){
+        this.existed = true;
         }
     
     public Music(long musicID, String name, User author, String category, int like, int listen, String image, Date created) {
@@ -38,8 +40,24 @@ public class Music implements Serializable {
         this.listen = listen;
         this.image = image;
         this.created = created;
+        this.existed = true;
     }
     
+     public int getLiked() {
+        return liked;
+    }
+
+    public void setLiked(int liked) {
+        this.liked = liked;
+    }
+
+    public boolean isExisted() {
+        return existed;
+    }
+
+    public void setExisted(boolean existed) {
+        this.existed = existed;
+    }
     public Music(String name, User author, String category, int like, int listen, String image, Date created) {
         this.name = name;
         this.author = author;
@@ -48,6 +66,7 @@ public class Music implements Serializable {
         this.listen = listen;
         this.image = image;
         this.created = created;
+        this.existed = true;
     }
     
 
