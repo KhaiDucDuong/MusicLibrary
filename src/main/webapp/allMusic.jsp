@@ -395,32 +395,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
  	 <!-- /w3l-agile-info -->
 					</div>
 			  <!--body wrapper end-->
-			     <div class="footer two">
-				<div class="footer-grid">
-					<ul class="list1">
-	
-				    </ul>
-				</div>
-				<div class="footer-grid">
-					<h3>Our Account</h3>
-				    <ul class="list1">
-					
-				    </ul>
-				</div>
-				<div class="footer-grid">
-
-					<ul class="list1">
-					
-				    </ul>
-				  </div>
-					  <div class="footer-grid">
-						
-					 </div>
-					 <div class="footer-grid footer-grid_last">
-						
-					 </div>
-					 <div class="clearfix"> </div>
-				</div>
 			</div>
         <!--footer section start-->
 			<footer>

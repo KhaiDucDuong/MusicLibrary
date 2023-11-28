@@ -156,7 +156,7 @@ function passToModal(userID, name, password) {
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="musicFile">Song's file - accepts mp3/wav only</label>
+                                    <label for="musicFile">Song's file - accepts mp3 only</label>
                                     <input type="file" name="musicFile"
                                            class="form-control" id="musicFile">
                                 </div>    
@@ -356,7 +356,7 @@ function passToModal(userID, name, password) {
 															<div class="song-img">
 															<img src="${Song.getImage()}" class="img-responsive" onclick="createNewPlaylist(${Song.getMusicID()}, '${Song.getName()}', '${Song.getAuthor().getName()}')"></div>
 															<div class="song-text">
-																<a href="single.html">${Song.getName()}</a>
+																<a>${Song.getName()}</a>
                                                                                                                                 <span class="post-date">${Song.getCreated()}</span>
 															</div>
 															<div class="clearfix"></div>
