@@ -31,9 +31,9 @@ public class NewPassword extends HttpServlet {
 
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/musicLibrary?zeroDateTimeBehavior=CONVERT_TO_NULL", "root",
-						"123456789");
-				PreparedStatement pst = con.prepareStatement("update user set PASS = ? where GMAIL = ? ");
+				Connection con = DriverManager.getConnection("jdbc:mysql://34.126.100.6/musicLibrary?useSSL=false", "root",
+						"tientinhty00");
+				PreparedStatement pst = con.prepareStatement("update USER set PASS = ? where GMAIL = ? ");
 				pst.setString(1, newPassword);
                                 String userEmail = (String) session.getAttribute("email");
                                 if (userEmail == null || userEmail.isEmpty()) {
