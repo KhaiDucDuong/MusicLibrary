@@ -1151,6 +1151,7 @@ a.trend:hover {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     height:600px;
+    width: 100%;
 }
 /*-- main --*/
 .audio-grid p{
@@ -1488,6 +1489,27 @@ span.new{
 }
 /*--music_right--*/
 /*--/video--*/
+.sign-right input[type="number"], .sign-right input[type="password"]{
+    width: 100%;
+    padding: 15px 13px;
+    font-weight: normal;
+    background: none;
+    border: 1px solid #E6E4E4;
+    color: #D2D1D1;
+    outline: none;
+    font-size: 14px;
+    margin-top: 11px;
+    font-family: 'Lato-Regular';
+    box-shadow: inset 0 1px 1px 1px rgba(0,0,0,.07);
+    -o-box-shadow: inset 0 1px 1px 1px rgba(0,0,0,.07);
+    -moz-box-shadow: inset 0 1px 1px 1px rgba(0,0,0,.07);
+    -webkit-box-shadow: inset 0 1px 1px 1px rgba(0,0,0,.07);
+    border-radius: 4px;
+    -o-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+
 div.jp-type-playlist div.jp-playlist a {
     color: #fff;
     text-decoration: none;
@@ -2118,12 +2140,17 @@ i.glyphicon.glyphicon-play-circle {
     font-size: 3em;
 }
 a.sing {
+    max-height: 50px;
     color: #444;
     font-size: 1.4em;
     font-weight:400;
     display: block;
     padding-top: 20px;
     font-family: 'MavenPro-Regular';
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+
 }
 a.sing:hover{
     color:#EA57A3;

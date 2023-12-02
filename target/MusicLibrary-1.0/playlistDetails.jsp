@@ -66,20 +66,17 @@
                             <div class="sign-grids">
                                 <div class="sign">
                                     <div class="sign-right">
-                                        <form action="#" method="post">
+                                        <form action="login" method="post" onsubmit="return validateForm()">
                                             <h3>Create your account </h3>
-                                            <input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Name';
-                                                    }" required="">
-                                            <input type="text" value="Mobile number" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Mobile number';
-                                                    }" required="">
-                                            <input type="text" value="Email id" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Email id';
-                                                    }" required="">	
-                                            <input type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Password';
-                                                    }" required="">	
+                                            <input type="hidden" name="action" value="registerUser">
+                                            <label>Name</label><br>
+                                            <input type="text" name="Name"  required>
+                                            <label>Phone number</label><br>
+                                            <input type="number" name="Number"  required>
+                                            <label>Email</label><br>
+                                            <input type="text" name="Email" required>	
+                                            <label>Password</label><br>
+                                            <input type="password" name="Password" required>	
 
                                             <input type="submit" value="CREATE ACCOUNT" >
                                         </form>
@@ -104,11 +101,11 @@
                     <!--notification menu start -->
                     <div class="menu-right">
                         <div class="profile_details">		
-                            <div class="col-md-4 serch-part">
+                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
-                                    <form action="#" method="post">
-                                        <input class="sb-search-input" placeholder="Search" type="search" name="search" id="search">
-                                        <input class="sb-search-submit" type="submit" value="">
+                                    <form action="search" method="post">
+                                        <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
+                                        <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
                                     </form>
                                 </div>
@@ -448,22 +445,26 @@
                 <!--body wrapper end-->
                 <!-- /w3layouts-agile -->
             </div>
-
-
-
-
-
-            <!--body wrapper end-->           
-            <!-- /w3layouts-agile -->
-            <!--footer section start-->
-            <footer>
-                <p>&copy 2016 Mosaic. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts.</a></p>
-            </footer>
-            <!--footer section end-->
-
-            <!-- main content end-->
+                    <div class="footer">
+                         <div class="footer-grid">
+                            <h3>Group members:</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Trần Mạnh Tiến</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Dương Đức Khải</h3>
+                           
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Mai Trọng Vũ</h3>
+                        </div>
+                    </div>
+                <!--footer section start-->
+                <footer>
+                    <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
+                </footer>
         </section>
-
         <script src="js/jquery.nicescroll.js"></script>
         <script src="js/scripts.js"></script>
         <!-- Bootstrap Core JavaScript -->

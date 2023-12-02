@@ -239,7 +239,7 @@ private boolean configUser(HttpServletRequest request, HttpServletResponse respo
  private static void deleteSongAdmin(HttpServletRequest request, HttpServletResponse response){
      String songId = request.getParameter("deletingSongID");
      long ID = Long.parseLong(songId);
-     MusicDB.deleteMusic(ID);
+     MusicDB.setMusicExistenceFalse(ID);
  }
  private static void deletePlaylistAdmin(HttpServletRequest request, HttpServletResponse response){
      String playlistID = request.getParameter("playlistID");
