@@ -83,7 +83,7 @@
             <!-- //app-->
             <!-- /w3l-agile -->
             <!-- signup -->
-            <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+           <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content modal-info">
                         <div class="modal-header">
@@ -92,28 +92,18 @@
                         <div class="modal-body modal-spa">
                             <div class="sign-grids">
                                 <div class="sign">
-                                    <div class="sign-left">
-                                        <ul>
-                                            <li><a class="fb" href="#"><i></i>Sign in with Facebook</a></li>
-                                            <li><a class="goog" href="#"><i></i>Sign in with Google</a></li>
-                                            <li><a class="linkin" href="#"><i></i>Sign in with Linkedin</a></li>
-                                        </ul>
-                                    </div>
                                     <div class="sign-right">
-                                        <form action="#" method="post">
+                                        <form action="login" method="post" onsubmit="return validateForm()">
                                             <h3>Create your account </h3>
-                                            <input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Name';
-                                                    }" required="">
-                                            <input type="text" value="Mobile number" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Mobile number';
-                                                    }" required="">
-                                            <input type="text" value="Email id" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Email id';
-                                                    }" required="">	
-                                            <input type="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {
-                                                        this.value = 'Password';
-                                                    }" required="">	
+                                            <input type="hidden" name="action" value="registerUser">
+                                            <label>Name</label><br>
+                                            <input type="text" name="Name"  required>
+                                            <label>Phone number</label><br>
+                                            <input type="number" name="Number"  required>
+                                            <label>Email</label><br>
+                                            <input type="text" name="Email" required>	
+                                            <label>Password</label><br>
+                                            <input type="password" name="Password" required>	
 
                                             <input type="submit" value="CREATE ACCOUNT" >
                                         </form>
@@ -193,7 +183,7 @@
                                     <li><a class="ar2" onclick="playNext()"><img src="images/arrow2.png" alt=""/></a></li>
                                 </ul>	
                             </div>
-                            <div class="col-md-4 login-pop">
+                              <div class="col-md-4 login-pop">
                                 <c:choose>
                                     <c:when test="${loggeduser == null}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
@@ -211,7 +201,7 @@
                                                             <label for="password">Password</label>
                                                             <input type="password" name="loginPass" id="password">
                                                         </fieldset>
-                                                        <input type="submit" id="login" value="Sign in">
+                                                        <input type="submit" id="login" value="Sign in" onclick="showPopup()">
                                                         <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
                                                     </fieldset>
                                                     <span><a href="#">Forgot your password?</a></span>
@@ -221,46 +211,46 @@
                                     </c:when>
                                     <c:otherwise>
                                         <c:if test="${loggeduser.getUserID()!=1}">
-                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                                <div id="loginBox" style="margin-top:10px">  
-                                                    <form action="login" method="post" id="loginForm">
-                                                        <fieldset id="body">
-                                                            <fieldset>
-                                                                <label>Username = ${loggeduser.getName()}</label>
-                                                            </fieldset>
-                                                            <fieldset>
-                                                                <label>Email = ${loggeduser.getGmail()}</label>
-                                                            </fieldset>
-                                                            <input type="submit" name="action" value="Playlist" > 
-                                                            <input type="submit" name ="action" id="My profile" value="My profile">
-                                                            <input type="submit" name ="action" id="setting" value="Setting">
-                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                        </fieldset>   
-                                                    </form>
-                                                </div>
+                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox" style="margin-top:10px">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                         <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
                                             </div>
+                                        </div>
                                         </c:if>
                                         <c:if test="${loggeduser.getUserID() ==1}" >
-                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                                <div id="loginBox">  
-                                                    <form action="login" method="post" id="loginForm">
-                                                        <fieldset id="body">
-                                                            <fieldset>
-                                                                <label>Username = ${loggeduser.getName()}</label>
-                                                            </fieldset>
-                                                            <fieldset>
-                                                                <label>Email = ${loggeduser.getGmail()}</label>
-                                                            </fieldset>
-                                                            <input type="submit" name ="action" value="Account Manager">
-                                                            <input type="submit" name="action" value="Playlist" > 
-                                                            <input type="submit" name ="action" id="My profile" value="My profile">
-                                                            <input type="submit" name ="action" id="setting" value="Setting">
-                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                        </fieldset>   
-                                                    </form>
+                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                            <div id="loginBox">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label>Username = ${loggeduser.getName()}</label>
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label>Email = ${loggeduser.getGmail()}</label>
+                                                        </fieldset>
+                                                    <input type="submit" name ="action" value="Account Manager">
+                                                    <input type="submit" name="action" value="Playlist" > 
+                                                    <input type="submit" name ="action" id="My profile" value="My profile">
+                                                    <input type="submit" name ="action" id="setting" value="Setting">
+                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                    </fieldset>   
+                                                </form>
 
-                                                </div>
                                             </div>
+                                        </div>
                                         </c:if>
                                     </c:otherwise>
                                 </c:choose>
@@ -285,7 +275,7 @@
                                 <div class="modal-body">
 
                                     <select class="form-control input-lg" name="addPlaylistID">
-                                        <c:forEach items="${userPlaylists}" var="userPlaylist">
+                                        <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
                                             <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
                                         </c:forEach>
                                     </select>
@@ -342,7 +332,7 @@
 
                                                     <c:forEach items="${allArtists}" var="artist" >
                                                         <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
-                                                            <a id="toArtistSubmitBtn"   onclick="setToArtistID_SubmitForm(${artist.getUserID()})">
+                                                            <a id="toArtistSubmitBtn" onclick="setToArtistID_SubmitForm(${artist.getUserID()})">
                                                                 <div class="thumbnail artist-thumbnail">
 
                                                                     <img src="${artist.getImage()}" alt="${artist.getName()} image"
@@ -424,65 +414,26 @@
                 <!-- /w3l-agile-info -->
             </div>
             <!--body wrapper end-->
-            <div class="footer two">
-                <div class="footer-grid">
-                    <h3>Navigation</h3>
-                    <ul class="list1">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="radio.html">All Songs</a></li>
-                        <li><a href="browse.html">Albums</a></li>
-                        <li><a href="radio.html">New Collections</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-grid">
-                    <h3>Our Account</h3>
-                    <ul class="list1">
-                        <li><a href="#" data-toggle="modal" data-target="#myModal5">Your Account</a></li>
-                        <li><a href="#">Personal information</a></li>
-                        <li><a href="#">Addresses</a></li>
-                        <li><a href="#">Discount</a></li>
-                        <li><a href="#">Orders history</a></li>
-                        <li><a href="#">Addresses</a></li>
-                        <li><a href="#">Search Terms</a></li>
-                    </ul>
-                </div>
-                <div class="footer-grid">
-                    <h3>Our Support</h3>
-                    <ul class="list1">
-                        <li><a href="contact.html">Site Map</a></li>
-                        <li><a href="#">Search Terms</a></li>
-                        <li><a href="#">Advanced Search</a></li>
-                        <li><a href="#">Mobile</a></li>
-                        <li><a href="contact.html">Contact Us</a></li>
-                        <li><a href="#">Mobile</a></li>
-                        <li><a href="#">Addresses</a></li>
-                    </ul>
-                </div>
-                <div class="footer-grid">
-                    <h3>Newsletter</h3>
-                    <p class="footer_desc">Nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</p>
-                    <div class="search_footer">
-                        <form>
-                            <input type="text" placeholder="Email...." required="">
-                            <input type="submit" value="Submit">
-                        </form>
+            <div class="footer">
+                         <div class="footer-grid">
+                            <h3>Group members:</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Trần Mạnh Tiến</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Dương Đức Khải</h3>
+                           
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Mai Trọng Vũ</h3>
+                        </div>
                     </div>
                 </div>
-                <div class="footer-grid footer-grid_last">
-                    <h3>About Us</h3>
-                    <p class="footer_desc">Diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat enim ad minim veniam,.</p>
-                    <p class="f_text">Phone:  &nbsp;&nbsp;&nbsp;00-250-2131</p>
-                    <p class="email">Email : &nbsp;<span><a href="mailto:mail@example.com">info(at)mailing.com</a></span></p>	
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-        </div>
-        <!--footer section start-->
-        <footer>
-            <p>&copy 2016 Mosaic. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts.</a></p>
-        </footer>
+                <!--footer section start-->
+                <footer>
+                    <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
+                </footer>
         <!--footer section end-->
         <!-- /wthree-agile -->
         <!-- main content end-->

@@ -35,6 +35,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         inputElement.value = ID;
                                         inputElement.setAttribute('value', ID);
                                     }
+                                         
                     </script>
 </head> 
 
@@ -84,7 +85,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             <label>Name</label><br>
                                             <input type="text" name="Name"  required>
                                             <label>Phone number</label><br>
-                                            <input type="text" name="Number"  required>
+                                            <input type="number" name="Number"  required>
                                             <label>Email</label><br>
                                             <input type="text" name="Email" required>	
                                             <label>Password</label><br>
@@ -326,11 +327,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                                         <p>No result</p>
                                                                     </c:if>
                                                                 <c:forEach items="${userResults}" var="userResult">
-                                                                        
+                                                                    <form method="post" action="login" >
 								<div class="col-md-3 browse-grid">
+                                                                     <button>
                                                                         <input type="hidden" value="${userResult.getUserID()}" name="playlistID">
-									<a  href="#"><img src="${userResult.getImage()}" style="width:200px;height:200px"></a>
+									<a><img src="${userResult.getImage()}" style="width:200px;height:200px"></a>
 									<a class="sing">${userResult.getName()}</a>
+                                                                     </button>
+                                                                       <input type="hidden" name="toArtistID" value="${userResult.getUserID()}">
+                                                                       <input type="hidden" name="action" value="toArtistProfile">
                                                                         </div>	
                                                                 </c:forEach>
                                                 </div>
@@ -402,85 +407,82 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                     </button>
                                     <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
                                 </div>
-                                <form action="search" method="post">
+                                <form method="post" action="playlist">
                                     <div class="modal-body">
+                                        <c:choose>
+                                            <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
+                                                <select class="form-control input-lg" name="playlistID">
+                                                    <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
+                                                        <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" id="songID" name="songID">
+                                                <input type="hidden" name="currentURL" value="/browse.jsp">
+                                                <c:choose>
+                                                    <c:when test="${loggeduser.getUserID() == artist.getUserID()}">
+                                                        <input type="hidden" name="updateUserInfo" value="Yes">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="hidden" name="updateUserInfo" value="No">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${loggeduser != null}">
+                                                        <p>You don't have a playlist yet. Please create one first!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/browse.jsp">
+                                                        <input type="submit" name="action" value="Playlist" class="btn btn-secondary">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <p>Please sign in to use playlist feature!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/browse.jsp">
+                                                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </c:otherwise>
+                                                </c:choose>
 
-                                        <select class="form-control input-lg" name="addPlaylistID">
-                                            <c:forEach items="${userPlaylists}" var="userPlaylist">
-                                                <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
-                                            </c:forEach>
-                                        </select>
+                                            </c:otherwise>
+                                        </c:choose>
 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="hidden" id="songID" name="songID">
-                                        <input type="hidden" name="songSearch" value ="${pattern}">
-                                        <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+
+
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                                                                        
+                                                                        
 			  <!--body wrapper end-->
-			     <div class="footer two">
-				<div class="footer-grid">
-					<h3>Navigation</h3>
-					<ul class="list1">
-					  <li><a href="index.html">Home</a></li>
-					  <li><a href="radio.html">All Songs</a></li>
-					  <li><a href="browse.html">Albums</a></li>
-					  <li><a href="radio.html">New Collections</a></li>
-					  <li><a href="blog.html">Blog</a></li>
-					  <li><a href="contact.html">Contact</a></li>
-				    </ul>
-				</div>
-				<div class="footer-grid">
-					<h3>Our Account</h3>
-				    <ul class="list1">
-					  <li><a href="#" data-toggle="modal" data-target="#myModal5">Your Account</a></li>
-					  <li><a href="#">Personal information</a></li>
-					  <li><a href="#">Addresses</a></li>
-					  <li><a href="#">Discount</a></li>
-					  <li><a href="#">Orders history</a></li>
-					  <li><a href="#">Addresses</a></li>
-					  <li><a href="#">Search Terms</a></li>
-				    </ul>
-				</div>
-				<div class="footer-grid">
-					<h3>Our Support</h3>
-					<ul class="list1">
-					  <li><a href="contact.html">Site Map</a></li>
-					  <li><a href="#">Search Terms</a></li>
-					  <li><a href="#">Advanced Search</a></li>
-					  <li><a href="#">Mobile</a></li>
-					  <li><a href="contact.html">Contact Us</a></li>
-					  <li><a href="#">Mobile</a></li>
-					  <li><a href="#">Addresses</a></li>
-				    </ul>
-				  </div>
-					  <div class="footer-grid">
-						<h3>Newsletter</h3>
-						<p class="footer_desc">Nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</p>
-						<div class="search_footer">
-						 <form>
-						   <input type="text" placeholder="Email...." required="">
-						  <input type="submit" value="Submit">
-						  </form>
-						</div>
-					 </div>
-					 <div class="footer-grid footer-grid_last">
-						<h3>About Us</h3>
-						<p class="footer_desc">Diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat enim ad minim veniam,.</p>
-						<p class="f_text">Phone:  &nbsp;&nbsp;&nbsp;00-250-2131</p>
-						<p class="email">Email : &nbsp;<span><a href="mailto:mail@example.com">info(at)mailing.com</a></span></p>	
-					 </div>
-					 <div class="clearfix"> </div>
-				</div>
-			</div>
-        <!--footer section start-->
-			<footer>
-			   <p>&copy 2016 Mosaic. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts.</a></p>
-			</footer>
+	 <div class="footer">
+                         <div class="footer-grid">
+                            <h3>Group members:</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Trần Mạnh Tiến</h3>
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Dương Đức Khải</h3>
+                           
+                        </div>
+                        <div class="footer-grid">
+                            <h3>Mai Trọng Vũ</h3>
+                        </div>
+                    </div>
+                </div>
+                <!--footer section start-->
+                <footer>
+                    <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
+                </footer>
         <!--footer section end-->
  	 <!-- /wthree-agile -->
       <!-- main content end-->

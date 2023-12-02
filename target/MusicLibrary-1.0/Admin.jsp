@@ -156,7 +156,7 @@ function passToModal(userID, name, password) {
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="musicFile">Song's file - accepts mp3/wav only</label>
+                                    <label for="musicFile">Song's file - accepts mp3 only</label>
                                     <input type="file" name="musicFile"
                                            class="form-control" id="musicFile">
                                 </div>    
@@ -356,7 +356,7 @@ function passToModal(userID, name, password) {
 															<div class="song-img">
 															<img src="${Song.getImage()}" class="img-responsive" onclick="createNewPlaylist(${Song.getMusicID()}, '${Song.getName()}', '${Song.getAuthor().getName()}')"></div>
 															<div class="song-text">
-																<a href="single.html">${Song.getName()}</a>
+																<a>${Song.getName()}</a>
                                                                                                                                 <span class="post-date">${Song.getCreated()}</span>
 															</div>
 															<div class="clearfix"></div>
@@ -432,7 +432,7 @@ function passToModal(userID, name, password) {
 		<!-- /wthree-agile -->
         <!--footer section start-->
 			<footer>
-			   <p>&copy 2016 Mosaic. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts.</a></p>
+			  <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
 			</footer>
         <!--footer section end-->
 

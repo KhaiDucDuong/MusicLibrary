@@ -297,10 +297,6 @@ else
 						</div>
 					 </div>
 					 <div class="footer-grid footer-grid_last">
-						<h3>About Us</h3>
-						<p class="footer_desc">Diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat enim ad minim veniam,.</p>
-						<p class="f_text">Phone:  &nbsp;&nbsp;&nbsp;00-250-2131</p>
-						<p class="email">Email : &nbsp;<span><a href="mailto:mail@example.com">info(at)mailing.com</a></span></p>	
 					 </div>
 					 <div class="clearfix"> </div>
 				</div>
@@ -308,7 +304,7 @@ else
 				 <!-- /wthree-agile -->
         <!--footer section start-->
 			<footer>
-			   <p>&copy 2016 Mosaic. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="_blank">w3layouts.</a></p>
+			 <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
 			</footer>
         <!--footer section end-->
 

@@ -120,7 +120,6 @@ public class MusicServlet extends HttpServlet {
         String category = request.getParameter("musicCategory");
         int liked = 0;
         int listen = 0;
-
 //        String placeholder = request.getParameter("musicAuthor");
 //        long authorID = Long.parseLong(placeholder);
         long millis = System.currentTimeMillis();

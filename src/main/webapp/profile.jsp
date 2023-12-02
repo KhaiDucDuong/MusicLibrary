@@ -531,7 +531,7 @@
                                 <c:if test="${empty loggeduser}">
                                     <c:forEach items="${userPlaylists}" var="userPlaylist">
                                         <form method="post" action="search">
-                                            <input type="hidden" value="${artistID}" name="playlistID">
+                                            <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
                                             <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
                                                 <div class="thumbnail">
                                                     <button name="action" value="View playlist" type="submit"
