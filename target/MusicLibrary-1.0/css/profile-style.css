@@ -195,6 +195,13 @@ div .thumbnail {
 .center-items{
     position: relative;
 }
+
+.view-playlist-btn{
+    border: none;
+    background-color: transparent;
+}
+
+
 /*(481px  and up) */
 @media only screen and (min-width: 481px) {
     #user-deatails-MW {

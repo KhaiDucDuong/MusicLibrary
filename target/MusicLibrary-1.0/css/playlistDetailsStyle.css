@@ -1,0 +1,167 @@
+.padding-left-10{
+    padding-left: 10px;
+}
+
+/*playlist detail section (image and playlist info)*/
+.playlist-details{
+    margin: 0 auto;
+    width: 300px;
+}
+
+.playlist-image {
+    height: 300px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border: black 0.2em solid;
+}
+
+.playlist-image img {
+    height: auto;
+    max-height: 100%;
+    width: 100%;
+}
+
+.playlist-info{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    margin-bottom: 6px;
+}
+
+.playlist-title{
+    display: inline-block;
+    padding: 0;
+}
+
+.playlist-author{
+    text-align: center;
+}
+
+.playlist-action{
+    margin-top: 12px;
+}
+
+.play-btn{
+
+}
+
+/*songs in playlist*/
+.playlist-songs{
+    margin: 0 auto;
+    width: 80%;
+}
+.playlist-songs{
+
+}
+
+.media-header{
+    height: 50px;
+    border-bottom: 1px solid rgba(0,0,0, 0.2);
+    font-size: 1em;
+    text-transform: uppercase;
+    font-weight: bold;
+    align-items: center;
+    display: flex;
+    text-align: left;
+}
+
+.media-header-content{
+    width: 50%;
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: block;
+    margin-left: 1em;
+}
+
+.song-item {
+    max-width: 100%;
+    flex-grow: 1;
+    border-bottom: 1px solid rgba(0,0,0, 0.2);
+    padding: 10px;
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.song-index {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 1em;
+}
+
+.song-index span {
+    font-size: 0.8em;
+}
+
+.song-thumb{
+    margin-right: 10px;
+    flex-shrink: 0;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.is40x40 {
+    width: 40px;
+    height: 40px;
+}
+
+.is40x40 img{
+    width: 100%;
+    height: 100%;
+}
+
+.song-action {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    bottom: auto;
+    right: auto;
+    z-index: 98;
+    transform: translateX(-50%) translateY(-50%);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.song-action button {
+    display: none;
+    line-height: 0;
+    height: 18px;
+    border: 0;
+    font-weight: 400;
+    text-transform: none;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    background-color: transparent;
+}
+
+.song-thumb:hover button {
+    color: black;
+    display: inline-block;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.song-author, .song-name {
+    width: 25%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
