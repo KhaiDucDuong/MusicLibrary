@@ -25,6 +25,7 @@
 
         <!-- Meters graphs -->
         <script src="js/jquery-2.1.4.js"></script>
+        <script src="js/play_music_script.js"></script>
     </head>
     <body class="sticky-header left-side-collapsed"  onload="initMap()">
         <main>
@@ -37,40 +38,53 @@
                 <div class="logo-icon text-center">
                     <a href="index.jsp">M </a>
                 </div>
-
+                <!-- /w3l-agile -->
+                <!--logo and iconic logo end-->
                 <div class="left-side-inner">
 
                     <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-                        <li><a href="#"><i class="camera"></i> <span>Radio</span></a></li>
-                        <li><a href="#" data-toggle="modal" data-target="#myModal1"><i class="fa fa-th"></i><span>Apps</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-users"></i> <span>Artists</span></a></li> 
-                        <li><a href="#"><i class="lnr lnr-music-note"></i> <span>Albums</span></a></li>						
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-indent-increase"></i> <span>Browser</span></a>  
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Artists</a> </li>
-                                <li><a href="#">Services</a> </li>
-                            </ul>
-                        </li>
-                        <li><a href="#"><i class="lnr lnr-book"></i><span>Blog</span></a></li>
-                        <li><a href="#"><i class="lnr lnr-pencil"></i> <span>Typography</span></a></li>
-                        <li class="menu-list"><a href="#"><i class="lnr lnr-heart"></i>  <span>My Favourities</span></a> 
-                            <ul class="sub-menu-list">
-                                <li><a href="#">All Songs</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-list"><a href="#"><i class="fa fa-thumb-tack"></i><span>Contact</span></a>
-                            <ul class="sub-menu-list">
-                                <li><a href="#">Location</a> </li>
-                            </ul>
-                        </li>
-                        <li class="active"><a href="profile.jsp"><i class="lnr lnr-user"></i><span>Profile: ${loggeduser.name}</span></a></li>
+                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
+                        <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
                     </ul>
                     <!--sidebar nav end-->
                 </div>
             </div>
+            <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content modal-info">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>						
+                        </div>
+                        <div class="modal-body modal-spa">
+                            <div class="sign-grids">
+                                <div class="sign">
+                                    <div class="sign-right">
+                                        <form action="login" method="post" onsubmit="return validateForm()">
+                                            <h3>Create your account </h3>
+                                            <input type="hidden" name="action" value="registerUser">
+                                            <label>Name</label><br>
+                                            <input type="text" name="Name"  required>
+                                            <label>Phone number</label><br>
+                                            <input type="number" name="Number"  required>
+                                            <label>Email</label><br>
+                                            <input type="text" name="Email" required>	
+                                            <label>Password</label><br>
+                                            <input type="password" name="Password" required>	
 
+                                            <input type="submit" value="CREATE ACCOUNT" >
+                                        </form>
+                                    </div>
+                                    <div class="clearfix"></div>								
+                                </div>
+                                <p>By logging in you agree to our <span>Terms and Conditions</span> and <span>Privacy Policy</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- main content start-->
             <div class="main-content">
                 <!-- header-starts -->
@@ -94,17 +108,18 @@
                             <script src="js/classie.js"></script>
                             <script src="js/uisearch.js"></script>
                             <script>
-        new UISearch(document.getElementById('sb-search'));
+                                            new UISearch(document.getElementById('sb-search'));
                             </script>
                             <!-- //search-scripts -->
                             <!---->
                             <div class="col-md-4 player">
+
                                 <div class="audio-player">
                                     <audio id="audio-player"  controls="controls">
-                                        <source src="media/Blue Browne.ogg" type="audio/ogg"></source>
-                                        <source src="media/Blue Browne.mp3" type="audio/mpeg"></source>
-                                        <source src="media/Georgia.ogg" type="audio/ogg"></source>
-                                        <source src="media/Georgia.mp3" type="audio/mpeg"></source></audio>
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source>
+                                        <source src="" type="audio/ogg"></source>
+                                        <source src="" type="audio/mpeg"></source></audio>
                                 </div>
                                 <!---->
                                 <script type="text/javascript">
@@ -127,54 +142,85 @@
 
                                 <!--//-->
                                 <ul class="next-top">
-                                    <li><a class="ar" href="#"> <img src="images/arrow.png" alt=""/></a></li>
-                                    <li><a class="ar2" href="#"><img src="images/arrow2.png" alt=""/></i></a></li>
-
+                                    <li><div class="audio-info">
+                                            <span id="songName"></span>
+                                            <span id="songAuthor"></span> 
+                                        </div></li>
+                                    <li><a class="ar" onclick="playPrevious()"> <img src="images/arrow.png" alt=""/></a></li>
+                                    <li><a class="ar2" onclick="playNext()"><img src="images/arrow2.png" alt=""/></a></li>
                                 </ul>	
                             </div>
                             <div class="col-md-4 login-pop">
-                                <c:if test="${loggeduser.getUserID()!=1}">
-                                    <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                        <div id="loginBox" style="margin-top:10px">  
-                                            <form action="login" method="post" id="loginForm">
-                                                <fieldset id="body">
-                                                    <fieldset>
-                                                        <label>Username = ${loggeduser.getName()}</label>
-                                                    </fieldset>
-                                                    <fieldset>
-                                                        <label>Email = ${loggeduser.getGmail()}</label>
-                                                    </fieldset>
-                                                    <input type="submit" name="action" value="Playlist" > 
-                                                    <input type="submit" name ="action" id="My profile" value="My profile">
-                                                    <input type="submit" name ="action" id="setting" value="Setting">
-                                                    <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                </fieldset>   
-                                            </form>
-                                        </div>
-                                    </div>
-                                </c:if>
-                                <c:if test="${loggeduser.getUserID() ==1}" >
-                                    <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                        <div id="loginBox">  
-                                            <form action="login" method="post" id="loginForm">
-                                                <fieldset id="body">
-                                                    <fieldset>
-                                                        <label>Username = ${loggeduser.getName()}</label>
-                                                    </fieldset>
-                                                    <fieldset>
-                                                        <label>Email = ${loggeduser.getGmail()}</label>
-                                                    </fieldset>
-                                                    <input type="submit" name ="action" value="Account Manager">
-                                                    <input type="submit" name="action" value="Playlist" > 
-                                                    <input type="submit" name ="action" id="My profile" value="My profile">
-                                                    <input type="submit" name ="action" id="setting" value="Setting">
-                                                    <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                </fieldset>   
-                                            </form>
+                                <c:choose>
+                                    <c:when test="${loggeduser == null}">
+                                        <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
+                                            <div id="loginBox">  
+                                                <form action="login" method="post" id="loginForm">
+                                                    <p>${message}</p>
+                                                    <input type="hidden" name="action" value="loginUser">
 
+                                                    <fieldset id="body">
+                                                        <fieldset>
+                                                            <label for="email">Email Address</label>
+                                                            <input type="text" name="loginEmail" id="email">
+                                                        </fieldset>
+                                                        <fieldset>
+                                                            <label for="password">Password</label>
+                                                            <input type="password" name="loginPass" id="password">
+                                                        </fieldset>
+                                                        <input type="submit" id="login" value="Sign in" onclick="showPopup()">
+                                                        <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
+                                                    </fieldset>
+                                                    <span><a href="#">Forgot your password?</a></span>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </div>
-                                </c:if>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${loggeduser.getUserID()!=1}">
+                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                                <div id="loginBox" style="margin-top:10px">  
+                                                    <form action="login" method="post" id="loginForm">
+                                                        <fieldset id="body">
+                                                            <fieldset>
+                                                                <label>Username = ${loggeduser.getName()}</label>
+                                                            </fieldset>
+                                                            <fieldset>
+                                                                <label>Email = ${loggeduser.getGmail()}</label>
+                                                            </fieldset>
+                                                            <input type="submit" name="action" value="Playlist" > 
+                                                            <input type="submit" name ="action" id="My profile" value="My profile">
+                                                            <input type="submit" name ="action" id="setting" value="Setting">
+                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                        </fieldset>   
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${loggeduser.getUserID() ==1}" >
+                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                                <div id="loginBox">  
+                                                    <form action="login" method="post" id="loginForm">
+                                                        <fieldset id="body">
+                                                            <fieldset>
+                                                                <label>Username = ${loggeduser.getName()}</label>
+                                                            </fieldset>
+                                                            <fieldset>
+                                                                <label>Email = ${loggeduser.getGmail()}</label>
+                                                            </fieldset>
+                                                            <input type="submit" name ="action" value="Account Manager">
+                                                            <input type="submit" name="action" value="Playlist" > 
+                                                            <input type="submit" name ="action" id="My profile" value="My profile">
+                                                            <input type="submit" name ="action" id="setting" value="Setting">
+                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                        </fieldset>   
+                                                    </form>
+
+                                                </div>
+                                            </div>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
                             </div>
                             <div class="clearfix"> </div>
                         </div>
@@ -197,8 +243,8 @@
                                 <tr>
                                     <td class="col-xs-4 user-img" rowspan="4">
                                         <c:choose>
-                                            <c:when test="${loggeduser.getImage() != null}">
-                                                <img src="${loggeduser.getImage()}" alt="profile picture" 
+                                            <c:when test="${artist.getImage() != null}">
+                                                <img src="${artist.getImage()}" alt="profile picture" 
                                                      class = "img-rounded img-responsive"/>
                                             </c:when>
                                             <c:otherwise>
@@ -209,25 +255,29 @@
                                     </td>
 
                                     <td id="info-row" class="col-xs-4" colspan="1">
-                                        <h2 class="user-name">${loggeduser.getName()}</h2>
+                                        <h2 class="user-name">${artist.getName()}</h2>
                                     </td>
 
                                     <td id="info-row" class="col-xs-4" colspan="1">
-                                        <form method="post" action="login">
-                                            <button type="submit" name="action" value="start_create_newMusic" class="btn btn-light">Upload new song</button>
-                                            <p>${message}</p>  
-                                        </form>
+                                        <c:if test="${loggeduser.getUserID() == artist.getUserID()}">
+                                            <form method="post" action="login">
+                                                <button type="submit" name="action" value="start_create_newMusic" class="btn btn-light">Upload new song</button>
+                                                <p>${message}</p>  
+                                            </form>
+                                        </c:if>
                                     </td>
                                 </tr>
                                 <tr >
                                     <td id="info-row" class="col-xs-8" colspan="2">
-                                        <p class="user-id h3">User ID: ${loggeduser.getUserID()}</p>
-                                        <p class="user-email">Email: ${loggeduser.getGmail()}</p>
+                                        <c:if test="${loggeduser.getUserID() == artist.getUserID()}">
+                                            <p class="user-id h3">User ID: ${loggeduser.getUserID()}</p>
+                                        </c:if>
+                                        <p class="user-email">Email: ${artist.getGmail()}</p>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td id="info-row" class="col-xs-8 borderless-top borderless-bottom" colspan="2">
-                                        <p class="user-infor">${loggeduser.getInfor()}</p>
+                                        <p class="user-infor">${artist.getInfor()}</p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -253,11 +303,11 @@
 
 
                     <script>
-                                    function passIDToModal(ID) {
-                                        var inputElement = document.getElementById('songID');
-                                        inputElement.value = ID;
-                                        inputElement.setAttribute('value', ID);
-                                    }
+                        function passIDToModal(ID) {
+                            var inputElement = document.getElementById('songID');
+                            inputElement.value = ID;
+                            inputElement.setAttribute('value', ID);
+                        }
                     </script>
 
                     <script>
@@ -269,58 +319,70 @@
                         }
                     </script>
 
-                    <!--                    <script>
-                                            $('#deleteSongButton').click(function () {
-                    
-                                                // getting the value of the input fields
-                                                var name = $('#songName').val();
-                                                var htmlStr = '<p> Are you sure you want to delete ' + name + '</p>';
-                                                // adding the data to the modal
-                                                $('.modal-body').html(htmlStr);
-                                            });
-                                        </script>-->
 
 
                     <section class="container-fluid" id="user-uploaded-music">
-                        <div class="row justify-content-center bg-danger">
-
-                            <div class="container-fluid">
-                                <div class="col-xs-6 no-padding">
-                                    <h2>Uploaded songs</h2>
+                        <c:choose>
+                            <c:when test="${userUploadedSongs.size() == 0}">
+                                <div class="row justify-content-center bg-danger playlist-row">
+                                    <div class="col-xs-12 ">
+                                        <h2>Uploaded songs</h2>
+                                    </div>                          
                                 </div>
-                                <div class="col-xs-6">
-                                    <c:if test="${userUploadedSongs.size() > 6}">
-                                        <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">
-                                            See all
-                                        </button>
-                                    </c:if>
-                                </div>
-                            </div>
-                        </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="row justify-content-center bg-danger">
 
-                        <div class="row justify-content-center bg-danger equal-height">
-                            <c:forEach items="${userUploadedSongs}" begin="0" end="5" var="uploadedSong">
-                                <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
-                                    <div class="thumbnail">
-
-                                        <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
-                                             class="img-rounded img-responsive">
-                                        <div class="center-items">
-                                            <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
-                                            <a href="#" class="btn btn-default  button-appear-onHover play-btn"><i class="fa fa-play"></i></a>
-                                            <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
-                                            <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
-                                        </div>       
-
-                                        <div class="caption music-info">
-                                            <p class="text-primary">${uploadedSong.getName()}</p>
-                                            <p>Category: ${uploadedSong.getCategory()}</p>
-                                            <p>Uploaded: <fmt:formatDate type = "date" value = "${uploadedSong.getCreated()}" /></p>
+                                    <div class="container-fluid">
+                                        <div class="col-xs-6 no-padding">
+                                            <h2>Uploaded songs</h2>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <c:if test="${userUploadedSongs.size() > 6}">
+                                                <button class="btn btn-info" type="button" data-toggle="collapse" data-target="#footwear" aria-expanded="false" aria-controls="footwear">
+                                                    See all
+                                                </button>
+                                            </c:if>
                                         </div>
                                     </div>
                                 </div>
-                            </c:forEach>
-                        </div>
+
+                                <div class="row justify-content-center bg-danger equal-height">
+
+
+                                    <c:forEach items="${userUploadedSongs}" begin="0" end="5" var="uploadedSong">
+                                        <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
+                                            <div class="thumbnail">
+
+                                                <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
+                                                     class="img-rounded img-responsive">
+                                                <div class="center-items">
+                                                    <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
+                                                    <a class="btn btn-default  button-appear-onHover play-btn" 
+                                                       onclick="createNewPlaylist(${uploadedSong.getMusicID()}, '${uploadedSong.getName()}', '${uploadedSong.getAuthor().getName()}')"><i class="fa fa-play"></i></a>
+                                                    <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
+                                                    <c:choose>
+                                                        <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                            <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                            <a class="btn btn-default button-appear-onHover delete-btn"><i class="fa fa-thumbs-up"></i></a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                </div>       
+
+                                                <div class="caption music-info">
+                                                    <p class="text-primary">${uploadedSong.getName()}</p>
+                                                    <p>Category: ${uploadedSong.getCategory()}</p>
+                                                    <p>Uploaded: <fmt:formatDate type = "date" value = "${uploadedSong.getCreated()}" /></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
+
 
                         <div class="row justify-content-center bg-danger">
                             <c:if test="${userUploadedSongs.size() > 6}">
@@ -332,12 +394,18 @@
                                                     <img src="${uploadedSong.getImage()}" alt="${uploadedSong.getName()} image"
                                                          class="img-rounded img-responsive">
                                                     <div class="center-items">
-                                                        <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})"
-                                                           data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
-                                                        <a href="#" class="btn btn-default  button-appear-onHover play-btn"><i class="fa fa-play"></i></a>
-
-                                                        <a href="#" class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" 
-                                                           data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                        <a class="btn btn-default button-appear-onHover add-btn" onclick="passIDToModal(${uploadedSong.getMusicID()})" data-toggle="modal" data-target="#addToPlaylist"><i class="fa fa-plus"></i></a>
+                                                        <a class="btn btn-default  button-appear-onHover play-btn" 
+                                                           onclick="createNewPlaylist(${uploadedSong.getMusicID()}, '${uploadedSong.getName()}', '${uploadedSong.getAuthor().getName()}')"><i class="fa fa-play"></i></a>
+                                                        <input type = "hidden" id = "songName${uploadedSong.getMusicID()}" value="${uploadedSong.getName()}" />
+                                                        <c:choose>
+                                                            <c:when test="${loggeduser != null and loggeduser.getUserID() == artist.getUserID()}">
+                                                                <a class="btn btn-default  button-appear-onHover delete-btn" onclick="passSongNameAndIDToModal('${uploadedSong.getName()}', ${uploadedSong.getMusicID()})" data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times"></i></a>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                <a class="btn btn-default button-appear-onHover delete-btn"><i class="fa fa-thumbs-up"></i></a>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                     </div> 
 
                                                     <div class="caption music-info">
@@ -369,18 +437,52 @@
                                 </div>
                                 <form method="post" action="playlist">
                                     <div class="modal-body">
+                                        <c:choose>
+                                            <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
+                                                <select class="form-control input-lg" name="playlistID">
+                                                    <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
+                                                        <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" id="songID" name="songID">
+                                                <input type="hidden" name="currentURL" value="/profile.jsp">
+                                                <c:choose>
+                                                    <c:when test="${loggeduser.getUserID() == artist.getUserID()}">
+                                                        <input type="hidden" name="updateUserInfo" value="Yes">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="hidden" name="updateUserInfo" value="No">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${loggeduser != null}">
+                                                        <p>You don't have a playlist yet. Please create one first!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/profile.jsp">
+                                                        <input type="submit" name="action" value="Playlist" class="btn btn-secondary">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <p>Please sign in to use playlist feature!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/profile.jsp">
+                                                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </c:otherwise>
+                                                </c:choose>
 
-                                        <select class="form-control input-lg" name="playlistID">
-                                            <c:forEach items="${userPlaylists}" var="userPlaylist">
-                                                <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
-                                            </c:forEach>
-                                        </select>
+                                            </c:otherwise>
+                                        </c:choose>
 
-                                    </div>
-                                    <div class="modal-footer">
-                                        <input type="hidden" id="songID" name="songID">
-                                        <input type="hidden" name="currentURL" value="/profile.jsp">
-                                        <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+
+
                                     </div>
                                 </form>
                             </div>
@@ -421,40 +523,59 @@
 
 
 
-                    <section class="container-fluid">
-                        <div class="row justify-content-center bg-success recent-play-song-row">
-                            <div class="col-xs-12 ">
-                                <h2>Recent played songs</h2>
-                            </div>                          
-                        </div>
-                    </section>
+
                     <section class="container-fluid">
                         <div class="row justify-content-center bg-info playlist-row">
                             <div class="col-xs-12 ">
                                 <h2>Playlists</h2>
-                                <c:forEach items="${userPlaylists}" var="userPlaylist">
-                                    <form method="post" action="playlist">
-                                        <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
+                                <c:if test="${empty loggeduser}">
+                                    <c:forEach items="${userPlaylists}" var="userPlaylist">
+                                        <form method="post" action="search">
+                                            <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
+                                            <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
+                                                <div class="thumbnail">
+                                                    <button name="action" value="View playlist" type="submit"
+                                                            class="view-playlist-btn">
+                                                        <img src="${userPlaylist.getCover()}" alt="${userPlaylist.getName()} image"
+                                                             class="img-rounded img-responsive">
+                                                        <div class="center-items">
+                                                        </div>
+                                                    </button>
 
-                                        <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
-                                            <div class="thumbnail">
-                                                <button name="action" value="View playlist" type="submit"
-                                                        class="view-playlist-btn">
-                                                    <img src="${userPlaylist.getCover()}" alt="${userPlaylist.getName()} image"
-                                                         class="img-rounded img-responsive">
-                                                    <div class="center-items">
+                                                    <div class="caption music-info">
+                                                        <p class="text-primary">    ${userPlaylist.getName()}</p>
+                                                        <p style="font-size: 16px;">Uploaded: <fmt:formatDate type = "date" value = "${userPlaylist.getCreated()}" /></p>
                                                     </div>
-                                                </button>
 
-                                                <div class="caption music-info">
-                                                    <p class="text-primary">${userPlaylist.getName()}</p>
-                                                    <p style="font-size: 16px;">Uploaded: <fmt:formatDate type = "date" value = "${userPlaylist.getCreated()}" /></p>
                                                 </div>
-
                                             </div>
-                                        </div>
-                                    </form>
-                                </c:forEach>
+                                        </form>
+                                    </c:forEach>
+                                </c:if>
+                                <c:if test="${not empty loggeduser}">
+                                    <c:forEach items="${userPlaylists}" var="userPlaylist">
+                                        <form method="post" action="playlist">
+                                            <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
+                                            <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
+                                                <div class="thumbnail">
+                                                    <button name="action" value="View playlist" type="submit"
+                                                            class="view-playlist-btn">
+                                                        <img src="${userPlaylist.getCover()}" alt="${userPlaylist.getName()} image"
+                                                             class="img-rounded img-responsive">
+                                                        <div class="center-items">
+                                                        </div>
+                                                    </button>
+
+                                                    <div class="caption music-info">
+                                                        <p class="text-primary">    ${userPlaylist.getName()}</p>
+                                                        <p style="font-size: 16px;">Uploaded: <fmt:formatDate type = "date" value = "${userPlaylist.getCreated()}" /></p>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </c:forEach>
+                                </c:if>
                             </div>                          
                         </div>
                     </section>
