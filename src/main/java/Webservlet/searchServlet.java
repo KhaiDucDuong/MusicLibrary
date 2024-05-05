@@ -82,7 +82,8 @@ public class searchServlet extends HttpServlet {
                 .forward(request,response);
     }
     private static void SearchMusic(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
-        String pattern = request.getParameter("songSearch");
+        String patternUnvalid = request.getParameter("songSearch");
+        String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", "");  //XSS
         pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
         pattern = URLDecoder.decode( pattern, "UTF-8" );
         List<Music> result = MusicDB.findMusic(pattern);
@@ -90,15 +91,16 @@ public class searchServlet extends HttpServlet {
         request.setAttribute("pattern", pattern);
     }
      private static void SearchPlaylist(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
-        String pattern = request.getParameter("songSearch");
+        String patternUnvalid = request.getParameter("songSearch");
+        String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");  
         pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
         pattern = URLDecoder.decode( pattern, "UTF-8" );
         List<Playlist> result = PlaylistDB.findPlaylist(pattern);
         request.setAttribute("playlistResults", result);
     }
      private static void SearchUser(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
-        String pattern = request.getParameter("songSearch");
-        pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
+        String patternUnvalid = request.getParameter("songSearch");
+        String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");  
         pattern = URLDecoder.decode( pattern, "UTF-8" );
         List<User> result = UserDB.findUser(pattern);
         request.setAttribute("userResults", result);

@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
+import org.owasp.encoder.Encode;
 
 /**
  *
@@ -67,6 +68,10 @@ public class UserServlet extends HttpServlet {
             } else {
                 request.setAttribute("messagelogin", "Account signed in successfully");
                 User user = u.get(0);
+                user.setGmail(Encode.forHtml(user.getGmail())); //XSS
+                user.setName(Encode.forHtml(user.getName()));
+                user.setPass(Encode.forHtml(user.getPass()));
+                user.setInfor(Encode.forHtml(user.getInfor()));
                 request.getSession().setAttribute("loggeduser", user);
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
                 request.getSession().setAttribute("loggedUserPlaylists", userPlaylists);
@@ -180,7 +185,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private String updateUser(HttpServletRequest request, HttpServletResponse response) {
-        String changeName = request.getParameter("changeName");
+        String changeName = request.getParameter("changeName"); 
         String changePhone = request.getParameter("changePhone");
         String changePass = request.getParameter("loginPass");
         String changeInfor = request.getParameter("changeInfor");

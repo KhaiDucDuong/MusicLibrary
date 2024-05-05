@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Set;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
+import org.owasp.encoder.Encode;
 
 /**
  *
@@ -170,7 +171,7 @@ public class PlaylistServlet extends HttpServlet {
     }
 
     private void createPlaylist(HttpServletRequest request, HttpServletResponse response, long ID) {
-        String playlistName = request.getParameter("playlistName");
+        String playlistName = Encode.forHtml(request.getParameter("playlistName")); //XSS
         long millis = System.currentTimeMillis();
         java.sql.Date date = new java.sql.Date(millis);
         Playlist playlist = new Playlist();
@@ -188,7 +189,7 @@ public class PlaylistServlet extends HttpServlet {
     }
 
     private void updatePlaylist(HttpServletRequest request, HttpServletResponse response) {
-        String ID = request.getParameter("playlistID");
+        String ID = Encode.forHtml(request.getParameter("playlistID"));
         long playlistID = Long.parseLong(ID);
         String Name = request.getParameter("renamePlaylist");
         Playlist playlist = new Playlist();

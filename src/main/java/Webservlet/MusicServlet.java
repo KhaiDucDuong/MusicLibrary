@@ -22,6 +22,7 @@ import DBUtil.MusicDB;
 import DBUtil.PlaylistDB;
 import LibraryClass.User;
 import java.util.List;
+import org.owasp.encoder.Encode;
 
 /**
  *
@@ -112,7 +113,7 @@ public class MusicServlet extends HttpServlet {
     }
 
     private String createMusic(HttpServletRequest request, HttpServletResponse response, User author) {
-        String name = request.getParameter("musicName");
+        String name = Encode.forHtml(request.getParameter("musicName"));
         if (name.isEmpty()) {
             return "Song name can't be empty!";
         }
