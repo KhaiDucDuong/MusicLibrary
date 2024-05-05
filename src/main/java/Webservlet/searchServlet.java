@@ -5,14 +5,20 @@
 package Webservlet;
 
 import DBUtil.MusicDB;
+import DBUtil.PlaylistDB;
+import DBUtil.UserDB;
 import LibraryClass.Music;
+import LibraryClass.Playlist;
+import LibraryClass.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,44 +30,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class searchServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet searchServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet searchServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+
     }
     
     @Override
@@ -69,8 +43,39 @@ public class searchServlet extends HttpServlet {
             throws ServletException, IOException {
         String url = "/browse.jsp";
         String action = request.getParameter("action");
+        User user = (User) request.getSession().getAttribute("loggeduser");
+        List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
+        request.setAttribute("randPlaylist", randPlaylist);
+        if (user != null){
+         List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+        request.setAttribute("userPlaylists", userPlaylists);
+        }
         if(action.equals("search")){
             SearchMusic(request,response);
+            SearchPlaylist(request,response);
+            SearchUser(request,response);
+        }
+           if (action.equals("Add Song to Playlist")){
+            Long playlistID = Long.parseLong(request.getParameter("addPlaylistID"));
+            Long songID = Long.parseLong(request.getParameter("songID"));
+            addSongToPlaylist(playlistID, songID);
+            SearchMusic(request,response);
+            SearchPlaylist(request,response);
+            SearchUser(request,response);
+    }
+        if (action.equals("View playlist")) {
+            Long playlistID = Long.parseLong(request.getParameter("playlistID"));
+            //get the selected playlist
+            Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
+            request.setAttribute("selectedPlaylist", selectedPlaylist);
+            //get the songs in the playlist
+            Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
+            request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
+            //get playlist owner's name
+            User playlistOwner = selectedPlaylist.getUser();
+            String playlistOwnerName = UserDB.selectUserNameFromID(playlistOwner.getUserID());
+            request.setAttribute("playlistOwnerName", playlistOwnerName);
+            url = "/playlistDetails.jsp";
         }
          getServletContext()
                 .getRequestDispatcher(url)
@@ -81,9 +86,33 @@ public class searchServlet extends HttpServlet {
         pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
         pattern = URLDecoder.decode( pattern, "UTF-8" );
         List<Music> result = MusicDB.findMusic(pattern);
-        int test = result.size();
-        System.out.println("Result found: " + test);
         request.setAttribute("songResults", result);
         request.setAttribute("pattern", pattern);
     }
+     private static void SearchPlaylist(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+        String pattern = request.getParameter("songSearch");
+        pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
+        pattern = URLDecoder.decode( pattern, "UTF-8" );
+        List<Playlist> result = PlaylistDB.findPlaylist(pattern);
+        request.setAttribute("playlistResults", result);
+    }
+     private static void SearchUser(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
+        String pattern = request.getParameter("songSearch");
+        pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
+        pattern = URLDecoder.decode( pattern, "UTF-8" );
+        List<User> result = UserDB.findUser(pattern);
+        request.setAttribute("userResults", result);
+    }
+      private void addSongToPlaylist(long playlistID, Long songID) {
+        Playlist playlist = new Playlist();
+        playlist.setPlaylistID(playlistID);
+
+        Set<Music> songs = new HashSet<>();
+        Music song = new Music();
+        song.setMusicID(songID);
+        songs.add(song);
+        
+        PlaylistDB.addSongsToPlaylist(playlist, songs);
+    }
+      
 }

@@ -1,11 +1,7 @@
-<%@page import="LibraryClass.User"%>
-<%@page import="LibraryClass.User"%>
-<%@page import="DBUtil.PlaylistDB"%>
-<%@page import="java.util.List"%>
-<%@page import="LibraryClass.Playlist"%>
-<%@page import="LibraryClass.Playlist"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import ="LibraryClass.Music" %>
+<%@page import ="DBUtil.MusicDB" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
 <html>
@@ -30,13 +26,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/jquery-2.1.4.js"></script>
 <script src="js/play_music_script.js"></script>
   <script>
+                        function passSongNameAndIDToModal(name, ID) {
+                            var inputElement = document.getElementById('deletingSongID');
+                            inputElement.value = ID;
+                            inputElement.setAttribute('value', ID);
+                            document.getElementById("modelSongName").innerText = "Are you sure you want to delete " + name;
+                        }
+                    </script>
+                      <script>
                                     function passIDToModal(ID) {
                                         var inputElement = document.getElementById('songID');
                                         inputElement.value = ID;
                                         inputElement.setAttribute('value', ID);
                                     }
-                                         
                     </script>
+                    
 </head> 
 
     	 <!-- /w3layouts-agile -->
@@ -59,7 +63,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     <!--sidebar nav start-->
                     <ul class="nav nav-pills nav-stacked custom-nav">
                         <li><a href="index.jsp"><i class="lnr lnr-home"></i><span>Home</span></a></li>
-                        <li><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
+                        <li  class="active"><a href="admin?action=showAllMusic"><i class="lnr lnr-music-note"></i> <span>Songs</span></a></li>
                         <li><a href="admin?action=showAllArtist"><i class="lnr lnr-users"></i> <span>Artists</span></a></li>
                         <li><a href="admin?action=showAllPlaylist"><i class="lnr lnr-text-align-justify"></i> <span>Albums</span></a></li>						
                     </ul>
@@ -67,6 +71,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
             </div>
 		<!-- left side end-->
+					<!-- app-->
+			<!-- //app-->
 			 	 <!-- /w3l-agile -->
 		<!-- signup -->
 			 <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -131,7 +137,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 										</script>
 									<!-- //search-scripts -->
 											 <!---->
-											  <div class="col-md-4 player">
+											   <div class="col-md-4 player">
                                  
                                 <div class="audio-player">
                                     <audio id="audio-player"  controls="controls">
@@ -247,6 +253,69 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</div>
 					<div class="clearfix"></div>
 				</div>
+                         <div class="modal fade" id="addToPlaylist" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
+                                </div>
+                                <form method="post" action="playlist">
+                                    <div class="modal-body">
+                                        <c:choose>
+                                            <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
+                                                <select class="form-control input-lg" name="playlistID">
+                                                    <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
+                                                        <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input type="hidden" id="songID" name="songID">
+                                                <input type="hidden" name="currentURL" value="/index.jsp">
+                                                <c:choose>
+                                                    <c:when test="${loggeduser.getUserID() == artist.getUserID()}">
+                                                        <input type="hidden" name="updateUserInfo" value="Yes">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <input type="hidden" name="updateUserInfo" value="No">
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
+                                            </c:when>
+                                            <c:otherwise>
+                                                <c:choose>
+                                                    <c:when test="${loggeduser != null}">
+                                                        <p>You don't have a playlist yet. Please create one first!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/index.jsp">
+                                                        <input type="submit" name="action" value="Playlist" class="btn btn-secondary">
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <p>Please sign in to use playlist feature!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" id="songID" name="songID">
+                                                        <input type="hidden" name="currentURL" value="/index.jsp">
+                                                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+
+                                            </c:otherwise>
+                                        </c:choose>
+
+
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 			<!--notification menu end -->
 			<!-- //header-ends -->
  	 <!-- /agileinfo -->
@@ -276,213 +345,61 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<!--//pop-up-box -->
 						<div class="browse">
 								<div class="tittle-head two">
-                                                                    <h3 class="tittle">Searching for: ${pattern}</h3>
+                                                                    <h3 class="tittle">All Songs</h3>
 									<div class="clearfix"> </div>
-                                                                        <h3 class="tittle">Songs</h3>
-                                                                        <div class="clearfix"> </div>
 								</div>
-                                                                    <c:if test="${empty songResults}">
-                                                                        <p>No result</p>
-                                                                    </c:if>
-                                                                <c:forEach items="${songResults}" var="songResult">
+                                                                <c:forEach items="${allMusic}" var="songResult">
 								<div class="col-md-3 browse-grid">
-									<a  href="#"><img src="${songResult.getImage()}" style="width:200px;height:200px" onclick="createNewPlaylist(${songResult.getMusicID()}, '${songResult.getName()}', '${songResult.getAuthor().getName()}')"></a>
-                                                                         <c:if test="${not empty loggeduser}">
+									<a><img src="${songResult.getImage()}" style="width:200px;height:200px" onclick="createNewPlaylist(${songResult.getMusicID()}, '${songResult.getName()}', '${songResult.getAuthor().getName()}')"></a>
+                                                                        <c:if test="${not empty loggeduser}">
+                                                                        <c:if test="${loggeduser.getUserID()==1}">
+                                                                        <a style="text-decoration:none;" onclick="passSongNameAndIDToModal('${songResult.getName()}', ${songResult.getMusicID()})"  data-toggle = "modal" data-target = "#deleteSongModal"><i class="fa fa-times" style="font-size:24px"></i></a>
+                                                                        </c:if>
                                                                         <a class="setting-button" data-toggle="modal" data-target="#addToPlaylist" style="text-decoration:none;" onclick="passIDToModal(${songResult.getMusicID()})"><i class="fa fa-plus" style="font-size:24px"></i></a>
-                                                                    </c:if>
+                                                                        </c:if>
 									<a class="sing">${songResult.getName()}</a>
                                                                         </div>	
                                                                 </c:forEach>
                                                 </div>
-                                                                        <div class="clearfix"> </div>
-                                                                        <div class="browse">
-								<div class="tittle-head two">
-                                                                    <h3 class="tittle">Playlists</h3>
-									<div class="clearfix"> </div>
-								</div>
-                                                                        <c:if test="${empty playlistResults}">
-                                                                        <p>No result</p>
-                                                                    </c:if>
-                                                                <c:forEach items="${playlistResults}" var="playlistResult">
-                                                                        
-								<div class="col-md-3 browse-grid">
-                                                                    <form action="search" method="post"> 
-                                                                        <input type="hidden" value="${playlistResult.getPlaylistID()}" name="playlistID">
-                                                                    <button name="action" value="View playlist" type="submit">
-									<a  href="#"><img src="${playlistResult.getCover()}" style="width:200px;height:200px"></a>
-									<a class="sing">${playlistResult.getName()}</a>
-                                                                    </button>
-                                                                    </form>
-                                                                        </div>	
-                                                                </c:forEach>
-                                                </div>
                                       </div>
-                                                          <div class="clearfix"> </div>    
-                                                           <div class="browse">
-								<div class="tittle-head two">
-                                                                    <h3 class="tittle">Artists</h3>
-									<div class="clearfix"> </div>
-								</div>
-                                                                        <c:if test="${empty userResults}">
-                                                                        <p>No result</p>
-                                                                    </c:if>
-                                                                <c:forEach items="${userResults}" var="userResult">
-                                                                    <form method="post" action="login" >
-								<div class="col-md-3 browse-grid">
-                                                                     <button>
-                                                                        <input type="hidden" value="${userResult.getUserID()}" name="playlistID">
-									<a><img src="${userResult.getImage()}" style="width:200px;height:200px"></a>
-									<a class="sing">${userResult.getName()}</a>
-                                                                     </button>
-                                                                       <input type="hidden" name="toArtistID" value="${userResult.getUserID()}">
-                                                                       <input type="hidden" name="action" value="toArtistProfile">
-                                                                        </div>	
-                                                                </c:forEach>
-                                                </div>
-                                                          <div class="clearfix"> </div>   
+                                                          <div class="clearfix"> </div>              
 						<!--//discover-view-->
 							<!--//music-left-->
 							
 						<!--body wrapper start-->
-						<div class="review-slider">
-								<div class="tittle-head">
-									   <h3 class="tittle">Maybe you will like</h3>
-                            <div class="clearfix"> </div>
-                        </div>
-                        <ul id="flexiselDemo1">
-                             <c:forEach items="${randPlaylist}" var="playlist">
-                            <li>
-                                 <form action="search" method="post"> 
-                                                                        <input type="hidden" value="${playlist.getPlaylistID()}" name="playlistID">
-                                                                    <button class="btn" name="action" value="View playlist" type="submit">
-									<a  href="#"><img src="${playlist.getCover()}" style="width:200px;height:200px"></a>
-									<a class="sing">${playlist.getName()}</a>
-                                                                    </button>
-                                                                    </form>
-                            </li>
-                             </c:forEach>
-                        </ul>
-							</ul>
-							<script type="text/javascript">
-						$(window).load(function() {
-							
-						  $("#flexiselDemo1").flexisel({
-								visibleItems: 5,
-								animationSpeed: 1000,
-								autoPlay: true,
-								autoPlaySpeed: 3000,    		
-								pauseOnHover: false,
-								enableResponsiveBreakpoints: true,
-								responsiveBreakpoints: { 
-									portrait: { 
-										changePoint:480,
-										visibleItems: 2
-									}, 
-									landscape: { 
-										changePoint:640,
-										visibleItems: 3
-									},
-									tablet: { 
-										changePoint:800,
-										visibleItems: 4
-									}
-								}
-							});
-							});
-						</script>
-						<script type="text/javascript" src="js/jquery.flexisel.js"></script>	
-						</div>
 								</div>
 							<div class="clearfix"></div>
 						<!--body wrapper end-->
- 	 <!-- /w3l-agile-info -->
-					</div>
-                                                                          <div class="modal fade" id="addToPlaylist" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                    <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
-                                </div>
-                                <form method="post" action="playlist">
-                                    <div class="modal-body">
-                                        <c:choose>
-                                            <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
-                                                <select class="form-control input-lg" name="playlistID">
-                                                    <c:forEach items="${loggedUserPlaylists}" var="userPlaylist">
-                                                        <option value="${userPlaylist.getPlaylistID()}">${userPlaylist.getName()} playlist</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <input type="hidden" id="songID" name="songID">
-                                                <input type="hidden" name="currentURL" value="/browse.jsp">
-                                                <c:choose>
-                                                    <c:when test="${loggeduser.getUserID() == artist.getUserID()}">
-                                                        <input type="hidden" name="updateUserInfo" value="Yes">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <input type="hidden" name="updateUserInfo" value="No">
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:choose>
-                                                    <c:when test="${loggeduser != null}">
-                                                        <p>You don't have a playlist yet. Please create one first!</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="hidden" id="songID" name="songID">
-                                                        <input type="hidden" name="currentURL" value="/browse.jsp">
-                                                        <input type="submit" name="action" value="Playlist" class="btn btn-secondary">
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <p>Please sign in to use playlist feature!</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <input type="hidden" id="songID" name="songID">
-                                                        <input type="hidden" name="currentURL" value="/browse.jsp">
-                                                        <button class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    </c:otherwise>
-                                                </c:choose>
-
-                                            </c:otherwise>
-                                        </c:choose>
-
-
-
+                                                <div class = "modal fade" id = "deleteSongModal" tabindex = "-1" role = "dialog" aria-labelledby = "exampleModalLabel"
+                         aria-hidden="true">
+                        <div class = "modal-dialog" role = "document">
+                            <div class = "modal-content">
+                                <form action="admin">
+                                    <div class = "modal-header">
+                                        <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
+                                            <span aria-hidden = "true"> × </span>
+                                        </button>
+                                        <h4 class = "modal-title" id = "exampleModalLabel"> Deleting song </h4>
+                                    </div>
+                                    <div class = "modal-body"><span id="modelSongName"></span></div>
+                                    <div class = "modal-footer">
+                                        <input type="hidden" id="deletingSongID" name="deletingSongID">
+                                        <button type = "button" class = "btn btn-secondary" data-dismiss = "modal"> Cancel </button>
+                                        <button type = "submit" name="action" value="deleteSongAdmin" class = "btn btn-primary"> Confirm </button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
-                                                                        
-                                                                        
+ 	 <!-- /w3l-agile-info -->
+					</div>
 			  <!--body wrapper end-->
-	 <div class="footer">
-                         <div class="footer-grid">
-                            <h3>Group members:</h3>
-                        </div>
-                        <div class="footer-grid">
-                            <h3>Trần Mạnh Tiến</h3>
-                        </div>
-                        <div class="footer-grid">
-                            <h3>Dương Đức Khải</h3>
-                           
-                        </div>
-                        <div class="footer-grid">
-                            <h3>Mai Trọng Vũ</h3>
-                        </div>
-                    </div>
-                </div>
-                <!--footer section start-->
-                <footer>
-                    <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
-                </footer>
+			</div>
+        <!--footer section start-->
+			<footer>
+			   <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
+			</footer>
         <!--footer section end-->
  	 <!-- /wthree-agile -->
       <!-- main content end-->

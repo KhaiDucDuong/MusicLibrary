@@ -44,12 +44,13 @@ public class MusicServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //default return path
+        List Music = MusicDB.selectAllMusic();
+        request.setAttribute("allMusic", Music);
         request.setCharacterEncoding("UTF-8");
         String url = "/profile.jsp";
         //get action
         String action = request.getParameter("action");
         String message;
-
         //get current logged in User info
         User user = (User) request.getSession().getAttribute("loggeduser");
         List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
@@ -119,7 +120,6 @@ public class MusicServlet extends HttpServlet {
         String category = request.getParameter("musicCategory");
         int liked = 0;
         int listen = 0;
-
 //        String placeholder = request.getParameter("musicAuthor");
 //        long authorID = Long.parseLong(placeholder);
         long millis = System.currentTimeMillis();
@@ -140,8 +140,6 @@ public class MusicServlet extends HttpServlet {
                     String rename;
                     if (type.equals("audio/mpeg")) {
                         rename = "song" + music.getMusicID() + ".mp3";
-                    } else if (type.equals("audio/wav")) {
-                        rename = "song" + music.getMusicID() + ".wav";
                     } else {
                         MusicDB.deleteMusic(music.getMusicID());
                         return "Song File is not in the correct format!";
