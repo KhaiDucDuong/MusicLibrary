@@ -27,7 +27,14 @@ public class ForgotPassword extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String email = request.getParameter("email");
+                boolean EmailInvalid = email.matches(".*[;'\"].*");
 		RequestDispatcher dispatcher = null;
+                if (EmailInvalid){
+                    dispatcher = request.getRequestDispatcher("index.jsp");
+                    request.setAttribute("messagelogin", "Invalid Email or Password");
+                    dispatcher.forward(request, response);
+                }
+                else {
 		int otpvalue = 0;
 		HttpSession mySession = request.getSession();
 		
@@ -74,6 +81,7 @@ public class ForgotPassword extends HttpServlet {
 			dispatcher.forward(request, response);
 			//request.setAttribute("status", "success");
 		}
+                }
 		
 	}
 

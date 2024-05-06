@@ -48,19 +48,36 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        String url = "/blog.html";
+        String url = "/index.jsp";
         String action = request.getParameter("action");
         if (action.equals("registerUser")) {
-            String email = request.getParameter("Email");
-            boolean check = UserDB.checkUser(email);
+            String CheckEmail = request.getParameter("Email");
+            String CheckPass = request.getParameter("Password");
+            boolean EmailInvalid = CheckEmail.matches(".*[;'\"].*");
+            boolean PassInvalid = CheckPass.matches(".*[;'\"].*");
+            if (EmailInvalid || PassInvalid){
+                     request.setAttribute("messagelogin", "Invalid Email or Password");
+                     url = "/index.jsp";
+                    }
+                else {
+            boolean check = UserDB.checkUser(CheckEmail);
             if (check == false) {
                 registerUser(request, response);
                 request.setAttribute("messagelogin", "Account created successfully");
             } else {
                 request.setAttribute("messagelogin", "Email is already registered");
             }
-            url = "/index.jsp";
+            url = "/index.jsp";}
         } else if (action.equals("loginUser")) {
+            String CheckLoginEmail = request.getParameter("loginEmail");
+            String CheckLoginPass = request.getParameter("loginPass");
+            boolean EmailInvalid = CheckLoginEmail.matches(".*[;'\"].*");
+            boolean PassInvalid = CheckLoginPass.matches(".*[;'\"].*");
+            if (EmailInvalid || PassInvalid){
+                     request.setAttribute("messagelogin", "Invalid Email or Password");
+                     url = "/index.jsp";
+                    }
+            else {
             List<User> u = loginUser(request, response);
             if (u == null) {
                 request.setAttribute("messagelogin", "Wrong email or password, please try again");
@@ -76,7 +93,7 @@ public class UserServlet extends HttpServlet {
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
                 request.getSession().setAttribute("loggedUserPlaylists", userPlaylists);
                 url = "/index.jsp";
-            }
+            }}
         } else if (action.equals("Log out")) {
             request.getSession().invalidate();
             request.removeAttribute("loggeduser");
