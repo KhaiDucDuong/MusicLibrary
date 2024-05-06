@@ -25,7 +25,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/forgotPassword")
 public class ForgotPassword extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+                response.setHeader("X-Frame-Options", "SAMEORIGIN");
 		String email = request.getParameter("email");
 		RequestDispatcher dispatcher = null;
 		int otpvalue = 0;
