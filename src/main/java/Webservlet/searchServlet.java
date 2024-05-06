@@ -41,6 +41,8 @@ public class searchServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
         String url = "/browse.jsp";
         String action = request.getParameter("action");
         User user = (User) request.getSession().getAttribute("loggeduser");
