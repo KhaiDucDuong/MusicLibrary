@@ -40,6 +40,8 @@ public class PlaylistServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
         showAllPlaylist(request, response);
         String url = "/allPlaylist.jsp";
         request.getRequestDispatcher(url).forward(request, response);
@@ -48,6 +50,8 @@ public class PlaylistServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
         request.setCharacterEncoding("UTF-8");
         User user = (User) request.getSession().getAttribute("loggeduser");
         long ID = user.getUserID();
