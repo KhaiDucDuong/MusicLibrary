@@ -70,7 +70,7 @@ body {
                                                         please update the new password in the settings</li>
 					</ol>
 				</div>
-				<form class="card mt-4" action="forgotPassword" method="POST">
+				<form:form class="card mt-4" action="forgotPassword" method="POST">
 					<div class="card-body">
 						<div class="form-group">
 							<label for="email-for-pass">Enter your email address</label> <input
@@ -85,7 +85,7 @@ body {
 						<button class="btn btn-danger" type="submit">Back to
 							Login</button>
 					</div>
-				</form>
+				</form:form>
 			</div>
 		</div>
 	</div>
