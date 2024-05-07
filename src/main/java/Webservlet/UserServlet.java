@@ -50,98 +50,99 @@ public class UserServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String url = "/blog.html";
         String action = request.getParameter("action");
-        if (action.equals("registerUser")) {
-            String email = request.getParameter("Email");
-            boolean check = UserDB.checkUser(email);
-            if (check == false) {
-                registerUser(request, response);
-                request.setAttribute("messagelogin", "Account created successfully");
-            } else {
-                request.setAttribute("messagelogin", "Email is already registered");
-            }
-            url = "/index.jsp";
-        } else if (action.equals("loginUser")) {
-            List<User> u = loginUser(request, response);
-            if (u == null) {
-                request.setAttribute("messagelogin", "Wrong email or password, please try again");
+        if (action != null) {
+            if (action.equals("registerUser")) {
+                String email = request.getParameter("Email");
+                boolean check = UserDB.checkUser(email);
+                if (check == false) {
+                    registerUser(request, response);
+                    request.setAttribute("messagelogin", "Account created successfully");
+                } else {
+                    request.setAttribute("messagelogin", "Email is already registered");
+                }
                 url = "/index.jsp";
-            } else {
-                request.setAttribute("messagelogin", "Account signed in successfully");
-                User user = u.get(0);
-                user.setGmail(Encode.forHtml(user.getGmail())); //XSS
-                user.setName(Encode.forHtml(user.getName()));
-                user.setPass(Encode.forHtml(user.getPass()));
-                user.setInfor(Encode.forHtml(user.getInfor()));
-                request.getSession().setAttribute("loggeduser", user);
-                List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-                request.getSession().setAttribute("loggedUserPlaylists", userPlaylists);
+            } else if (action.equals("loginUser")) {
+                List<User> u = loginUser(request, response);
+                if (u == null) {
+                    request.setAttribute("messagelogin", "Wrong email or password, please try again");
+                    url = "/index.jsp";
+                } else {
+                    request.setAttribute("messagelogin", "Account signed in successfully");
+                    User user = u.get(0);
+                    user.setGmail(Encode.forHtml(user.getGmail())); //XSS
+                    user.setName(Encode.forHtml(user.getName()));
+                    user.setPass(Encode.forHtml(user.getPass()));
+                    user.setInfor(Encode.forHtml(user.getInfor()));
+                    request.getSession().setAttribute("loggeduser", user);
+                    List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+                    request.getSession().setAttribute("loggedUserPlaylists", userPlaylists);
+                    url = "/index.jsp";
+                }
+            } else if (action.equals("Log out")) {
+                request.getSession().invalidate();
+                request.removeAttribute("loggeduser");
+                request.removeAttribute("loggedUserPlaylists");
+                request.setAttribute("messagelogin", "Account logged out");
                 url = "/index.jsp";
-            }
-        } else if (action.equals("Log out")) {
-            request.getSession().invalidate();
-            request.removeAttribute("loggeduser");
-            request.removeAttribute("loggedUserPlaylists");
-            request.setAttribute("messagelogin", "Account logged out");
-            url = "/index.jsp";
-        } else if (action.equals("My profile")) {
-            //get user's uploaded songs
-            User user = (User) request.getSession().getAttribute("loggeduser");
-            request.getSession().setAttribute("artist", user);
-            List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
-            request.setAttribute("userUploadedSongs", userUploadedSongs);
-            //get user's playlists
-            List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("userPlaylists", userPlaylists);
-            url = "/profile.jsp";
-        } else if (action.equals("toArtistProfile")) {
-            Long userID = Long.parseLong(request.getParameter("toArtistID"));
-            request.setAttribute("artistID", userID);
-            //check if the ID is not 1 (not admin account)
-            if (userID != 1) {
-                User user = UserDB.selectUserFromID(userID);
+            } else if (action.equals("My profile")) {
+                //get user's uploaded songs
+                User user = (User) request.getSession().getAttribute("loggeduser");
                 request.getSession().setAttribute("artist", user);
                 List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
-                request.getSession().setAttribute("userUploadedSongs", userUploadedSongs);
+                request.setAttribute("userUploadedSongs", userUploadedSongs);
                 //get user's playlists
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-                request.getSession().setAttribute("userPlaylists", userPlaylists);
+                request.setAttribute("userPlaylists", userPlaylists);
                 url = "/profile.jsp";
-            }
-            else {
-                url="/index.jsp";
-            }
+            } else if (action.equals("toArtistProfile")) {
+                Long userID = Long.parseLong(request.getParameter("toArtistID"));
+                request.setAttribute("artistID", userID);
+                //check if the ID is not 1 (not admin account)
+                if (userID != 1) {
+                    User user = UserDB.selectUserFromID(userID);
+                    request.getSession().setAttribute("artist", user);
+                    List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
+                    request.getSession().setAttribute("userUploadedSongs", userUploadedSongs);
+                    //get user's playlists
+                    List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+                    request.getSession().setAttribute("userPlaylists", userPlaylists);
+                    url = "/profile.jsp";
+                } else {
+                    url = "/index.jsp";
+                }
 
-        } else if (action.equals("Setting")) {
-            url = "/user.jsp";
-        } else if (action.equals("Account Manager")) {
-            url = "/admin";
-        } else if (action.equals("save")) {
-            String message = updateUser(request, response);
+            } else if (action.equals("Setting")) {
+                url = "/user.jsp";
+            } else if (action.equals("Account Manager")) {
+                url = "/admin";
+            } else if (action.equals("save")) {
+                String message = updateUser(request, response);
 
-            if (message.equals("Account updated succesfully")) {
+                if (message.equals("Account updated succesfully")) {
+                    request.getSession().invalidate();
+                    List<User> u = loginUser(request, response);
+                    User user = u.get(0);
+                    request.getSession().setAttribute("loggeduser", user);
+                }
+
+                request.setAttribute("message", message);
+                url = "/user.jsp";
+            } else if (action.equals("delete")) {
+                deleteUser(request, response);
+                request.removeAttribute("loggeduser");
                 request.getSession().invalidate();
-                List<User> u = loginUser(request, response);
-                User user = u.get(0);
-                request.getSession().setAttribute("loggeduser", user);
+                request.setAttribute("getAlert", "Yes");
+                url = ("/index.jsp");
+            } else if (action.equals("Playlist")) {
+                url = "/playlist";
+            } //send user to addMusic.jsp and delete insertMusicflag to start new insertion
+            else if (action.equals("start_create_newMusic")) {
+                javax.servlet.http.HttpSession session = request.getSession();
+                if (session.getAttribute("insertMusicflag") != null) {
+                    session.removeAttribute("insertMusicflag");
+                }
+                url = "/addMusic.jsp";
             }
-
-            request.setAttribute("message", message);
-            url = "/user.jsp";
-        } else if (action.equals("delete")) {
-            deleteUser(request, response);
-            request.removeAttribute("loggeduser");
-            request.getSession().invalidate();
-            request.setAttribute("getAlert", "Yes");
-            url = ("/index.jsp");
-        } else if (action.equals("Playlist")) {
-            url = "/playlist";
-        } //send user to addMusic.jsp and delete insertMusicflag to start new insertion
-        else if (action.equals("start_create_newMusic")) {
-            javax.servlet.http.HttpSession session = request.getSession();
-            if (session.getAttribute("insertMusicflag") != null) {
-                session.removeAttribute("insertMusicflag");
-            }
-            url = "/addMusic.jsp";
         }
         getServletContext()
                 .getRequestDispatcher(url)
@@ -185,7 +186,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private String updateUser(HttpServletRequest request, HttpServletResponse response) {
-        String changeName = request.getParameter("changeName"); 
+        String changeName = request.getParameter("changeName");
         String changePhone = request.getParameter("changePhone");
         String changePass = request.getParameter("loginPass");
         String changeInfor = request.getParameter("changeInfor");
