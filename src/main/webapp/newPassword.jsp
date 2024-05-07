@@ -40,7 +40,7 @@
 							</h1>
 						</div>
 						<div class="pt-3 pb-3">
-							<form class="form-horizontal" action="newPassword" method="POST">
+							<form:form class="form-horizontal" action="newPassword" method="POST">
 								<!-- User Name Input -->
 								<div class="form-group row justify-content-center px-3">
 									<div class="col-9 px-0">
@@ -64,7 +64,7 @@
 											class="btn btn-block btn-info">
 									</div>
 								</div>
-							</form>
+							</form:form>
 						</div>
 						<!-- Alternative Login -->
 						<div class="mx-0 px-0 bg-light">

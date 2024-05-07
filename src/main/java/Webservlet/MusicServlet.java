@@ -62,46 +62,48 @@ public class MusicServlet extends HttpServlet {
         List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
         request.setAttribute("userPlaylists", userPlaylists);
         //upload a song, author is set to current logged in user
-        if (action.equals("createMusic")) {
+        if (action != null) {
+            if (action.equals("createMusic")) {
 
-            javax.servlet.http.HttpSession session = request.getSession();
+                javax.servlet.http.HttpSession session = request.getSession();
 
-            if (session.getAttribute("insertMusicflag") == null) {
+                if (session.getAttribute("insertMusicflag") == null) {
 
-                try {
-                    message = createMusic(request, response, user);
+                    try {
+                        message = createMusic(request, response, user);
 
-                    userUploadedSongs = MusicDB.selectMusicbyUserID(user);
-                    request.setAttribute("userUploadedSongs", userUploadedSongs);
-                    //get user's playlists
-                    userPlaylists = PlaylistDB.selectPlaylist(user);
-                    request.setAttribute("userPlaylists", userPlaylists);
-                } catch (Exception e) {
-                    message = "Failed to upload song!";
-                    System.out.println("Failed to upload song!");
+                        userUploadedSongs = MusicDB.selectMusicbyUserID(user);
+                        request.setAttribute("userUploadedSongs", userUploadedSongs);
+                        //get user's playlists
+                        userPlaylists = PlaylistDB.selectPlaylist(user);
+                        request.setAttribute("userPlaylists", userPlaylists);
+                    } catch (Exception e) {
+                        message = "Failed to upload song!";
+                        System.out.println("Failed to upload song!");
+                    }
+                    //set insertFlag so user has to create a new form to upload a song
+                    session.setAttribute("insertMusicflag", true);
+                } else {
+                    //doesn't reupload the song and return a warning message
+                    message = "Please fill a new form to upload song!";
                 }
-                //set insertFlag so user has to create a new form to upload a song
-                session.setAttribute("insertMusicflag", true);
-            } else {
-                //doesn't reupload the song and return a warning message
-                message = "Please fill a new form to upload song!";
-            }
 
-            //return back to profile.jsp after uploading a song (new song is displayed there)
-            //should change this to a playlist url that is dedicated for uploaded songs
-            url = "/profile.jsp";
-            request.setAttribute("message", message);
-        } else if (action.equals("Delete song")) {
-            Long deletingSongID = Long.parseLong(request.getParameter("deletingSongID"));
-            MusicDB.setMusicExistenceFalse(deletingSongID);
-            url = "/profile.jsp";
-            userUploadedSongs = MusicDB.selectMusicbyUserID(user);
-            request.setAttribute("userUploadedSongs", userUploadedSongs);
-            //get user's playlists
-            userPlaylists = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("userPlaylists", userPlaylists);
-            message = "Deleted song successfully!";
-            request.setAttribute("message", message);
+                //return back to profile.jsp after uploading a song (new song is displayed there)
+                //should change this to a playlist url that is dedicated for uploaded songs
+                url = "/profile.jsp";
+                request.setAttribute("message", message);
+            } else if (action.equals("Delete song")) {
+                Long deletingSongID = Long.parseLong(request.getParameter("deletingSongID"));
+                MusicDB.setMusicExistenceFalse(deletingSongID);
+                url = "/profile.jsp";
+                userUploadedSongs = MusicDB.selectMusicbyUserID(user);
+                request.setAttribute("userUploadedSongs", userUploadedSongs);
+                //get user's playlists
+                userPlaylists = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("userPlaylists", userPlaylists);
+                message = "Deleted song successfully!";
+                request.setAttribute("message", message);
+            }
         }
 
         getServletContext()

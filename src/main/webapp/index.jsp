@@ -105,7 +105,7 @@
                             <div class="sign-grids">
                                 <div class="sign">
                                     <div class="sign-right">
-                                        <form action="login" method="post" onsubmit="return validateForm()">
+                                        <form:form action="login" method="post" onsubmit="return validateForm()">
                                             <h3>Create your account </h3>
                                             <input type="hidden" name="action" value="registerUser">
                                             <label>Name</label><br>
@@ -118,7 +118,7 @@
                                             <input type="password" name="Password" required>	
 
                                             <input type="submit" value="CREATE ACCOUNT" >
-                                        </form>
+                                        </form:form>
                                     </div>
                                     <div class="clearfix"></div>								
                                 </div>
@@ -143,11 +143,11 @@
                         <div class="profile_details">		
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
-                                    <form action="search" method="post">
+                                    <form:form action="search" method="post">
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
-                                    </form>
+                                    </form:form>
                                 </div>
                             </div>
                             <!-- search-scripts -->
@@ -201,7 +201,7 @@
                                     <c:when test="${loggeduser == null}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
-                                                <form action="login" method="post" id="loginForm">
+                                                <form:form action="login" method="post" id="loginForm">
                                                     <p>${message}</p>
                                                     <input type="hidden" name="action" value="loginUser">
 
@@ -218,7 +218,7 @@
                                                         <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
                                                     </fieldset>
                                                     <span><a href="forgotPassword.jsp">Forgot your password?</a></span>
-                                                </form>
+                                                </form:form>
                                             </div>
                                         </div>
                                     </c:when>
@@ -226,7 +226,7 @@
                                         <c:if test="${loggeduser.getUserID()!=1}">
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox" style="margin-top:10px">  
-                                                    <form action="login" method="post" id="loginForm">
+                                                    <form:form action="login" method="post" id="loginForm">
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -239,14 +239,14 @@
                                                             <input type="submit" name ="action" id="setting" value="Setting">
                                                             <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                         </fieldset>   
-                                                    </form>
+                                                    </form:form>
                                                 </div>
                                             </div>
                                         </c:if>
                                         <c:if test="${loggeduser.getUserID() ==1}" >
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox">  
-                                                    <form action="login" method="post" id="loginForm">
+                                                    <form:form action="login" method="post" id="loginForm">
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -260,8 +260,7 @@
                                                             <input type="submit" name ="action" id="setting" value="Setting">
                                                             <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                         </fieldset>   
-                                                    </form>
-
+                                                    </form:form>
                                                 </div>
                                             </div>
                                         </c:if>
@@ -399,13 +398,13 @@
                                         </div>
                                         <% for (Playlist playlist : randPlaylist) {%>
                                         <div class="col-md-3 content-grid">
-                                            <form action="search" method="post"> 
+                                            <form:form action="search" method="post"> 
                                                 <input type="hidden" value="<%=playlist.getPlaylistID()%>" name="playlistID">
                                                 <button class="btn" name="action" value="View playlist" type="submit">
                                                     <a  href="#"><img src="<%=playlist.getCover()%>" style="width:320px;height:320px"></a>
                                                     <a class="sing"><%=playlist.getName()%></a>
                                                 </button>
-                                            </form>
+                                            </form:form>
                                         </div>
                                         <% } %>
                                         <div class="clearfix"> </div>
@@ -428,13 +427,13 @@
                                 <ul id="flexiselDemo1">
                                     <% for (Playlist playlist : first8Playlist) {%>
                                     <li>
-                                        <form action="search" method="post"> 
+                                        <form:form action="search" method="post"> 
                                             <input type="hidden" value="<%=playlist.getPlaylistID()%>" name="playlistID">
                                             <button class="btn" name="action" value="View playlist" type="submit">
                                                 <a  href="#"><img src="<%=playlist.getCover()%>" style="width:200px;height:200px"></a>
                                                 <a class="sing"><%=playlist.getName()%></a>
                                             </button>
-                                        </form>
+                                        </form:form>
                                     </li>
                                     <% }%>
                                 </ul>
@@ -451,7 +450,7 @@
                                                 </button>
                                                 <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
                                             </div>
-                                            <form method="post" action="playlist">
+                                            <form:form method="post" action="playlist">
                                                 <div class="modal-body">
                                                     <c:choose>
                                                         <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
@@ -500,7 +499,7 @@
 
 
                                                 </div>
-                                            </form>
+                                            </form:form>
                                         </div>
                                     </div>
                                 </div>

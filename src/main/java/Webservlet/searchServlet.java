@@ -30,93 +30,118 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class searchServlet extends HttpServlet {
 
-
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-
     }
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
-        response.setHeader("X-Frame-Options", "SAMEORIGIN");
-        String url = "/browse.jsp";
-        String action = request.getParameter("action");
-        User user = (User) request.getSession().getAttribute("loggeduser");
-        List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
-        request.setAttribute("randPlaylist", randPlaylist);
-        if (user != null){
-         List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-        request.setAttribute("userPlaylists", userPlaylists);
+        try {
+            response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+            response.setHeader("X-Frame-Options", "SAMEORIGIN");
+            String url = "/browse.jsp";
+            String action = request.getParameter("action");
+            User user = (User) request.getSession().getAttribute("loggeduser");
+            List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
+            request.setAttribute("randPlaylist", randPlaylist);
+            if (user != null) {
+                List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("userPlaylists", userPlaylists);
+            }
+            if (action != null) {
+                if (action.equals("search")) {
+                    SearchMusic(request, response);
+                    SearchPlaylist(request, response);
+                    SearchUser(request, response);
+                }
+                if (action.equals("Add Song to Playlist")) {
+                    Long playlistID = Long.parseLong(request.getParameter("addPlaylistID"));
+                    Long songID = Long.parseLong(request.getParameter("songID"));
+                    addSongToPlaylist(playlistID, songID);
+                    SearchMusic(request, response);
+                    SearchPlaylist(request, response);
+                    SearchUser(request, response);
+                }
+                if (action.equals("View playlist")) {
+                    Long playlistID = Long.parseLong(request.getParameter("playlistID"));
+                    //get the selected playlist
+                    Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
+                    request.setAttribute("selectedPlaylist", selectedPlaylist);
+                    //get the songs in the playlist
+                    Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
+                    request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
+                    //get playlist owner's name
+                    User playlistOwner = selectedPlaylist.getUser();
+                    String playlistOwnerName = UserDB.selectUserNameFromID(playlistOwner.getUserID());
+                    request.setAttribute("playlistOwnerName", playlistOwnerName);
+                    url = "/playlistDetails.jsp";
+                }
+            }
+            getServletContext()
+                    .getRequestDispatcher(url)
+                    .forward(request, response);
+        } catch (Exception e) {
+            throw new ServletException(e);
         }
-        if(action.equals("search")){
-            SearchMusic(request,response);
-            SearchPlaylist(request,response);
-            SearchUser(request,response);
-        }
-           if (action.equals("Add Song to Playlist")){
-            Long playlistID = Long.parseLong(request.getParameter("addPlaylistID"));
-            Long songID = Long.parseLong(request.getParameter("songID"));
-            addSongToPlaylist(playlistID, songID);
-            SearchMusic(request,response);
-            SearchPlaylist(request,response);
-            SearchUser(request,response);
     }
-        if (action.equals("View playlist")) {
-            Long playlistID = Long.parseLong(request.getParameter("playlistID"));
-            //get the selected playlist
-            Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
-            request.setAttribute("selectedPlaylist", selectedPlaylist);
-            //get the songs in the playlist
-            Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
-            request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
-            //get playlist owner's name
-            User playlistOwner = selectedPlaylist.getUser();
-            String playlistOwnerName = UserDB.selectUserNameFromID(playlistOwner.getUserID());
-            request.setAttribute("playlistOwnerName", playlistOwnerName);
-            url = "/playlistDetails.jsp";
-        }
-         getServletContext()
-                .getRequestDispatcher(url)
-                .forward(request,response);
-    }
-    private static void SearchMusic(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
-        String patternUnvalid = request.getParameter("songSearch");
-        String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", "");  //XSS
-        pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
-        pattern = URLDecoder.decode( pattern, "UTF-8" );
-        List<Music> result = MusicDB.findMusic(pattern);
-        request.setAttribute("songResults", result);
-        request.setAttribute("pattern", pattern);
-    }
-     private static void SearchPlaylist(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
-        String patternUnvalid = request.getParameter("songSearch");
-        String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");  
-        pattern = URLEncoder.encode( pattern, "ISO-8859-1" );
-        pattern = URLDecoder.decode( pattern, "UTF-8" );
-        List<Playlist> result = PlaylistDB.findPlaylist(pattern);
-        request.setAttribute("playlistResults", result);
-    }
-     private static void SearchUser(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException{
-        String patternUnvalid = request.getParameter("songSearch");
-        String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");  
-        pattern = URLDecoder.decode( pattern, "UTF-8" );
-        List<User> result = UserDB.findUser(pattern);
-        request.setAttribute("userResults", result);
-    }
-      private void addSongToPlaylist(long playlistID, Long songID) {
-        Playlist playlist = new Playlist();
-        playlist.setPlaylistID(playlistID);
 
-        Set<Music> songs = new HashSet<>();
-        Music song = new Music();
-        song.setMusicID(songID);
-        songs.add(song);
-        
-        PlaylistDB.addSongsToPlaylist(playlist, songs);
+    private static void SearchMusic(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, ServletException {
+        try {
+            String patternUnvalid = request.getParameter("songSearch");
+            String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", "");  //XSS
+            pattern = URLEncoder.encode(pattern, "ISO-8859-1");
+            pattern = URLDecoder.decode(pattern, "UTF-8");
+            List<Music> result = MusicDB.findMusic(pattern);
+            request.setAttribute("songResults", result);
+            request.setAttribute("pattern", pattern);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
     }
-      
+
+    private static void SearchPlaylist(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, ServletException {
+        try {
+            String patternUnvalid = request.getParameter("songSearch");
+            String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");
+            pattern = URLEncoder.encode(pattern, "ISO-8859-1");
+            pattern = URLDecoder.decode(pattern, "UTF-8");
+            List<Playlist> result = PlaylistDB.findPlaylist(pattern);
+            request.setAttribute("playlistResults", result);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+
+    }
+
+    private static void SearchUser(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, ServletException {
+        try {
+            String patternUnvalid = request.getParameter("songSearch");
+            String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");
+            pattern = URLDecoder.decode(pattern, "UTF-8");
+            List<User> result = UserDB.findUser(pattern);
+            request.setAttribute("userResults", result);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+    }
+
+    private void addSongToPlaylist(long playlistID, Long songID) throws ServletException {
+        try {
+            Playlist playlist = new Playlist();
+            playlist.setPlaylistID(playlistID);
+
+            Set<Music> songs = new HashSet<>();
+            Music song = new Music();
+            song.setMusicID(songID);
+            songs.add(song);
+
+            PlaylistDB.addSongsToPlaylist(playlist, songs);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+
+    }
 }

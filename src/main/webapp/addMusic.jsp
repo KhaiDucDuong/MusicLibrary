@@ -63,11 +63,11 @@
                         <div class="profile_details">		
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
-                                    <form action="search" method="post">
+                                    <form:form action="search" method="post">
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
-                                    </form>
+                                    </form:form>
                                 </div>
                             </div>
                             <!-- search-scripts -->
@@ -121,7 +121,7 @@
                                     <c:when test="${loggeduser == null}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
-                                                <form action="login" method="post" id="loginForm">
+                                                <form:form action="login" method="post" id="loginForm">
                                                     <p>${message}</p>
                                                     <input type="hidden" name="action" value="loginUser">
 
@@ -138,7 +138,7 @@
                                                         <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
                                                     </fieldset>
                                                     <span><a href="#">Forgot your password?</a></span>
-                                                </form>
+                                                </form:form>
                                             </div>
                                         </div>
                                     </c:when>
@@ -146,7 +146,7 @@
                                         <c:if test="${loggeduser.getUserID()!=1}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                             <div id="loginBox" style="margin-top:10px">  
-                                                <form action="login" method="post" id="loginForm">
+                                                <form:form action="login" method="post" id="loginForm">
                                                     <fieldset id="body">
                                                         <fieldset>
                                                             <label>Username = ${loggeduser.getName()}</label>
@@ -159,14 +159,14 @@
                                                     <input type="submit" name ="action" id="setting" value="Setting">
                                                      <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                     </fieldset>   
-                                                </form>
+                                                </form:form>
                                             </div>
                                         </div>
                                         </c:if>
                                         <c:if test="${loggeduser.getUserID() ==1}" >
                                               <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                             <div id="loginBox">  
-                                                <form action="login" method="post" id="loginForm">
+                                                <form:form action="login" method="post" id="loginForm">
                                                     <fieldset id="body">
                                                         <fieldset>
                                                             <label>Username = ${loggeduser.getName()}</label>
@@ -180,7 +180,7 @@
                                                     <input type="submit" name ="action" id="setting" value="Setting">
                                                      <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                     </fieldset>   
-                                                </form>
+                                                </form:form>
 
                                             </div>
                                         </div>
@@ -202,7 +202,7 @@
                 <div id="page-wrapper">
                     <section class="container-fluid" id="user-deatails-MW">
                         <!--user profile-->
-                        <form method="post" action="musicServlet" enctype="multipart/form-data">
+                        <form:form method="post" action="musicServlet" enctype="multipart/form-data">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="name" >Song's name</label>
@@ -257,7 +257,7 @@
 
                                 </div>
                             </div>
-                        </form>
+                        </form:form>
                     </section>
                     <!--End user profile-->  
 

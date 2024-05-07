@@ -19,6 +19,7 @@ import LibraryClass.Music;
 import DBUtil.PlaylistDB;
 import DBUtil.UserDB;
 import LibraryClass.User;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -60,114 +61,116 @@ public class PlaylistServlet extends HttpServlet {
         request.setAttribute("playlist", playlist);
         String action = request.getParameter("action");
         System.out.println(action);
-        if (action.equals("addPlaylist")) {
-            createPlaylist(request, response, ID);
-            String message = "Playlist added";
-            request.setAttribute("message", message);
-            playlist = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("playlist", playlist);
-            if (ID != 1) {
-                request.getSession().setAttribute("loggedUserPlaylists", playlist);
+        if (action != null) {
+            if (action.equals("addPlaylist")) {
+                createPlaylist(request, response, ID);
+                String message = "Playlist added";
+                request.setAttribute("message", message);
+                playlist = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("playlist", playlist);
+                if (ID != 1) {
+                    request.getSession().setAttribute("loggedUserPlaylists", playlist);
+                }
+                url = "/Playlist.jsp";
             }
-            url = "/Playlist.jsp";
-        }
-        if (action.equals("Change cover")) {
-            updateCover(request, response, user);
-            String message = "Cover changed";
-            request.setAttribute("message", message);
-            playlist = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("playlist", playlist);
-            url = "/Playlist.jsp";
-        }
-        if (action.equals("Delete playlist")) {
-            deletePlaylist(request, response);
-            String message = "Playlist deleted";
-            request.setAttribute("message", message);
-            playlist = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("playlist", playlist);
-            url = "/Playlist.jsp";
-        }
-        if (action.equals("Rename playlist")) {
-            updatePlaylist(request, response);
-            String message = "Playlist renamed";
-            request.setAttribute("message", message);
-            playlist = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("playlist", playlist);
-            url = "/Playlist.jsp";
-        }
-        if (action.equals("Delete playlist")) {
-            deletePlaylist(request, response);
-            String message = "Playlist deleted";
-            request.setAttribute("message", message);
-            playlist = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("playlist", playlist);
-            url = "/Playlist.jsp";
-        }
-        if (action.equals("Rename playlist")) {
-            updatePlaylist(request, response);
-            String message = "Playlist renamed";
-            request.setAttribute("message", message);
-            playlist = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("playlist", playlist);
-            url = "/Playlist.jsp";
-        }
-        if (action.equals("Add Song to Playlist")) {
-            Long playlistID = Long.parseLong(request.getParameter("playlistID"));
-            Long songID = Long.parseLong(request.getParameter("songID"));
-            addSongToPlaylist(playlistID, songID);
-            String updateFlag = request.getParameter("updateUserInfo");
-            url = request.getParameter("currentURL");
-            if (updateFlag.equals("Yes")) {
+            if (action.equals("Change cover")) {
+                updateCover(request, response, user);
+                String message = "Cover changed";
+                request.setAttribute("message", message);
+                playlist = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("playlist", playlist);
+                url = "/Playlist.jsp";
+            }
+            if (action.equals("Delete playlist")) {
+                deletePlaylist(request, response);
+                String message = "Playlist deleted";
+                request.setAttribute("message", message);
+                playlist = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("playlist", playlist);
+                url = "/Playlist.jsp";
+            }
+            if (action.equals("Rename playlist")) {
+                updatePlaylist(request, response);
+                String message = "Playlist renamed";
+                request.setAttribute("message", message);
+                playlist = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("playlist", playlist);
+                url = "/Playlist.jsp";
+            }
+            if (action.equals("Delete playlist")) {
+                deletePlaylist(request, response);
+                String message = "Playlist deleted";
+                request.setAttribute("message", message);
+                playlist = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("playlist", playlist);
+                url = "/Playlist.jsp";
+            }
+            if (action.equals("Rename playlist")) {
+                updatePlaylist(request, response);
+                String message = "Playlist renamed";
+                request.setAttribute("message", message);
+                playlist = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("playlist", playlist);
+                url = "/Playlist.jsp";
+            }
+            if (action.equals("Add Song to Playlist")) {
+                Long playlistID = Long.parseLong(request.getParameter("playlistID"));
+                Long songID = Long.parseLong(request.getParameter("songID"));
+                addSongToPlaylist(playlistID, songID);
+                String updateFlag = request.getParameter("updateUserInfo");
+                url = request.getParameter("currentURL");
+                if (updateFlag.equals("Yes")) {
+                    String message = "Added song to playlist!";
+                    request.setAttribute("message", message);
+                    //get user's uploaded songs
+                    List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
+                    request.getSession().setAttribute("userUploadedSongs", userUploadedSongs);
+                    //get user's playlists
+                    List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+                    request.getSession().setAttribute("userPlaylists", userPlaylists);
+                }
+            }
+            if (action.equals("Add Song to Playlist Index")) {
+                Long playlistID = Long.parseLong(request.getParameter("playlistID"));
+                Long songID = Long.parseLong(request.getParameter("songID"));
+                addSongToPlaylist(playlistID, songID);
                 String message = "Added song to playlist!";
                 request.setAttribute("message", message);
-                //get user's uploaded songs
-                List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
-                request.getSession().setAttribute("userUploadedSongs", userUploadedSongs);
+                url = "/index.jsp";
                 //get user's playlists
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-                request.getSession().setAttribute("userPlaylists", userPlaylists);
+                request.setAttribute("userPlaylists", userPlaylists);
             }
-        }
-        if (action.equals("Add Song to Playlist Index")) {
-            Long playlistID = Long.parseLong(request.getParameter("playlistID"));
-            Long songID = Long.parseLong(request.getParameter("songID"));
-            addSongToPlaylist(playlistID, songID);
-            String message = "Added song to playlist!";
-            request.setAttribute("message", message);
-            url = "/index.jsp";
-            //get user's playlists
-            List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("userPlaylists", userPlaylists);
-        }
-        if (action.equals("View playlist")) {
-            List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
-            request.setAttribute("randPlaylist", randPlaylist);
-            Long playlistID = Long.parseLong(request.getParameter("playlistID"));
-            //get the selected playlist
-            Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
-            request.setAttribute("selectedPlaylist", selectedPlaylist);
-            //get the songs in the playlist
-            Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
-            request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
-            //get playlist owner's name
+            if (action.equals("View playlist")) {
+                List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
+                request.setAttribute("randPlaylist", randPlaylist);
+                Long playlistID = Long.parseLong(request.getParameter("playlistID"));
+                //get the selected playlist
+                Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
+                request.setAttribute("selectedPlaylist", selectedPlaylist);
+                //get the songs in the playlist
+                Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
+                request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
+                //get playlist owner's name
 //            User playlistOwner = selectedPlaylist.getUser();
 //            String playlistOwnerName = UserDB.selectUserNameFromID(playlistOwner.getUserID());
 //            request.setAttribute("playlistOwnerName", playlistOwnerName);
-            url = "/playlistDetails.jsp";
-        }
-        if (action.equals("Remove song from playlist")) {
-            Long playlistID = Long.parseLong(request.getParameter("selectedPlaylistID"));
-            Long songID = Long.parseLong(request.getParameter("deletingSongID"));
-            PlaylistDB.removeSongFromPlaylist(playlistID, songID);
+                url = "/playlistDetails.jsp";
+            }
+            if (action.equals("Remove song from playlist")) {
+                Long playlistID = Long.parseLong(request.getParameter("selectedPlaylistID"));
+                Long songID = Long.parseLong(request.getParameter("deletingSongID"));
+                PlaylistDB.removeSongFromPlaylist(playlistID, songID);
 
-            //get data again to refresh the changes
-            Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
-            request.setAttribute("selectedPlaylist", selectedPlaylist);
-            //get the songs in the playlist
-            Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
-            request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
+                //get data again to refresh the changes
+                Playlist selectedPlaylist = PlaylistDB.selectPlaylistByID(playlistID);
+                request.setAttribute("selectedPlaylist", selectedPlaylist);
+                //get the songs in the playlist
+                Set<Music> selectedPlaylistSongs = MusicDB.selectMusicInPlaylist(playlistID);
+                request.setAttribute("selectedPlaylistSongs", selectedPlaylistSongs);
 
-            url = "/playlistDetails.jsp";
+                url = "/playlistDetails.jsp";
+            }
         }
         getServletContext()
                 .getRequestDispatcher(url)
@@ -241,7 +244,18 @@ public class PlaylistServlet extends HttpServlet {
     }
 
     private void showAllPlaylist(HttpServletRequest request, HttpServletResponse response) {
-        List playlist = PlaylistDB.selectAllPlaylist();
-        request.setAttribute("allPlaylists", playlist);
+        try{List playlist = PlaylistDB.selectAllPlaylist();
+        //Buffer overflow
+        if(playlist != null){
+        request.setAttribute("allPlaylists", playlist);}
+        else {
+        // Nếu danh sách là null, tạo một danh sách rỗng
+            List emptyList = Collections.emptyList();
+            // Gán danh sách rỗng vào thuộc tính của request
+            request.setAttribute("allPlaylists", emptyList);
+        }}catch (Exception ex) {
+        // Xử lý ngoại lệ một cách cẩn thận, ví dụ: ghi log lỗi
+        ex.printStackTrace();
+    }
     }
 }

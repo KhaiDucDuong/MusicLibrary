@@ -60,32 +60,34 @@ public class adminServlet extends HttpServlet {
             List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
             request.setAttribute("userPlaylists", userPlaylists);
         }
-        if (action.equals("showAllMusic")) {
-            url = "/allMusic.jsp";
-            List<Music> music = MusicDB.selectAllMusic();
-            request.setAttribute("allMusic", music);
-        }
-        if (action.equals("showAllPlaylist")) {
-            List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
-            request.setAttribute("allPlaylists", playlist);
-            url = "/allPlaylist.jsp";
-        }
-        if (action.equals("showAllArtist")) {
-            List<User> allUsers = UserDB.selectAllUserExceptAdmin();
-            request.setAttribute("allArtists", allUsers);
-            url = "/allArtist.jsp";
-        }
-        if (action.equals("deleteSongAdmin")) {
-            deleteSongAdmin(request, response);
-            url = "/allMusic.jsp";
-            List<Music> music = MusicDB.selectAllMusic();
-            request.setAttribute("allMusic", music);
-        }
-        if (action.equals("deletePlaylistAdmin")) {
-            deletePlaylistAdmin(request, response);
-            url = "/allPlaylist.jsp";
-            List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
-            request.setAttribute("allPlaylists", playlist);
+        if (action != null) {
+            if (action.equals("showAllMusic")) {
+                url = "/allMusic.jsp";
+                List<Music> music = MusicDB.selectAllMusic();
+                request.setAttribute("allMusic", music);
+            }
+            if (action.equals("showAllPlaylist")) {
+                List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
+                request.setAttribute("allPlaylists", playlist);
+                url = "/allPlaylist.jsp";
+            }
+            if (action.equals("showAllArtist")) {
+                List<User> allUsers = UserDB.selectAllUserExceptAdmin();
+                request.setAttribute("allArtists", allUsers);
+                url = "/allArtist.jsp";
+            }
+            if (action.equals("deleteSongAdmin")) {
+                deleteSongAdmin(request, response);
+                url = "/allMusic.jsp";
+                List<Music> music = MusicDB.selectAllMusic();
+                request.setAttribute("allMusic", music);
+            }
+            if (action.equals("deletePlaylistAdmin")) {
+                deletePlaylistAdmin(request, response);
+                url = "/allPlaylist.jsp";
+                List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
+                request.setAttribute("allPlaylists", playlist);
+            }
         }
         getServletContext()
                 .getRequestDispatcher(url)
@@ -103,21 +105,23 @@ public class adminServlet extends HttpServlet {
         String action = request.getParameter("action");
         List<Music> music = MusicDB.select12Songs();
         request.setAttribute("recentSong", music);
-        if (action.equals("deleteUser")) {
-            deleteUser(request, response);
-        }
-        if (action.equals("configUser")) {
-            if (configUser(request, response)) {
-                message = "Update account successfully";
-            } else {
-                message = "Failed to update";
+        if (action != null) {
+            if (action.equals("deleteUser")) {
+                deleteUser(request, response);
             }
-        }
-        if (action.equals("addSongforUser")) {
-            message = addMusicforAdmin(request, response);
-        }
-        if (action.equals("deleteSongAdmin")) {
-            deleteSongAdmin(request, response);
+            if (action.equals("configUser")) {
+                if (configUser(request, response)) {
+                    message = "Update account successfully";
+                } else {
+                    message = "Failed to update";
+                }
+            }
+            if (action.equals("addSongforUser")) {
+                message = addMusicforAdmin(request, response);
+            }
+            if (action.equals("deleteSongAdmin")) {
+                deleteSongAdmin(request, response);
+            }
         }
         List<User> allUser = UserDB.selectAllUser();
         request.setAttribute("allUser", allUser);
@@ -146,11 +150,13 @@ public class adminServlet extends HttpServlet {
         try {
             Part userfile = request.getPart("userprofileforAdmin");
             String type = userfile.getContentType();
-            if (type.equals("image/jpeg") || type.equals("image/png")) {
-                String rename = "user" + ID + ".jpg";
-                imgPath = "images/users_img/" + rename;
-                String absolutePath = request.getServletContext().getRealPath(imgPath);
-                userfile.write(absolutePath);
+            if (type != null) {
+                if (type.equals("image/jpeg") || type.equals("image/png")) {
+                    String rename = "user" + ID + ".jpg";
+                    imgPath = "images/users_img/" + rename;
+                    String absolutePath = request.getServletContext().getRealPath(imgPath);
+                    userfile.write(absolutePath);
+                }
             }
         } catch (IOException | ServletException ex) {
             return false;
