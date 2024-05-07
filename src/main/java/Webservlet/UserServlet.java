@@ -47,19 +47,42 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
         request.setCharacterEncoding("UTF-8");
-        String url = "/blog.html";
+        String url = "/index.jsp";
         String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("registerUser")) {
-                String email = request.getParameter("Email");
-                boolean check = UserDB.checkUser(email);
-                if (check == false) {
-                    registerUser(request, response);
-                    request.setAttribute("messagelogin", "Account created successfully");
-                } else {
-                    request.setAttribute("messagelogin", "Email is already registered");
-                }
+        if (action.equals("registerUser")) {
+            String CheckEmail = request.getParameter("Email");
+            String CheckPass = request.getParameter("Password");
+            boolean EmailInvalid = CheckEmail.matches(".*[;'\"\\s].*");
+            boolean PassInvalid = CheckPass.matches(".*[;'\"\\s].*");
+            if (EmailInvalid || PassInvalid){
+                     request.setAttribute("messagelogin", "Invalid Email or Password");
+                     url = "/index.jsp";
+                    }
+                else {
+            boolean check = UserDB.checkUser(CheckEmail);
+            if (check == false) {
+                registerUser(request, response);
+                request.setAttribute("messagelogin", "Account created successfully");
+            } else {
+                request.setAttribute("messagelogin", "Email is already registered");
+            }
+            url = "/index.jsp";}
+        } else if (action.equals("loginUser")) {
+            String CheckLoginEmail = request.getParameter("loginEmail");
+            String CheckLoginPass = request.getParameter("loginPass");
+            boolean EmailInvalid = CheckLoginEmail.matches(".*[;'\"\\s].*");
+            boolean PassInvalid = CheckLoginPass.matches(".*[;'\"\\s].*");
+            if (EmailInvalid || PassInvalid){
+                     request.setAttribute("messagelogin", "Invalid Email or Password");
+                     url = "/index.jsp";
+                    }
+            else {
+            List<User> u = loginUser(request, response);
+            if (u == null) {
+                request.setAttribute("messagelogin", "Wrong email or password, please try again");
                 url = "/index.jsp";
             } else if (action.equals("loginUser")) {
                 List<User> u = loginUser(request, response);
@@ -77,16 +100,29 @@ public class UserServlet extends HttpServlet {
                     List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
                     request.getSession().setAttribute("loggedUserPlaylists", userPlaylists);
                     url = "/index.jsp";
-                }
-            } else if (action.equals("Log out")) {
-                request.getSession().invalidate();
-                request.removeAttribute("loggeduser");
-                request.removeAttribute("loggedUserPlaylists");
-                request.setAttribute("messagelogin", "Account logged out");
-                url = "/index.jsp";
-            } else if (action.equals("My profile")) {
-                //get user's uploaded songs
-                User user = (User) request.getSession().getAttribute("loggeduser");
+                }}
+          else if (action.equals("Log out")) {
+            request.getSession().invalidate();
+            request.removeAttribute("loggeduser");
+            request.removeAttribute("loggedUserPlaylists");
+            request.setAttribute("messagelogin", "Account logged out");
+            url = "/index.jsp";
+        } else if (action.equals("My profile")) {
+            //get user's uploaded songs
+            User user = (User) request.getSession().getAttribute("loggeduser");
+            request.getSession().setAttribute("artist", user);
+            List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
+            request.setAttribute("userUploadedSongs", userUploadedSongs);
+            //get user's playlists
+            List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+            request.setAttribute("userPlaylists", userPlaylists);
+            url = "/profile.jsp";
+        } else if (action.equals("toArtistProfile")) {
+            Long userID = Long.parseLong(request.getParameter("toArtistID"));
+            request.setAttribute("artistID", userID);
+            //check if the ID is not 1 (not admin account)
+            if (userID != 1) {
+                User user = UserDB.selectUserFromID(userID);
                 request.getSession().setAttribute("artist", user);
                 List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
                 request.setAttribute("userUploadedSongs", userUploadedSongs);

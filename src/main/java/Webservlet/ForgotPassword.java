@@ -21,8 +21,27 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/forgotPassword")
 public class ForgotPassword extends HttpServlet {
+
     private static final int MAX_OTP_VALUE = 999999; // Giới hạn giá trị OTP
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+                response.setHeader("X-Frame-Options", "SAMEORIGIN");
+		String email = request.getParameter("email");
+                boolean EmailInvalid = email.matches(".*[;'\"].*");
+		RequestDispatcher dispatcher = null;
+                if (EmailInvalid){
+                    dispatcher = request.getRequestDispatcher("index.jsp");
+                    request.setAttribute("messagelogin", "Invalid Email or Password");
+                    dispatcher.forward(request, response);
+                }
+                else {
+		int otpvalue = 0;
+		HttpSession mySession = request.getSession();
+		
+		if(email!=null || !email.equals("")) {
+			// sending otp
+			Random rand = new Random();
+			otpvalue = rand.nextInt(1255650);
 
         String email = request.getParameter("email");
         RequestDispatcher dispatcher = null;
@@ -85,6 +104,5 @@ public class ForgotPassword extends HttpServlet {
         Random rand = new Random();
         return rand.nextInt(MAX_OTP_VALUE);
     }
-    
 
 }
