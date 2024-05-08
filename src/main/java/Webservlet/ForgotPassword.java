@@ -30,6 +30,7 @@ public class ForgotPassword extends HttpServlet {
         String email = request.getParameter("email");
         boolean EmailInvalid = email.matches(".*[;'\"].*");
         RequestDispatcher dispatcher = null;
+        try{
         if (EmailInvalid || !isValidEmail(email)) {
             dispatcher = request.getRequestDispatcher("index.jsp");
             request.setAttribute("messagelogin", "Invalid Email or Password");
@@ -75,7 +76,7 @@ public class ForgotPassword extends HttpServlet {
             dispatcher.forward(request, response);
             //request.setAttribute("status", "success");
 
-        }
+        }}catch (Exception ex) {ex.printStackTrace();}
     }
 
     private boolean isValidEmail(String email) {

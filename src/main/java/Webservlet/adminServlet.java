@@ -56,38 +56,42 @@ public class adminServlet extends HttpServlet {
         String action = request.getParameter("action");
         String url = "/Admin.jsp";
         User user = (User) request.getSession().getAttribute("loggeduser");
-        if (user != null) {
-            List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
-            request.setAttribute("userPlaylists", userPlaylists);
-        }
-        if (action != null) {
-            if (action.equals("showAllMusic")) {
-                url = "/allMusic.jsp";
-                List<Music> music = MusicDB.selectAllMusic();
-                request.setAttribute("allMusic", music);
+        try {
+            if (user != null) {
+                List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
+                request.setAttribute("userPlaylists", userPlaylists);
             }
-            if (action.equals("showAllPlaylist")) {
-                List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
-                request.setAttribute("allPlaylists", playlist);
-                url = "/allPlaylist.jsp";
+            if (action != null) {
+                if (action.equals("showAllMusic")) {
+                    url = "/allMusic.jsp";
+                    List<Music> music = MusicDB.selectAllMusic();
+                    request.setAttribute("allMusic", music);
+                }
+                if (action.equals("showAllPlaylist")) {
+                    List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
+                    request.setAttribute("allPlaylists", playlist);
+                    url = "/allPlaylist.jsp";
+                }
+                if (action.equals("showAllArtist")) {
+                    List<User> allUsers = UserDB.selectAllUserExceptAdmin();
+                    request.setAttribute("allArtists", allUsers);
+                    url = "/allArtist.jsp";
+                }
+                if (action.equals("deleteSongAdmin")) {
+                    deleteSongAdmin(request, response);
+                    url = "/allMusic.jsp";
+                    List<Music> music = MusicDB.selectAllMusic();
+                    request.setAttribute("allMusic", music);
+                }
+                if (action.equals("deletePlaylistAdmin")) {
+                    deletePlaylistAdmin(request, response);
+                    url = "/allPlaylist.jsp";
+                    List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
+                    request.setAttribute("allPlaylists", playlist);
+                }
             }
-            if (action.equals("showAllArtist")) {
-                List<User> allUsers = UserDB.selectAllUserExceptAdmin();
-                request.setAttribute("allArtists", allUsers);
-                url = "/allArtist.jsp";
-            }
-            if (action.equals("deleteSongAdmin")) {
-                deleteSongAdmin(request, response);
-                url = "/allMusic.jsp";
-                List<Music> music = MusicDB.selectAllMusic();
-                request.setAttribute("allMusic", music);
-            }
-            if (action.equals("deletePlaylistAdmin")) {
-                deletePlaylistAdmin(request, response);
-                url = "/allPlaylist.jsp";
-                List<Playlist> playlist = PlaylistDB.selectAllPlaylist();
-                request.setAttribute("allPlaylists", playlist);
-            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
         getServletContext()
                 .getRequestDispatcher(url)
@@ -105,28 +109,31 @@ public class adminServlet extends HttpServlet {
         String action = request.getParameter("action");
         List<Music> music = MusicDB.select12Songs();
         request.setAttribute("recentSong", music);
-        if (action != null) {
-            if (action.equals("deleteUser")) {
-                deleteUser(request, response);
-            }
-            if (action.equals("configUser")) {
-                if (configUser(request, response)) {
-                    message = "Update account successfully";
-                } else {
-                    message = "Failed to update";
+        try {
+            if (action != null) {
+                if (action.equals("deleteUser")) {
+                    deleteUser(request, response);
+                }
+                if (action.equals("configUser")) {
+                    if (configUser(request, response)) {
+                        message = "Update account successfully";
+                    } else {
+                        message = "Failed to update";
+                    }
+                }
+                if (action.equals("addSongforUser")) {
+                    message = addMusicforAdmin(request, response);
+                }
+                if (action.equals("deleteSongAdmin")) {
+                    deleteSongAdmin(request, response);
                 }
             }
-            if (action.equals("addSongforUser")) {
-                message = addMusicforAdmin(request, response);
-            }
-            if (action.equals("deleteSongAdmin")) {
-                deleteSongAdmin(request, response);
-            }
+            List<User> allUser = UserDB.selectAllUser();
+            request.setAttribute("allUser", allUser);
+            request.setAttribute("message", message);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-        List<User> allUser = UserDB.selectAllUser();
-        request.setAttribute("allUser", allUser);
-        request.setAttribute("message", message);
-
 
         getServletContext()
                 .getRequestDispatcher(url)
@@ -134,127 +141,149 @@ public class adminServlet extends HttpServlet {
     }
 
     private void deleteUser(HttpServletRequest request, HttpServletResponse response) {
-        String ID = request.getParameter("userID");
-        User u = new User();
-        long userID = Long.parseLong(ID);
-        u.setUserID(userID);
-        UserDB.deleteUser(u);
+        try {
+            String ID = request.getParameter("userID");
+            User u = new User();
+            long userID = Long.parseLong(ID);
+            u.setUserID(userID);
+            UserDB.deleteUser(u);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private boolean configUser(HttpServletRequest request, HttpServletResponse response) {
-        String ID = request.getParameter("userID");
-        String name = request.getParameter("userName");
-        String pass = request.getParameter("userPass");
-        long userID = Long.parseLong(ID);
-        User user = UserDB.selectUserforAdmin(userID);
-        String imgPath = user.getImage();
         try {
-            Part userfile = request.getPart("userprofileforAdmin");
-            String type = userfile.getContentType();
-            if (type != null) {
-                if (type.equals("image/jpeg") || type.equals("image/png")) {
-                    String rename = "user" + ID + ".jpg";
-                    imgPath = "images/users_img/" + rename;
-                    String absolutePath = request.getServletContext().getRealPath(imgPath);
-                    userfile.write(absolutePath);
+            String ID = request.getParameter("userID");
+            String name = request.getParameter("userName");
+            String pass = request.getParameter("userPass");
+            long userID = Long.parseLong(ID);
+            User user = UserDB.selectUserforAdmin(userID);
+            String imgPath = user.getImage();
+            try {
+                Part userfile = request.getPart("userprofileforAdmin");
+                String type = userfile.getContentType();
+                if (type != null) {
+                    if (type.equals("image/jpeg") || type.equals("image/png")) {
+                        String rename = "user" + ID + ".jpg";
+                        imgPath = "images/users_img/" + rename;
+                        String absolutePath = request.getServletContext().getRealPath(imgPath);
+                        userfile.write(absolutePath);
+                    }
                 }
+            } catch (IOException | ServletException ex) {
+                return false;
             }
-        } catch (IOException | ServletException ex) {
+            User u = new User();
+            u.setUserID(userID);
+            u.setName(name);
+            u.setPass(pass);
+            u.setImage(imgPath);
+            boolean i = UserDB.updateUserbyAdmin(u);
+            return i;
+        } catch (Exception ex) {
+            ex.printStackTrace();
             return false;
         }
-        User u = new User();
-        u.setUserID(userID);
-        u.setName(name);
-        u.setPass(pass);
-        u.setImage(imgPath);
-        boolean i = UserDB.updateUserbyAdmin(u);
-        return i;
     }
 
     private String addMusicforAdmin(HttpServletRequest request, HttpServletResponse response) {
-        String name = request.getParameter("musicName");
-        String ID = request.getParameter("userIDforSong");
-        long userID = Long.parseLong(ID);
-        User author = UserDB.selectUserforAdmin(userID);
-        if (name.isEmpty()) {
-            return "Song name can't be empty!";
-        }
+        try {
+            String name = request.getParameter("musicName");
+            String ID = request.getParameter("userIDforSong");
+            long userID = Long.parseLong(ID);
+            User author = UserDB.selectUserforAdmin(userID);
+            if (name.isEmpty()) {
+                return "Song name can't be empty!";
+            }
 
-        String category = request.getParameter("musicCategory");
-        int liked = 0;
-        int listen = 0;
-        long millis = System.currentTimeMillis();
-        java.sql.Date date = new java.sql.Date(millis);
+            String category = request.getParameter("musicCategory");
+            int liked = 0;
+            int listen = 0;
+            long millis = System.currentTimeMillis();
+            java.sql.Date date = new java.sql.Date(millis);
 
-        String imgPath = "images/songs_img/default-song.png";
+            String imgPath = "images/songs_img/default-song.png";
 
-        Music music = new Music(name, author, category, liked, listen, imgPath, date);
-        if (MusicDB.insertMusic(music)) {
-            //get song file
-            //if song file is not in the correct format, return error message
-            //and delete the inserted music in database
-            try {
-                Part songFile = request.getPart("musicFile");
-                String type = songFile.getContentType();
-                //mpeg is mp3
-                if (type != null) {
-                    String rename;
-                    if (type.equals("audio/mpeg")) {
-                        rename = "song" + music.getMusicID() + ".mp3";
-                    } else if (type.equals("audio/wav")) {
-                        rename = "song" + music.getMusicID() + ".wav";
+            Music music = new Music(name, author, category, liked, listen, imgPath, date);
+            if (MusicDB.insertMusic(music)) {
+                //get song file
+                //if song file is not in the correct format, return error message
+                //and delete the inserted music in database
+                try {
+                    Part songFile = request.getPart("musicFile");
+                    String type = songFile.getContentType();
+                    //mpeg is mp3
+                    if (type != null) {
+                        String rename;
+                        if (type.equals("audio/mpeg")) {
+                            rename = "song" + music.getMusicID() + ".mp3";
+                        } else if (type.equals("audio/wav")) {
+                            rename = "song" + music.getMusicID() + ".wav";
+                        } else {
+                            MusicDB.deleteMusic(music.getMusicID());
+                            return "Song File is not in the correct format!";
+                        }
+
+                        String songPath = "songs/" + rename;
+                        String absolutePath = request.getServletContext().getRealPath(songPath);
+                        songFile.write(absolutePath);
                     } else {
                         MusicDB.deleteMusic(music.getMusicID());
-                        return "Song File is not in the correct format!";
+                        return "Song file is empty!";
                     }
-
-                    String songPath = "songs/" + rename;
-                    String absolutePath = request.getServletContext().getRealPath(songPath);
-                    songFile.write(absolutePath);
-                } else {
+                } catch (IOException | ServletException ex) {
                     MusicDB.deleteMusic(music.getMusicID());
-                    return "Song file is empty!";
+                    return "Failed to read Song File! Error: " + ex.toString();
                 }
-            } catch (IOException | ServletException ex) {
-                MusicDB.deleteMusic(music.getMusicID());
-                return "Failed to read Song File! Error: " + ex.toString();
+
+                //get image file
+                try {
+
+                    Part imageFile = request.getPart("imageFile");
+                    String type = imageFile.getContentType();
+                    if (type != null && (type.equals("image/jpeg") || type.equals("image/png"))) {
+                        String rename = "song" + music.getMusicID() + ".jpg";
+                        imgPath = "images/songs_img/" + rename;
+                        String absolutePath = request.getServletContext().getRealPath(imgPath);
+                        imageFile.write(absolutePath);
+                    } else {
+                        return "Song Uploaded but Image must be a JPG or PNG";
+                    }
+                } catch (IOException | ServletException ex) {
+                    return "Song Uploaded but Failed to upload Song Image! Error: " + ex.toString();
+                }
+
+                music.setImage(imgPath);
+                MusicDB.updateMusic(music);
+                return "Upload song to " + author.getName() + " successfully";
             }
 
-            //get image file
-            try {
-
-                Part imageFile = request.getPart("imageFile");
-                String type = imageFile.getContentType();
-                if (type != null && (type.equals("image/jpeg") || type.equals("image/png"))) {
-                    String rename = "song" + music.getMusicID() + ".jpg";
-                    imgPath = "images/songs_img/" + rename;
-                    String absolutePath = request.getServletContext().getRealPath(imgPath);
-                    imageFile.write(absolutePath);
-                } else {
-                    return "Song Uploaded but Image must be a JPG or PNG";
-                }
-            } catch (IOException | ServletException ex) {
-                return "Song Uploaded but Failed to upload Song Image! Error: " + ex.toString();
-            }
-
-            music.setImage(imgPath);
-            MusicDB.updateMusic(music);
-            return "Upload song to " + author.getName() + " successfully";
+            return "Failed to upload song to " + author.getName();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "Failed to upload song to ";
         }
-
-        return "Failed to upload song to " + author.getName();
 
     }
 
     private static void deleteSongAdmin(HttpServletRequest request, HttpServletResponse response) {
-        String songId = request.getParameter("deletingSongID");
-        long ID = Long.parseLong(songId);
-        MusicDB.setMusicExistenceFalse(ID);
+        try {
+            String songId = request.getParameter("deletingSongID");
+            long ID = Long.parseLong(songId);
+            MusicDB.setMusicExistenceFalse(ID);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static void deletePlaylistAdmin(HttpServletRequest request, HttpServletResponse response) {
-        String playlistID = request.getParameter("playlistID");
-        long ID = Long.parseLong(playlistID);
-        PlaylistDB.deletePlaylist(ID);
+        try {
+            String playlistID = request.getParameter("playlistID");
+            long ID = Long.parseLong(playlistID);
+            PlaylistDB.deletePlaylist(ID);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
