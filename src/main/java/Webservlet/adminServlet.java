@@ -127,6 +127,7 @@ public class adminServlet extends HttpServlet {
         request.setAttribute("allUser", allUser);
         request.setAttribute("message", message);
 
+
         getServletContext()
                 .getRequestDispatcher(url)
                 .forward(request, response);

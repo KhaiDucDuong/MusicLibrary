@@ -81,13 +81,13 @@
                             <div class="sign-grids">
                                 <div class="sign">
                                     <div class="sign-right" style="width:85%">
-                                        <form:form action="playlist" method="post">
+                                        <form action="playlist" method="post">
                                             <input type="hidden" name="action" value="addPlaylist">
                                             <h3>Create a new playlist </h3>
                                             <label>Playlist's name:</label>
                                             <input type="text" name="playlistName">
                                             <input onclick="reloadPage()" type="submit" value="Create playlist" >
-                                        </form:form>
+                                        </form>
                                     </div>
                                     <div class="clearfix"></div>								
                                 </div>
@@ -111,11 +111,11 @@
                         <div class="profile_details">		
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
-                                    <form:form action="search" method="post">
+                                    <form action="search" method="post">
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
-                                    </form:form>
+                                    </form>
                                 </div>
                             </div>
                             <!-- search-scripts -->
@@ -168,7 +168,7 @@
                                 <c:if test="${loggeduser.getUserID()!=1}">
                                     <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                         <div id="loginBox" style="margin-top:10px">  
-                                            <form:form action="login" method="post" id="loginForm">
+                                            <form action="login" method="post" id="loginForm">
                                                 <fieldset id="body">
                                                     <fieldset>
                                                         <label>Username = ${loggeduser.getName()}</label>
@@ -181,14 +181,14 @@
                                                     <input type="submit" name ="action" id="setting" value="Setting">
                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                 </fieldset>   
-                                            </form:form>
+                                            </form>
                                         </div>
                                     </div>
                                 </c:if>
                                 <c:if test="${loggeduser.getUserID() ==1}" >
                                     <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                         <div id="loginBox">  
-                                            <form:form action="login" method="post" id="loginForm">
+                                            <form action="login" method="post" id="loginForm">
                                                 <fieldset id="body">
                                                     <fieldset>
                                                         <label>Username = ${loggeduser.getName()}</label>
@@ -202,7 +202,7 @@
                                                     <input type="submit" name ="action" id="setting" value="Setting">
                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                 </fieldset>   
-                                            </form:form>
+                                            </form>
 
                                         </div>
                                     </div>
@@ -272,7 +272,7 @@
                                                 <div class="sign-grids">
                                                     <div class="sign">
                                                         <div class="sign-right" style="width:85%">
-                                                            <form:form action="playlist" method="post" enctype="multipart/form-data">
+                                                            <form action="playlist" method="post" enctype="multipart/form-data">
                                                                 <input id="PlaylistID" type="hidden" name="playlistID">
                                                                 <h3>Playlist Setting</h3>
                                                                 <input type="file" name="cover">
@@ -281,7 +281,7 @@
                                                                 <input  type="submit" name="action" value="Rename playlist" >
                                                                 <input  type="submit" name="action" value="Change cover" >
                                                                 <input type="submit" name="action" value="Delete playlist">
-                                                            </form:form>
+                                                            </form>
                                                         </div>
                                                         <div class="clearfix"></div>								
                                                     </div>

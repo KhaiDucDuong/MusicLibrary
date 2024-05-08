@@ -41,7 +41,7 @@
 	
 							<div class="panel-body">
 
-								<form:form id="register-form" action="ValidateOtp" role="form" autocomplete="off"
+								<form id="register-form" action="ValidateOtp" role="form" autocomplete="off"
 									class="form" method="post">
 
 									<div class="form-group">
@@ -60,7 +60,7 @@
 
 									<input type="hidden" class="hide" name="token" id="token"
 										value="">
-								</form:form>
+								</form>
 
 							</div>
 						</div>
