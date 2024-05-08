@@ -62,7 +62,7 @@
                             <div class="sign-grids">
                                 <div class="sign">
                                     <div class="sign-right">
-                                        <form:form action="login" method="post" onsubmit="return validateForm()">
+                                        <form action="login" method="post" onsubmit="return validateForm()">
                                             <h3>Create your account </h3>
                                             <input type="hidden" name="action" value="registerUser">
                                             <label>Name</label><br>
@@ -75,7 +75,7 @@
                                             <input type="password" name="Password" required>	
 
                                             <input type="submit" value="CREATE ACCOUNT" >
-                                        </form:form>
+                                        </form>
                                     </div>
                                     <div class="clearfix"></div>								
                                 </div>
@@ -97,11 +97,11 @@
                         <div class="profile_details">		
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
-                                    <form:form action="search" method="post">
+                                    <form action="search" method="post">
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
-                                    </form:form>
+                                    </form>
                                 </div>
                             </div>
                             <!-- search-scripts -->
@@ -155,7 +155,7 @@
                                     <c:when test="${loggeduser == null}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
-                                                <form:form action="login" method="post" id="loginForm">
+                                                <form action="login" method="post" id="loginForm">
                                                     <p>${message}</p>
                                                     <input type="hidden" name="action" value="loginUser">
 
@@ -172,7 +172,7 @@
                                                         <label for="checkbox"><input type="checkbox" id="checkbox"> <i>Remember me</i></label>
                                                     </fieldset>
                                                     <span><a href="#">Forgot your password?</a></span>
-                                                </form:form>
+                                                </form>
                                             </div>
                                         </div>
                                     </c:when>
@@ -180,7 +180,7 @@
                                         <c:if test="${loggeduser.getUserID()!=1}">
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox" style="margin-top:10px">  
-                                                    <form:form action="login" method="post" id="loginForm">
+                                                    <form action="login" method="post" id="loginForm">
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -193,14 +193,14 @@
                                                             <input type="submit" name ="action" id="setting" value="Setting">
                                                             <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                         </fieldset>   
-                                                    </form:form>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </c:if>
                                         <c:if test="${loggeduser.getUserID() ==1}" >
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox">  
-                                                    <form:form action="login" method="post" id="loginForm">
+                                                    <form action="login" method="post" id="loginForm">
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -214,7 +214,7 @@
                                                             <input type="submit" name ="action" id="setting" value="Setting">
                                                             <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                         </fieldset>   
-                                                    </form:form>
+                                                    </form>
 
                                                 </div>
                                             </div>
@@ -260,10 +260,10 @@
 
                                     <td id="info-row" class="col-xs-4" colspan="1">
                                         <c:if test="${loggeduser.getUserID() == artist.getUserID()}">
-                                            <form:form method="post" action="login">
+                                            <form method="post" action="login">
                                                 <button type="submit" name="action" value="start_create_newMusic" class="btn btn-light">Upload new song</button>
                                                 <p>${message}</p>  
-                                            </form:form>
+                                            </form>
                                         </c:if>
                                     </td>
                                 </tr>
@@ -435,7 +435,7 @@
                                     </button>
                                     <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
                                 </div>
-                                <form:form method="post" action="playlist">
+                                <form method="post" action="playlist">
                                     <div class="modal-body">
                                         <c:choose>
                                             <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
@@ -484,7 +484,7 @@
 
 
                                     </div>
-                                </form:form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -498,7 +498,7 @@
                          aria-hidden="true">
                         <div class = "modal-dialog" role = "document">
                             <div class = "modal-content">
-                                <form:form method="post" action="musicServlet">
+                                <form method="post" action="musicServlet">
                                     <div class = "modal-header">
                                         <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
                                             <span aria-hidden = "true"> × </span>
@@ -512,7 +512,7 @@
                                         <button type = "button" class = "btn btn-secondary" data-dismiss = "modal"> Cancel </button>
                                         <button type = "submit" name="action" value="Delete song" class = "btn btn-primary"> Confirm </button>
                                     </div>
-                                </form:form>
+                                </form>
 
                             </div>
                         </div>
@@ -530,7 +530,7 @@
                                 <h2>Playlists</h2>
                                 <c:if test="${empty loggeduser}">
                                     <c:forEach items="${userPlaylists}" var="userPlaylist">
-                                        <form:form method="post" action="search">
+                                        <form method="post" action="search">
                                             <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
                                             <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
                                                 <div class="thumbnail">
@@ -549,12 +549,12 @@
 
                                                 </div>
                                             </div>
-                                        </form:form>
+                                        </form>
                                     </c:forEach>
                                 </c:if>
                                 <c:if test="${not empty loggeduser}">
                                     <c:forEach items="${userPlaylists}" var="userPlaylist">
-                                        <form:form method="post" action="playlist">
+                                        <form method="post" action="playlist">
                                             <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
                                             <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
                                                 <div class="thumbnail">
@@ -573,7 +573,7 @@
 
                                                 </div>
                                             </div>
-                                        </form:form>
+                                        </form>
                                     </c:forEach>
                                 </c:if>
                             </div>                          
@@ -583,17 +583,6 @@
                     <div class="clearfix"></div>
                     <!--body wrapper end-->		
                 </div>
-
-
-
-
-
-
-
-
-
-
-
             </div>
         </main>
 

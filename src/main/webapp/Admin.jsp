@@ -82,7 +82,7 @@
                             <div class="sign-grids">
                                 <div class="sign">
                                     <div class="sign-right">
-                                        <form:form action="admin" method="post" enctype="multipart/form-data">
+                                        <form action="admin" method="post" enctype="multipart/form-data">
                                             <h3>Account Configured: </h3>
                                             <input type="hidden" name="action" value="configUser" >
                                             <input id="userID" type="hidden" name="userID" >
@@ -90,7 +90,7 @@
                                             <label>Password: </label><input id="userPassword" type="password" name="userPass" required>	
                                             <input class="form-control-file" id="profilePhoto" type="file" name="userprofileforAdmin" accept="image/png, image/jpeg"/>
                                             <input type="submit" value="Accept" >
-                                        </form:form>
+                                        </form>
                                     </div>
                                     <div class="clearfix"></div>								
                                 </div>
@@ -109,7 +109,7 @@
                         <div class="modal-body modal-spa">
                             <div class="sign-grids">
                                 <div class="sign">
-                                    <form:form method="post" action="admin" enctype="multipart/form-data">
+                                    <form method="post" action="admin" enctype="multipart/form-data">
                                         <div class="form-row">
                                             <input type="hidden" name="userIDforSong"
                                                    id="userIDforSong">
@@ -167,8 +167,8 @@
 
                                             </div>
                                         </div>
-                                        </form>
-                                        <div class="clearfix"></div>								
+                                    </form>
+                                    <div class="clearfix"></div>								
                                 </div>
                             </div>
                         </div>
@@ -189,18 +189,18 @@
                         <div class="profile_details">		
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
-                                    <form:form action="search" method="post">
+                                    <form action="search" method="post">
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
-                                    </form:form>
+                                    </form>
                                 </div>
                             </div>
                             <!-- search-scripts -->
                             <script src="js/classie.js"></script>
                             <script src="js/uisearch.js"></script>
                             <script>
-new UISearch(document.getElementById('sb-search'));
+        new UISearch(document.getElementById('sb-search'));
                             </script>
                             <!-- //search-scripts -->
                             <!---->
@@ -246,7 +246,7 @@ new UISearch(document.getElementById('sb-search'));
                                 <c:if test="${loggeduser.getUserID()!=1}">
                                     <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                         <div id="loginBox" style="margin-top:10px">  
-                                            <form:form action="login" method="post" id="loginForm">
+                                            <form action="login" method="post" id="loginForm">
                                                 <fieldset id="body">
                                                     <fieldset>
                                                         <label>Username = ${loggeduser.getName()}</label>
@@ -259,14 +259,14 @@ new UISearch(document.getElementById('sb-search'));
                                                     <input type="submit" name ="action" id="setting" value="Setting">
                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                 </fieldset>   
-                                            </form:form>
+                                            </form>
                                         </div>
                                     </div>
                                 </c:if>
                                 <c:if test="${loggeduser.getUserID() ==1}" >
                                     <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                         <div id="loginBox">  
-                                            <form:form action="login" method="post" id="loginForm">
+                                            <form action="login" method="post" id="loginForm">
                                                 <fieldset id="body">
                                                     <fieldset>
                                                         <label>Username = ${loggeduser.getName()}</label>
@@ -280,7 +280,7 @@ new UISearch(document.getElementById('sb-search'));
                                                     <input type="submit" name ="action" id="setting" value="Setting">
                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
                                                 </fieldset>   
-                                            </form:form>
+                                            </form>
 
                                         </div>
                                     </div>
@@ -308,10 +308,10 @@ new UISearch(document.getElementById('sb-search'));
                         <div class="music-left">
                             <div class="widget-side">
                                 <h4 class="widget-title">All accounts</h4>
-                                <form:form action="admin"> 
+                                <form action="admin"> 
                                     <button class="btn" type="submit" name="action" value="showAllMusic">All Music</button>
                                     <button class="btn" type="submit" name="action" value="showAllPlaylist">All Playlist</button>
-                                </form:form>
+                                </form>
                                 <p>${message}</p>
                                 <ul>
                                     <% for (int i = 1; i < allUser.size(); i++) {
@@ -322,7 +322,7 @@ new UISearch(document.getElementById('sb-search'));
                                             <a href="single.html"><img src="<%=u.getImage()%>" class="img-responsive" alt="" /></a>
                                         </div>
                                         <div class="song-text">
-                                            <form:form action="admin" method="post">   
+                                            <form action="admin" method="post">   
                                                 <a href="single.html"><%=u.getName()%></a>
                                                 <span class="post-date">Email: <%=u.getGmail()%></span><br>
                                                 <span class="post-date">Password: <%=u.getPass()%></span><br>
@@ -331,7 +331,7 @@ new UISearch(document.getElementById('sb-search'));
                                                 <button class="btn adminbtn" type="submit" name ="action" value="deleteUser">Delete</button>
                                                 <button class="btn adminbtn"name ="action" value=""><a href="#" data-toggle="modal" data-target="#myModal5" style="text-decoration:none;" onclick="passToModal(<%=u.getUserID()%>, '<%=u.getName()%>', '<%=u.getPass()%>')">Config</a></button>
                                                 <button class="btn adminbtn"name ="action" value=""><a href="#" data-toggle="modal" data-target="#myModal6" style="text-decoration:none;" onclick="passToModal(<%=u.getUserID()%>, '<%=u.getName()%>', '<%=u.getPass()%>')">Add Song</a></button>
-                                            </form:form>
+                                            </form>
                                         </div>
                                         <div class="clearfix"></div>
                                     </li>
@@ -413,10 +413,10 @@ new UISearch(document.getElementById('sb-search'));
                         <h3>Newsletter</h3>
                         <p class="footer_desc">Nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</p>
                         <div class="search_footer">
-                            <form:form>
+                            <form>
                                 <input type="text" placeholder="Email...." required="">
                                 <input type="submit" value="Submit">
-                            </form:form>
+                            </form>
                         </div>
                     </div>
                     <div class="footer-grid footer-grid_last">
