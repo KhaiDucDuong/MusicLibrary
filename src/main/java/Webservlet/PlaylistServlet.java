@@ -61,11 +61,12 @@ public class PlaylistServlet extends HttpServlet {
         request.setAttribute("playlist", playlist);
         String action = request.getParameter("action");
         System.out.println(action);
+        String message = "";
         try {
             if (action != null) {
                 if (action.equals("addPlaylist")) {
                     createPlaylist(request, response, ID);
-                    String message = "Playlist added";
+                    message = "Playlist added";
                     request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
@@ -76,7 +77,7 @@ public class PlaylistServlet extends HttpServlet {
                 }
                 if (action.equals("Change cover")) {
                     updateCover(request, response, user);
-                    String message = "Cover changed";
+                    message = "Cover changed";
                     request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
@@ -84,7 +85,7 @@ public class PlaylistServlet extends HttpServlet {
                 }
                 if (action.equals("Delete playlist")) {
                     deletePlaylist(request, response);
-                    String message = "Playlist deleted";
+                    message = "Playlist deleted";
                     request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
@@ -92,7 +93,7 @@ public class PlaylistServlet extends HttpServlet {
                 }
                 if (action.equals("Rename playlist")) {
                     updatePlaylist(request, response);
-                    String message = "Playlist renamed";
+                    message = "Playlist renamed";
                     request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
@@ -100,7 +101,7 @@ public class PlaylistServlet extends HttpServlet {
                 }
                 if (action.equals("Delete playlist")) {
                     deletePlaylist(request, response);
-                    String message = "Playlist deleted";
+                    message = "Playlist deleted";
                     request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
@@ -108,7 +109,7 @@ public class PlaylistServlet extends HttpServlet {
                 }
                 if (action.equals("Rename playlist")) {
                     updatePlaylist(request, response);
-                    String message = "Playlist renamed";
+                    message = "Playlist renamed";
                     request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
@@ -121,7 +122,7 @@ public class PlaylistServlet extends HttpServlet {
                     String updateFlag = request.getParameter("updateUserInfo");
                     url = request.getParameter("currentURL");
                     if (updateFlag.equals("Yes")) {
-                        String message = "Added song to playlist!";
+                        message = "Added song to playlist!";
                         request.setAttribute("message", message);
                         //get user's uploaded songs
                         List<Music> userUploadedSongs = MusicDB.selectMusicbyUserID(user);
@@ -135,7 +136,7 @@ public class PlaylistServlet extends HttpServlet {
                     Long playlistID = Long.parseLong(request.getParameter("playlistID"));
                     Long songID = Long.parseLong(request.getParameter("songID"));
                     addSongToPlaylist(playlistID, songID);
-                    String message = "Added song to playlist!";
+                    message = "Added song to playlist!";
                     request.setAttribute("message", message);
                     url = "/index.jsp";
                     //get user's playlists
@@ -175,10 +176,14 @@ public class PlaylistServlet extends HttpServlet {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            url = "index.jsp";
+            request.setAttribute("Something went wrong.", message);
         }
-        getServletContext()
+        finally{
+            getServletContext()
                 .getRequestDispatcher(url)
                 .forward(request, response);
+        }
     }
 
     private void createPlaylist(HttpServletRequest request, HttpServletResponse response, long ID) {
