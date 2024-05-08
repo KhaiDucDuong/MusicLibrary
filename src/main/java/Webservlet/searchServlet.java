@@ -84,7 +84,7 @@ public class searchServlet extends HttpServlet {
                     .getRequestDispatcher(url)
                     .forward(request, response);
         } catch (Exception e) {
-            throw new ServletException(e);
+            e.printStackTrace();
         }
     }
 
@@ -98,7 +98,7 @@ public class searchServlet extends HttpServlet {
             request.setAttribute("songResults", result);
             request.setAttribute("pattern", pattern);
         } catch (Exception e) {
-            throw new ServletException(e);
+            e.printStackTrace();
         }
     }
 
@@ -111,7 +111,7 @@ public class searchServlet extends HttpServlet {
             List<Playlist> result = PlaylistDB.findPlaylist(pattern);
             request.setAttribute("playlistResults", result);
         } catch (Exception e) {
-            throw new ServletException(e);
+            e.printStackTrace();
         }
 
     }
@@ -124,7 +124,7 @@ public class searchServlet extends HttpServlet {
             List<User> result = UserDB.findUser(pattern);
             request.setAttribute("userResults", result);
         } catch (Exception e) {
-            throw new ServletException(e);
+            e.printStackTrace();
         }
     }
 
@@ -140,7 +140,7 @@ public class searchServlet extends HttpServlet {
 
             PlaylistDB.addSongsToPlaylist(playlist, songs);
         } catch (Exception e) {
-            throw new ServletException(e);
+            e.printStackTrace();
         }
 
     }

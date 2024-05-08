@@ -18,47 +18,48 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet("/newPassword")
 public class NewPassword extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    private static final long serialVersionUID = 1L;
 
-                response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
-                response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		HttpSession session = request.getSession();
-		String newPassword = request.getParameter("password");
-		String confPassword = request.getParameter("confPassword");
-		RequestDispatcher dispatcher = null;
-		if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-			try {
-				Class.forName("com.mysql.jdbc.Driver");
-				Connection con = DriverManager.getConnection("jdbc:mysql://34.126.100.6/musicLibrary?useSSL=false", "root",
-						"tientinhty00");
-				PreparedStatement pst = con.prepareStatement("update USER set PASS = ? where GMAIL = ? ");
-				pst.setString(1, newPassword);
-                                String userEmail = (String) session.getAttribute("email");
-                                if (userEmail == null || userEmail.isEmpty()) {
-                                    // Xử lý trường hợp thuộc tính email không hợp lệ
-                                } else {
-                                    // Sử dụng biến userEmail để xử lý tiếp theo
-                                }
+        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        HttpSession session = request.getSession();
+        String newPassword = request.getParameter("password");
+        String confPassword = request.getParameter("confPassword");
+        RequestDispatcher dispatcher = null;
+        if (newPassword != null && confPassword != null && newPassword.equals(confPassword)) {
 
-				pst.setString(2, (String) session.getAttribute("email"));
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://34.126.100.6/musicLibrary?useSSL=false", "root",
+                        "tientinhty00");
+                PreparedStatement pst = con.prepareStatement("update USER set PASS = ? where GMAIL = ? ");
+                pst.setString(1, newPassword);
+                String userEmail = (String) session.getAttribute("email");
+                if (userEmail == null || userEmail.isEmpty()) {
+                    // Xử lý trường hợp thuộc tính email không hợp lệ
+                } else {
+                    // Sử dụng biến userEmail để xử lý tiếp theo
+                }
 
-				int rowCount = pst.executeUpdate();
-				if (rowCount > 0) {
-					request.setAttribute("status", "resetSuccess");
-					dispatcher = request.getRequestDispatcher("index.jsp");
-				} else {
-					request.setAttribute("status", "resetFailed");
-					dispatcher = request.getRequestDispatcher("index.jsp");
-				}
-				dispatcher.forward(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+                pst.setString(2, (String) session.getAttribute("email"));
+
+                int rowCount = pst.executeUpdate();
+                if (rowCount > 0) {
+                    request.setAttribute("status", "resetSuccess");
+                    dispatcher = request.getRequestDispatcher("index.jsp");
+                } else {
+                    request.setAttribute("status", "resetFailed");
+                    dispatcher = request.getRequestDispatcher("index.jsp");
+                }
+                dispatcher.forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
