@@ -244,18 +244,20 @@ public class PlaylistServlet extends HttpServlet {
     }
 
     private void showAllPlaylist(HttpServletRequest request, HttpServletResponse response) {
-        try{List playlist = PlaylistDB.selectAllPlaylist();
-        //Buffer overflow
-        if(playlist != null){
-        request.setAttribute("allPlaylists", playlist);}
-        else {
-        // Nếu danh sách là null, tạo một danh sách rỗng
-            List emptyList = Collections.emptyList();
-            // Gán danh sách rỗng vào thuộc tính của request
-            request.setAttribute("allPlaylists", emptyList);
-        }}catch (Exception ex) {
-        // Xử lý ngoại lệ một cách cẩn thận, ví dụ: ghi log lỗi
-        ex.printStackTrace();
-    }
+        try {
+            List playlist = PlaylistDB.selectAllPlaylist();
+            //Buffer overflow
+            if (playlist != null) {
+                request.setAttribute("allPlaylists", playlist);
+            } else {
+                // Nếu danh sách là null, tạo một danh sách rỗng
+                List emptyList = Collections.emptyList();
+                // Gán danh sách rỗng vào thuộc tính của request
+                request.setAttribute("allPlaylists", emptyList);
+            }
+        } catch (Exception ex) {
+            // Xử lý ngoại lệ một cách cẩn thận, ví dụ: ghi log lỗi
+            ex.printStackTrace();
+        }
     }
 }

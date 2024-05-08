@@ -23,39 +23,22 @@ import javax.servlet.http.HttpSession;
 public class ForgotPassword extends HttpServlet {
 
     private static final int MAX_OTP_VALUE = 999999; // Giới hạn giá trị OTP
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
-                response.setHeader("X-Frame-Options", "SAMEORIGIN");
-		String email = request.getParameter("email");
-                boolean EmailInvalid = email.matches(".*[;'\"].*");
-		RequestDispatcher dispatcher = null;
-                if (EmailInvalid){
-                    dispatcher = request.getRequestDispatcher("index.jsp");
-                    request.setAttribute("messagelogin", "Invalid Email or Password");
-                    dispatcher.forward(request, response);
-                }
-                else {
-		int otpvalue = 0;
-		HttpSession mySession = request.getSession();
-		
-		if(email!=null || !email.equals("")) {
-			// sending otp
-			Random rand = new Random();
-			otpvalue = rand.nextInt(1255650);
 
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
         String email = request.getParameter("email");
+        boolean EmailInvalid = email.matches(".*[;'\"].*");
         RequestDispatcher dispatcher = null;
-
-        HttpSession mySession = request.getSession();
-
-        //Buffer overflow
-        if (email!= null &&isValidEmail(email)) {
-            // sending otp
+        if (EmailInvalid || !isValidEmail(email)) {
+            dispatcher = request.getRequestDispatcher("index.jsp");
+            request.setAttribute("messagelogin", "Invalid Email or Password");
+            dispatcher.forward(request, response);
+        } else {
             int otpvalue = generateOTP();
-            
+            HttpSession mySession = request.getSession();
 
-            // Địa chỉ email của người gửi
-            String senderEmail = "trongvumaimtv@gmail.com";
+            String to = email;// change accordingly
 
             // Get the session object
             Properties props = new Properties();
@@ -66,7 +49,7 @@ public class ForgotPassword extends HttpServlet {
             props.put("mail.smtp.port", "465");
             Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(senderEmail, "klfnasnzxuvnkddy");// Put your email
+                    return new PasswordAuthentication("trongvumaimtv@gmail.com", "klfnasnzxuvnkddy");// Put your email
                     // id and
                     // password here
                 }
@@ -74,8 +57,8 @@ public class ForgotPassword extends HttpServlet {
             // compose message
             try {
                 MimeMessage message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(senderEmail));// change accordingly
-                message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+                message.setFrom(new InternetAddress(email));// change accordingly
+                message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
                 message.setSubject("Hello!");
                 message.setText("Your OTP is: " + otpvalue);
                 // send message
@@ -91,8 +74,8 @@ public class ForgotPassword extends HttpServlet {
             mySession.setAttribute("email", email);
             dispatcher.forward(request, response);
             //request.setAttribute("status", "success");
-        }
 
+        }
     }
 
     private boolean isValidEmail(String email) {
@@ -100,6 +83,7 @@ public class ForgotPassword extends HttpServlet {
         // Trả về true nếu hợp lệ, ngược lại trả về false
         return email != null && !email.isEmpty() && email.matches("^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$");
     }
+
     private int generateOTP() {
         Random rand = new Random();
         return rand.nextInt(MAX_OTP_VALUE);
