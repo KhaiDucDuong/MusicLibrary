@@ -56,8 +56,8 @@ public class UserServlet extends HttpServlet {
             if (action.equals("registerUser")) {
                 String CheckEmail = request.getParameter("Email");
                 String CheckPass = request.getParameter("Password");
-                boolean EmailInvalid = CheckEmail.matches(".*[;'\"].*");
-                boolean PassInvalid = CheckPass.matches(".*[;'\"].*");
+                boolean EmailInvalid = CheckEmail.matches(".*[;'\"\\s].*");
+                boolean PassInvalid = CheckPass.matches(".*[;'\"\\s].*");
                 if (EmailInvalid || PassInvalid) {
                     request.setAttribute("messagelogin", "Invalid Email or Password");
                     url = "/index.jsp";
@@ -74,8 +74,8 @@ public class UserServlet extends HttpServlet {
             } else if (action.equals("loginUser")) {
                 String CheckLoginEmail = request.getParameter("loginEmail");
                 String CheckLoginPass = request.getParameter("loginPass");
-                boolean EmailInvalid = CheckLoginEmail.matches(".*[;'\"].*");
-                boolean PassInvalid = CheckLoginPass.matches(".*[;'\"].*");
+                boolean EmailInvalid = CheckLoginEmail.matches(".*[;'\"\\s].*");
+                boolean PassInvalid = CheckLoginPass.matches(".*[;'\"\\s].*");
                 if (EmailInvalid || PassInvalid) {
                     request.setAttribute("messagelogin", "Invalid Email or Password");
                     url = "/index.jsp";
