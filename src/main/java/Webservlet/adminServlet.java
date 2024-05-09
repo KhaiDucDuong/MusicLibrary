@@ -167,6 +167,15 @@ public class adminServlet extends HttpServlet {
             String ID = request.getParameter("userID");
             String name = request.getParameter("userName");
             String pass = request.getParameter("userPass");
+            boolean IDcheck = ID.matches(".*[-;'\"].*");
+            boolean NameInvalid = name.matches(".*[-;'\"].*");
+            int NameLoginLength = name.length();
+            boolean PassInvalid = pass.matches(".*[-;'\"\\s].*");
+            int PassLoginLength = pass.length();
+            if (NameInvalid || PassInvalid || IDcheck || NameLoginLength > 30 || PassLoginLength > 30) {
+                return false;
+            }
+            
             long userID = Long.parseLong(ID);
             User user = UserDB.selectUserforAdmin(userID);
             String imgPath = user.getImage();
@@ -200,11 +209,14 @@ public class adminServlet extends HttpServlet {
     private String addMusicforAdmin(HttpServletRequest request, HttpServletResponse response) {
         try {
             String name = request.getParameter("musicName");
+            boolean AddNameInvalid = name.matches(".*[-;'\"].*");
+            int AddNameLoginLength = name.length();
             String ID = request.getParameter("userIDforSong");
+            boolean IDcheck = ID.matches(".*[-;'\"].*");
             long userID = Long.parseLong(ID);
             User author = UserDB.selectUserforAdmin(userID);
-            if (name.isEmpty()) {
-                return "Song name can't be empty!";
+            if (name.isEmpty() || AddNameInvalid || AddNameLoginLength > 30 || IDcheck) {
+                return "Invalid Song Name or ID";
             }
 
             String category = request.getParameter("musicCategory");

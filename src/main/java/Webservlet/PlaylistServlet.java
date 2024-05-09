@@ -76,7 +76,6 @@ public class PlaylistServlet extends HttpServlet {
                 if (action.equals("addPlaylist")) {
                     createPlaylist(request, response, ID);
                     message = "Playlist added";
-                    request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
                     if (ID != 1) {
@@ -102,28 +101,11 @@ public class PlaylistServlet extends HttpServlet {
                 }
                 if (action.equals("Rename playlist")) {
                     updatePlaylist(request, response);
-                    message = "Playlist renamed";
-                    request.setAttribute("message", message);
                     playlist = PlaylistDB.selectPlaylist(user);
                     request.setAttribute("playlist", playlist);
                     url = "/Playlist.jsp";
                 }
-                if (action.equals("Delete playlist")) {
-                    deletePlaylist(request, response);
-                    message = "Playlist deleted";
-                    request.setAttribute("message", message);
-                    playlist = PlaylistDB.selectPlaylist(user);
-                    request.setAttribute("playlist", playlist);
-                    url = "/Playlist.jsp";
-                }
-                if (action.equals("Rename playlist")) {
-                    updatePlaylist(request, response);
-                    message = "Playlist renamed";
-                    request.setAttribute("message", message);
-                    playlist = PlaylistDB.selectPlaylist(user);
-                    request.setAttribute("playlist", playlist);
-                    url = "/Playlist.jsp";
-                }
+
                 if (action.equals("Add Song to Playlist")) {
                     Long playlistID = Long.parseLong(request.getParameter("playlistID"));
                     Long songID = Long.parseLong(request.getParameter("songID"));
@@ -199,12 +181,21 @@ public class PlaylistServlet extends HttpServlet {
             String playlistName = Encode.forHtml(request.getParameter("playlistName")); //XSS
             long millis = System.currentTimeMillis();
             java.sql.Date date = new java.sql.Date(millis);
+            int PlaylistNameLength = playlistName.length();
+            boolean playlistNameInvalid = playlistName.matches(".*[-;'\"].*");
+            if (PlaylistNameLength > 30 || playlistNameInvalid ){
+                String message ="Invalid PlaylistName";
+                request.setAttribute("message", message);
+                return;
+            }
             Playlist playlist = new Playlist();
             playlist.setCreated(date);
             playlist.setCover("images/cover/default-cover.jpg");
             playlist.setName(playlistName);
             playlist.setCreated(date);
             PlaylistDB.addPlaylist(playlist, ID);
+            String message = "Playlist created";
+            request.setAttribute("message", message);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -214,6 +205,7 @@ public class PlaylistServlet extends HttpServlet {
         try {
             String ID = request.getParameter("playlistID");
             long playlistID = Long.parseLong(ID);
+            
             PlaylistDB.deletePlaylist(playlistID);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -225,10 +217,19 @@ public class PlaylistServlet extends HttpServlet {
             String ID = Encode.forHtml(request.getParameter("playlistID"));
             long playlistID = Long.parseLong(ID);
             String Name = request.getParameter("renamePlaylist");
+             int PlaylistNameLength = Name.length();
+            boolean playlistNameInvalid = Name.matches(".*[-;'\"].*");
+            if (PlaylistNameLength > 30 || playlistNameInvalid ){
+                String message ="Invalid PlaylistName";
+                request.setAttribute("message", message);
+                return;
+            }
             Playlist playlist = new Playlist();
             playlist.setName(Name);
             playlist.setPlaylistID(playlistID);
             PlaylistDB.updatePlaylist(playlist);
+            String message ="Platlist name renamed";
+            request.setAttribute("message", message);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

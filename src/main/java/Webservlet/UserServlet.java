@@ -62,9 +62,9 @@ public class UserServlet extends HttpServlet {
                 if (action.equals("registerUser")) {
                     String CheckEmail = request.getParameter("Email");
                     String CheckPass = request.getParameter("Password");
-                    boolean EmailInvalid = CheckEmail.matches(".*[;'\"\\s].*");
+                    boolean EmailInvalid = CheckEmail.matches(".*[-;'\"\\s].*");
                     int EmailLength = CheckEmail.length();
-                    boolean PassInvalid = CheckPass.matches(".*[;'\"\\s].*");
+                    boolean PassInvalid = CheckPass.matches(".*[-;'\"\\s].*");
                     int PassLength = CheckPass.length();
                     if (EmailInvalid || PassInvalid || EmailLength > 30 || PassLength > 30) {
                         request.setAttribute("messagelogin", "Invalid Email or Password");
@@ -82,9 +82,9 @@ public class UserServlet extends HttpServlet {
                 } else if (action.equals("loginUser")) {
                     String CheckLoginEmail = request.getParameter("loginEmail");
                     String CheckLoginPass = request.getParameter("loginPass");
-                    boolean EmailInvalid = CheckLoginEmail.matches(".*[;'\"\\s].*");
+                    boolean EmailInvalid = CheckLoginEmail.matches(".*[-;'\"\\s].*");
                     int EmailLoginLength = CheckLoginEmail.length();
-                    boolean PassInvalid = CheckLoginPass.matches(".*[;'\"\\s].*");
+                    boolean PassInvalid = CheckLoginPass.matches(".*[-;'\"\\s].*");
                     int PassLoginLength = CheckLoginPass.length();
                     if (EmailInvalid || PassInvalid || EmailLoginLength > 30 || PassLoginLength > 30) {
                         request.setAttribute("messagelogin", "Invalid Email or Password");
