@@ -44,7 +44,12 @@ public class MusicServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
+        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+                + "script-src 'self' 'unsafe-inline' https://code.jquery.com; "
+                + "frame-ancestors 'self'; connect-src 'self'; img-src 'self'; frame-src 'self'; "
+                + "media-src 'self' http://localhost:8080/MusicLibrary/songs; object-src 'self'; manifest-src 'self'; "
+                + "form-action 'self'; "
+                + "font-src 'self' https://cdn.linearicons.com https://fonts.gstatic.com;");
         response.setHeader("X-Frame-Options", "SAMEORIGIN");
         //default return path
         List Music = MusicDB.selectAllMusic();
