@@ -27,10 +27,10 @@ public class ForgotPassword extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://code.jquery.com/jquery-3.6.0.min.js ; frame-ancestors 'self';");
         response.setHeader("X-Frame-Options", "SAMEORIGIN");
-        String email = request.getParameter("email");
-        boolean EmailInvalid = email.matches(".*[;'\"].*");
         RequestDispatcher dispatcher = null;
         try {
+            String email = request.getParameter("email");
+            boolean EmailInvalid = email.matches(".*[;'\"].*");
             if (EmailInvalid || !isValidEmail(email)) {
                 dispatcher = request.getRequestDispatcher("index.jsp");
                 request.setAttribute("messagelogin", "Invalid Email or Password");
@@ -66,7 +66,10 @@ public class ForgotPassword extends HttpServlet {
                     Transport.send(message);
                     System.out.println("Message sent successfully");
                 } catch (MessagingException e) {
-                    throw new RuntimeException(e);
+                    dispatcher = request.getRequestDispatcher("index.jsp");
+                    request.setAttribute("message", "Something went wrong.");
+                    dispatcher.forward(request, response);
+                    throw new RuntimeException(e);   
                 }
                 dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
                 request.setAttribute("message", "OTP is sent to your email id");
@@ -79,6 +82,9 @@ public class ForgotPassword extends HttpServlet {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+            dispatcher = request.getRequestDispatcher("index.jsp");
+            request.setAttribute("message", "Something went wrong.");
+            dispatcher.forward(request, response);
         }
     }
 
