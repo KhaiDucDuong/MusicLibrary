@@ -96,7 +96,9 @@ public class searchServlet extends HttpServlet {
     private static void SearchMusic(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException, ServletException {
         try {
             String patternUnvalid = request.getParameter("songSearch");
-            String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", "");  //XSS
+            if (patternUnvalid.length() > 30) {
+                patternUnvalid = patternUnvalid.substring(0, 30);}
+            String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");  //XSS
             pattern = URLEncoder.encode(pattern, "ISO-8859-1");
             pattern = URLDecoder.decode(pattern, "UTF-8");
             List<Music> result = MusicDB.findMusic(pattern);
