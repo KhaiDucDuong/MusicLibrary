@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,17 +42,41 @@ public class searchServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-                + "script-src 'self' 'unsafe-inline' https://code.jquery.com; "
-                + "frame-ancestors 'self'; connect-src 'self'; img-src 'self'; frame-src 'self'; "
-                + "media-src 'self' http://localhost:8080/MusicLibrary/songs; object-src 'self'; manifest-src 'self'; "
-                + "form-action 'self'; "
-                + "font-src 'self' https://cdn.linearicons.com https://fonts.gstatic.com;");
+                    + "script-src 'self' 'unsafe-inline' https://code.jquery.com; "
+                    + "frame-ancestors 'self'; connect-src 'self'; img-src 'self'; frame-src 'self'; "
+                    + "media-src 'self' http://localhost:8080/MusicLibrary/songs; object-src 'self'; manifest-src 'self'; "
+                    + "form-action 'self'; "
+                    + "font-src 'self' https://cdn.linearicons.com https://fonts.gstatic.com;");
             response.setHeader("X-Frame-Options", "SAMEORIGIN");
             String url = "/browse.jsp";
             String action = request.getParameter("action");
             User user = (User) request.getSession().getAttribute("loggeduser");
             List<Playlist> randPlaylist = PlaylistDB.select8Playlist();
             request.setAttribute("randPlaylist", randPlaylist);
+
+            // get the CSRF cookie
+            String csrfCookie = null;
+            for (Cookie cookie : request.getCookies()) {
+                if (cookie.getName().equals("csrf")) {
+                    csrfCookie = cookie.getValue();
+                }
+            }
+
+            // get the CSRF form field
+            String csrfField = request.getParameter("csrf_token");
+
+            // validate CSRF
+            if (csrfCookie == null || csrfField == null || !csrfCookie.equals(csrfField)) {
+                try {
+                    //response.sendError(401);
+                    url = "/index.jsp";
+                    request.setAttribute("message", "Something went wrong.");
+                    action = null;
+                } catch (Exception e) {
+                    // ...
+                }
+            }
+
             if (user != null) {
                 List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
                 request.setAttribute("userPlaylists", userPlaylists);
@@ -97,7 +122,8 @@ public class searchServlet extends HttpServlet {
         try {
             String patternUnvalid = request.getParameter("songSearch");
             if (patternUnvalid.length() > 30) {
-                patternUnvalid = patternUnvalid.substring(0, 30);}
+                patternUnvalid = patternUnvalid.substring(0, 30);
+            }
             String pattern = patternUnvalid.replaceAll("[^a-zA-Z0-9]", " ");  //XSS
             pattern = URLEncoder.encode(pattern, "ISO-8859-1");
             pattern = URLDecoder.decode(pattern, "UTF-8");

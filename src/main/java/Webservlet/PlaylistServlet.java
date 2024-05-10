@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 import org.owasp.encoder.Encode;
 
@@ -65,12 +66,37 @@ public class PlaylistServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String url = "/Playlist.jsp";
         String message = "";
+        String action = request.getParameter("action");
+
+        // get the CSRF cookie
+        String csrfCookie = null;
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("csrf")) {
+                csrfCookie = cookie.getValue();
+            }
+        }
+
+        // get the CSRF form field
+        String csrfField = request.getParameter("csrf_token");
+
+        // validate CSRF
+        if (csrfCookie == null || csrfField == null || !csrfCookie.equals(csrfField)) {
+            try {
+                //response.sendError(401);
+                url = "/index.jsp";
+                message = "Something went wrong.";
+                request.setAttribute("message", message);
+                action = null;
+            } catch (Exception e) {
+                // ...
+            }
+        }
+
         try {
             User user = (User) request.getSession().getAttribute("loggeduser");
             long ID = user.getUserID();
-            List<Playlist> playlist = PlaylistDB.selectPlaylist(user);  
+            List<Playlist> playlist = PlaylistDB.selectPlaylist(user);
             request.setAttribute("playlist", playlist);
-            String action = request.getParameter("action");
             //System.out.println(action);
             if (action != null) {
                 if (action.equals("addPlaylist")) {
@@ -183,8 +209,8 @@ public class PlaylistServlet extends HttpServlet {
             java.sql.Date date = new java.sql.Date(millis);
             int PlaylistNameLength = playlistName.length();
             boolean playlistNameInvalid = playlistName.matches(".*[-;'\"].*");
-            if (PlaylistNameLength > 30 || playlistNameInvalid ){
-                String message ="Invalid PlaylistName";
+            if (PlaylistNameLength > 30 || playlistNameInvalid) {
+                String message = "Invalid PlaylistName";
                 request.setAttribute("message", message);
                 return;
             }
@@ -205,7 +231,7 @@ public class PlaylistServlet extends HttpServlet {
         try {
             String ID = request.getParameter("playlistID");
             long playlistID = Long.parseLong(ID);
-            
+
             PlaylistDB.deletePlaylist(playlistID);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -217,10 +243,10 @@ public class PlaylistServlet extends HttpServlet {
             String ID = Encode.forHtml(request.getParameter("playlistID"));
             long playlistID = Long.parseLong(ID);
             String Name = request.getParameter("renamePlaylist");
-             int PlaylistNameLength = Name.length();
+            int PlaylistNameLength = Name.length();
             boolean playlistNameInvalid = Name.matches(".*[-;'\"].*");
-            if (PlaylistNameLength > 30 || playlistNameInvalid ){
-                String message ="Invalid PlaylistName";
+            if (PlaylistNameLength > 30 || playlistNameInvalid) {
+                String message = "Invalid PlaylistName";
                 request.setAttribute("message", message);
                 return;
             }
@@ -228,7 +254,7 @@ public class PlaylistServlet extends HttpServlet {
             playlist.setName(Name);
             playlist.setPlaylistID(playlistID);
             PlaylistDB.updatePlaylist(playlist);
-            String message ="Platlist name renamed";
+            String message = "Platlist name renamed";
             request.setAttribute("message", message);
         } catch (Exception ex) {
             ex.printStackTrace();

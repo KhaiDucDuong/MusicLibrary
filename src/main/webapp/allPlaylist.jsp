@@ -3,9 +3,18 @@
 <%@page import ="LibraryClass.Music" %>
 <%@page import ="DBUtil.MusicDB" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@page import ="Utils.CSRF" %>
 <!DOCTYPE HTML>
 <html>
     <head>
+        <%
+            // generate a random CSRF token
+            String csrf_token = CSRF.getToken();
+
+            // place the CSRF token in a cookie
+            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("csrf", csrf_token);
+            response.addCookie(cookie);
+        %>
         <title>Mosaic a Entertainment Category Flat Bootstrap Responsive Website Template | Browse :: w3layouts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -79,6 +88,7 @@
                                 <div class="sign">
                                     <div class="sign-right">
                                         <form action="login" method="post" onsubmit="return validateForm()">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <h3>Create your account </h3>
                                             <input type="hidden" name="action" value="registerUser">
                                             <label>Name</label><br>
@@ -116,6 +126,7 @@
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
                                     <form action="search" method="post">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
@@ -174,6 +185,7 @@ new UISearch(document.getElementById('sb-search'));
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
                                                 <form action="login" method="post" id="loginForm">
+                                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                     <p>${message}</p>
                                                     <input type="hidden" name="action" value="loginUser">
 
@@ -199,6 +211,7 @@ new UISearch(document.getElementById('sb-search'));
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox" style="margin-top:10px">  
                                                     <form action="login" method="post" id="loginForm">
+                                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -219,6 +232,7 @@ new UISearch(document.getElementById('sb-search'));
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox">  
                                                     <form action="login" method="post" id="loginForm">
+                                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -281,6 +295,7 @@ new UISearch(document.getElementById('sb-search'));
                                 <c:forEach items="${allPlaylists}" var="playlist">
                                     <div class="col-md-3 browse-grid">
                                         <form action="search" method="post"> 
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <input type="hidden" value="${playlist.getPlaylistID()}" name="playlistID">
                                             <button name="action" value="View playlist" type="submit">
                                                 <a  href="#"><img src="${playlist.getCover()}" style="width:200px;height:200px"></a>
@@ -289,6 +304,7 @@ new UISearch(document.getElementById('sb-search'));
                                         </form>
                                         <c:if test="${loggeduser.getUserID()== 1}">
                                             <form action="admin">
+                                                <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                 <input type="hidden" name="playlistID" value="${playlist.getPlaylistID()}">
                                                 <button class="setting-button btn" type="submit" name="action" value="deletePlaylistAdmin" onclick="{return confirmComplete(); }"><i class="fa fa-times" style="font-size:24px"></i></button>
                                             </form>

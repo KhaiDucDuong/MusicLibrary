@@ -2,10 +2,20 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import ="LibraryClass.Music" %>
 <%@page import ="DBUtil.MusicDB" %>
+<%@page import ="Utils.CSRF" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
 <html>
     <head>
+        <%
+            // generate a random CSRF token
+            String csrf_token = CSRF.getToken();
+
+            // place the CSRF token in a cookie
+            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("csrf", csrf_token);
+            response.addCookie(cookie);
+        %>
+
         <title>Mosaic a Entertainment Category Flat Bootstrap Responsive Website Template | Browse :: w3layouts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -83,7 +93,7 @@
             <!-- //app-->
             <!-- /w3l-agile -->
             <!-- signup -->
-           <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal fade" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content modal-info">
                         <div class="modal-header">
@@ -94,6 +104,7 @@
                                 <div class="sign">
                                     <div class="sign-right">
                                         <form action="login" method="post" onsubmit="return validateForm()">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                             <h3>Create your account </h3>
                                             <input type="hidden" name="action" value="registerUser">
                                             <label>Name</label><br>
@@ -131,6 +142,7 @@
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
                                     <form action="search" method="post">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
@@ -141,7 +153,7 @@
                             <script src="js/classie.js"></script>
                             <script src="js/uisearch.js"></script>
                             <script>
-                                                new UISearch(document.getElementById('sb-search'));
+                                            new UISearch(document.getElementById('sb-search'));
                             </script>
                             <!-- //search-scripts -->
                             <!---->
@@ -183,12 +195,13 @@
                                     <li><a class="ar2" onclick="playNext()"><img src="images/arrow2.png" alt=""/></a></li>
                                 </ul>	
                             </div>
-                              <div class="col-md-4 login-pop">
+                            <div class="col-md-4 login-pop">
                                 <c:choose>
                                     <c:when test="${loggeduser == null}">
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
                                                 <form action="login" method="post" id="loginForm">
+                                                    <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                                     <p>${message}</p>
                                                     <input type="hidden" name="action" value="loginUser">
 
@@ -211,46 +224,48 @@
                                     </c:when>
                                     <c:otherwise>
                                         <c:if test="${loggeduser.getUserID()!=1}">
-                                        <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox" style="margin-top:10px">  
-                                                <form action="login" method="post" id="loginForm">
-                                                    <fieldset id="body">
-                                                        <fieldset>
-                                                            <label>Username = ${loggeduser.getName()}</label>
-                                                        </fieldset>
-                                                        <fieldset>
-                                                            <label>Email = ${loggeduser.getGmail()}</label>
-                                                        </fieldset>
-                                                         <input type="submit" name="action" value="Playlist" > 
-                                                    <input type="submit" name ="action" id="My profile" value="My profile">
-                                                    <input type="submit" name ="action" id="setting" value="Setting">
-                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                    </fieldset>   
-                                                </form>
+                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                                <div id="loginBox" style="margin-top:10px">  
+                                                    <form action="login" method="post" id="loginForm">
+                                                        <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
+                                                        <fieldset id="body">
+                                                            <fieldset>
+                                                                <label>Username = ${loggeduser.getName()}</label>
+                                                            </fieldset>
+                                                            <fieldset>
+                                                                <label>Email = ${loggeduser.getGmail()}</label>
+                                                            </fieldset>
+                                                            <input type="submit" name="action" value="Playlist" > 
+                                                            <input type="submit" name ="action" id="My profile" value="My profile">
+                                                            <input type="submit" name ="action" id="setting" value="Setting">
+                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                        </fieldset>   
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </div>
                                         </c:if>
                                         <c:if test="${loggeduser.getUserID() ==1}" >
-                                              <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
-                                            <div id="loginBox">  
-                                                <form action="login" method="post" id="loginForm">
-                                                    <fieldset id="body">
-                                                        <fieldset>
-                                                            <label>Username = ${loggeduser.getName()}</label>
-                                                        </fieldset>
-                                                        <fieldset>
-                                                            <label>Email = ${loggeduser.getGmail()}</label>
-                                                        </fieldset>
-                                                    <input type="submit" name ="action" value="Account Manager">
-                                                    <input type="submit" name="action" value="Playlist" > 
-                                                    <input type="submit" name ="action" id="My profile" value="My profile">
-                                                    <input type="submit" name ="action" id="setting" value="Setting">
-                                                     <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
-                                                    </fieldset>   
-                                                </form>
+                                            <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
+                                                <div id="loginBox">  
+                                                    <form action="login" method="post" id="loginForm">
+                                                        <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
+                                                        <fieldset id="body">
+                                                            <fieldset>
+                                                                <label>Username = ${loggeduser.getName()}</label>
+                                                            </fieldset>
+                                                            <fieldset>
+                                                                <label>Email = ${loggeduser.getGmail()}</label>
+                                                            </fieldset>
+                                                            <input type="submit" name ="action" value="Account Manager">
+                                                            <input type="submit" name="action" value="Playlist" > 
+                                                            <input type="submit" name ="action" id="My profile" value="My profile">
+                                                            <input type="submit" name ="action" id="setting" value="Setting">
+                                                            <input type="submit" name="action" value="Log out" id="login" style="margin-top: 10px">
+                                                        </fieldset>   
+                                                    </form>
 
+                                                </div>
                                             </div>
-                                        </div>
                                         </c:if>
                                     </c:otherwise>
                                 </c:choose>
@@ -282,6 +297,7 @@
 
                                 </div>
                                 <div class="modal-footer">
+                                    <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                     <input type="hidden" id="songID" name="songID">
                                     <input type="hidden" name="songSearch" value ="${pattern}">
                                     <input type="submit" name="action" value="Add Song to Playlist" class="btn btn-secondary">
@@ -302,19 +318,19 @@
                             <link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all">
                             <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
                             <script>
-                                    $(document).ready(function () {
-                                        $('.popup-with-zoom-anim').magnificPopup({
-                                            type: 'inline',
-                                            fixedContentPos: false,
-                                            fixedBgPos: true,
-                                            overflowY: 'auto',
-                                            closeBtnInside: true,
-                                            preloader: false,
-                                            midClick: true,
-                                            removalDelay: 300,
-                                            mainClass: 'my-mfp-zoom-in'
-                                        });
-                                    });
+                                                            $(document).ready(function () {
+                                                                $('.popup-with-zoom-anim').magnificPopup({
+                                                                    type: 'inline',
+                                                                    fixedContentPos: false,
+                                                                    fixedBgPos: true,
+                                                                    overflowY: 'auto',
+                                                                    closeBtnInside: true,
+                                                                    preloader: false,
+                                                                    midClick: true,
+                                                                    removalDelay: 300,
+                                                                    mainClass: 'my-mfp-zoom-in'
+                                                                });
+                                                            });
                             </script>		
                             <!--//pop-up-box -->
                             <div class="browse">
@@ -325,6 +341,7 @@
 
                                 <div id="myTabContent" class="tab-content">
                                     <form method="post" action="login" id="toArtistProfileForm">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                         <div role="tabpanel" class="tab-pane fade active in" id="home" aria-labelledby="home-tab">
                                             <%--<c:forEach items="${allArtists}" begin="0" step="6" var="artist" varStatus="status">--%>
                                             <div class="browse-inner">
@@ -402,6 +419,7 @@
                                 </div>
                                 <div class = "modal-body"><span id="modelSongName"></span></div>
                                 <div class = "modal-footer">
+                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                     <input type="hidden" id="deletingSongID" name="deletingSongID">
                                     <button type = "button" class = "btn btn-secondary" data-dismiss = "modal"> Cancel </button>
                                     <button type = "submit" name="action" value="deleteSongAdmin" class = "btn btn-primary"> Confirm </button>
@@ -415,25 +433,25 @@
             </div>
             <!--body wrapper end-->
             <div class="footer">
-                         <div class="footer-grid">
-                            <h3>Group members:</h3>
-                        </div>
-                        <div class="footer-grid">
-                            <h3>Trần Mạnh Tiến</h3>
-                        </div>
-                        <div class="footer-grid">
-                            <h3>Dương Đức Khải</h3>
-                           
-                        </div>
-                        <div class="footer-grid">
-                            <h3>Mai Trọng Vũ</h3>
-                        </div>
-                    </div>
+                <div class="footer-grid">
+                    <h3>Group members:</h3>
                 </div>
-                <!--footer section start-->
-                <footer>
-                    <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
-                </footer>
+                <div class="footer-grid">
+                    <h3>Trần Mạnh Tiến</h3>
+                </div>
+                <div class="footer-grid">
+                    <h3>Dương Đức Khải</h3>
+
+                </div>
+                <div class="footer-grid">
+                    <h3>Mai Trọng Vũ</h3>
+                </div>
+            </div>
+        </div>
+        <!--footer section start-->
+        <footer>
+            <p>&copy 2023 Web programming project. Music Library  Reserved | Design by Group 2</p>
+        </footer>
         <!--footer section end-->
         <!-- /wthree-agile -->
         <!-- main content end-->

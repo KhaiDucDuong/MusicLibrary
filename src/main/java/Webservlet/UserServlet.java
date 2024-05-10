@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 import org.owasp.encoder.Encode;
 
@@ -57,6 +58,30 @@ public class UserServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String url = "/index.jsp";
         String action = request.getParameter("action");
+
+        // get the CSRF cookie
+        String csrfCookie = null;
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("csrf")) {
+                csrfCookie = cookie.getValue();
+            }
+        }
+
+        // get the CSRF form field
+        String csrfField = request.getParameter("csrf_token");
+
+        // validate CSRF
+        if (csrfCookie == null || csrfField == null || !csrfCookie.equals(csrfField)) {
+            try {
+                //response.sendError(401);
+                url = "/index.jsp";
+                request.setAttribute("message", "Something went wrong.");
+                action = null;
+            } catch (Exception e) {
+                // ...
+            }
+        }
+
         try {
             if (action != null) {
                 if (action.equals("registerUser")) {
