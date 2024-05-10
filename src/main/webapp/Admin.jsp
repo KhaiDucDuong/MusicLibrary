@@ -1,12 +1,22 @@
 
 <%@page import="java.util.List"%>
 <%@page import ="LibraryClass.User" %>
+<%@page import ="Utils.CSRF" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
 <html>
     <head>
         <%  List<User> allUser = (List<User>) request.getAttribute("allUser"); %>
+
+        <%
+            // generate a random CSRF token
+            String csrf_token = CSRF.getToken();
+
+            // place the CSRF token in a cookie
+            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("csrf", csrf_token);
+            response.addCookie(cookie);
+        %>
 
         <title>Mosaic a Entertainment Category Flat Bootstrap Responsive Website Template | Blogs :: w3layouts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -85,6 +95,7 @@
                                         <form action="admin" method="post" enctype="multipart/form-data">
                                             <h3>Account Configured: </h3>
                                             <input type="hidden" name="action" value="configUser" >
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <input id="userID" type="hidden" name="userID" >
                                             <label>Name: </label><input id="userName" type="text" name="userName"  required>
                                             <label>Password: </label><input id="userPassword" type="password" name="userPass" required>	
@@ -114,6 +125,7 @@
                                             <input type="hidden" name="userIDforSong"
                                                    id="userIDforSong">
                                             <input type="hidden" name="action" value="addSongforUser">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <div class="form-group col-md-6">
                                                 <label for="name" >Song's name</label>
                                                 <input type="text" class="form-control" name="musicName"
@@ -190,6 +202,7 @@
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
                                     <form action="search" method="post">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
@@ -247,6 +260,7 @@
                                     <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                         <div id="loginBox" style="margin-top:10px">  
                                             <form action="login" method="post" id="loginForm">
+                                                <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                 <fieldset id="body">
                                                     <fieldset>
                                                         <label>Username = ${loggeduser.getName()}</label>
@@ -267,6 +281,7 @@
                                     <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                         <div id="loginBox">  
                                             <form action="login" method="post" id="loginForm">
+                                                <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                 <fieldset id="body">
                                                     <fieldset>
                                                         <label>Username = ${loggeduser.getName()}</label>
@@ -308,7 +323,8 @@
                         <div class="music-left">
                             <div class="widget-side">
                                 <h4 class="widget-title">All accounts</h4>
-                                <form action="admin"> 
+                                <form action="admin">
+                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                     <button class="btn" type="submit" name="action" value="showAllMusic">All Music</button>
                                     <button class="btn" type="submit" name="action" value="showAllPlaylist">All Playlist</button>
                                 </form>
@@ -322,7 +338,8 @@
                                             <a href="single.html"><img src="<%=u.getImage()%>" class="img-responsive" alt="" /></a>
                                         </div>
                                         <div class="song-text">
-                                            <form action="admin" method="post">   
+                                            <form action="admin" method="post">
+                                                <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                 <a href="single.html"><%=u.getName()%></a>
                                                 <span class="post-date">Email: <%=u.getGmail()%></span><br>
                                                 <span class="post-date">Password: <%=u.getPass()%></span><br>
@@ -414,6 +431,7 @@
                         <p class="footer_desc">Nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat</p>
                         <div class="search_footer">
                             <form>
+                                <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                 <input type="text" placeholder="Email...." required="">
                                 <input type="submit" value="Submit">
                             </form>

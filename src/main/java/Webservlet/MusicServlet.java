@@ -22,6 +22,7 @@ import DBUtil.MusicDB;
 import DBUtil.PlaylistDB;
 import LibraryClass.User;
 import java.util.List;
+import javax.servlet.http.Cookie;
 import org.owasp.encoder.Encode;
 
 /**
@@ -67,6 +68,31 @@ public class MusicServlet extends HttpServlet {
         List<Playlist> userPlaylists = PlaylistDB.selectPlaylist(user);
         request.setAttribute("userPlaylists", userPlaylists);
         //upload a song, author is set to current logged in user
+
+        // get the CSRF cookie
+        String csrfCookie = null;
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("csrf")) {
+                csrfCookie = cookie.getValue();
+            }
+        }
+
+        // get the CSRF form field
+        String csrfField = request.getParameter("csrf_token");
+
+        // validate CSRF
+        if (csrfCookie == null || csrfField == null || !csrfCookie.equals(csrfField)) {
+            try {
+                //response.sendError(401);
+                url = "/index.jsp";
+                message = "Something went wrong.";
+                request.setAttribute("message", message);
+                action = null;
+            } catch (Exception e) {
+                // ...
+            }
+        }
+
         try {
             if (action != null) {
                 if (action.equals("createMusic")) {
@@ -210,6 +236,6 @@ public class MusicServlet extends HttpServlet {
             ex.printStackTrace();
             return "An error occurred while processing the request.";
         }
-    
+
     }
 }

@@ -19,6 +19,7 @@ import LibraryClass.User;
 import java.util.List;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
+import javax.servlet.http.Cookie;
 
 /**
  *
@@ -119,6 +120,31 @@ public class adminServlet extends HttpServlet {
         String action = request.getParameter("action");
         List<Music> music = MusicDB.select12Songs();
         request.setAttribute("recentSong", music);
+
+        // get the CSRF cookie
+        String csrfCookie = null;
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("csrf")) {
+                csrfCookie = cookie.getValue();
+            }
+        }
+
+        // get the CSRF form field
+        String csrfField = request.getParameter("csrf_token");
+
+        // validate CSRF
+        if (csrfCookie == null || csrfField == null || !csrfCookie.equals(csrfField)) {
+            try {
+                //response.sendError(401);
+                url = "/index.jsp";
+                message = "Something went wrong.";
+                request.setAttribute("message", message);
+                action = null;
+            } catch (Exception e) {
+                // ...
+            }
+        }
+
         try {
             if (action != null) {
                 if (action.equals("deleteUser")) {
@@ -172,10 +198,10 @@ public class adminServlet extends HttpServlet {
             int NameLoginLength = name.length();
             boolean PassInvalid = pass.matches(".*[=;()'\"\\s].*");
             int PassLoginLength = pass.length();
-            if (NameInvalid || PassInvalid || IDcheck || NameLoginLength > 30 || PassLoginLength > 30  ) {
+            if (NameInvalid || PassInvalid || IDcheck || NameLoginLength > 30 || PassLoginLength > 30) {
                 return false;
             }
-            
+
             long userID = Long.parseLong(ID);
             User user = UserDB.selectUserforAdmin(userID);
             String imgPath = user.getImage();

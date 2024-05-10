@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page import="LibraryClass.Playlist"%>
 <%@page import="LibraryClass.User"%>
+<%@page import ="Utils.CSRF" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE HTML>
@@ -9,6 +10,15 @@
     <%
         List<Playlist> playlist = (List<Playlist>) request.getAttribute("playlist");
     %>
+    
+    <%
+            // generate a random CSRF token
+            String csrf_token = CSRF.getToken();
+
+            // place the CSRF token in a cookie
+            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("csrf", csrf_token);
+            response.addCookie(cookie);
+        %>
     <head>
         <title>Mosaic a Entertainment Category Flat Bootstrap Responsive Website Template | Browse :: w3layouts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -83,6 +93,7 @@
                                     <div class="sign-right" style="width:85%">
                                         <form action="playlist" method="post">
                                             <input type="hidden" name="action" value="addPlaylist">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <h3>Create a new playlist </h3>
                                             <label>Playlist's name:</label>
                                             <input type="text" name="playlistName">
@@ -112,6 +123,7 @@
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
                                     <form action="search" method="post">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
@@ -176,6 +188,7 @@
                                                     <fieldset>
                                                         <label>Email = ${loggeduser.getGmail()}</label>
                                                     </fieldset>
+                                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                     <input type="submit" name="action" value="Playlist" > 
                                                     <input type="submit" name ="action" id="My profile" value="My profile">
                                                     <input type="submit" name ="action" id="setting" value="Setting">
@@ -196,6 +209,7 @@
                                                     <fieldset>
                                                         <label>Email = ${loggeduser.getGmail()}</label>
                                                     </fieldset>
+                                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                     <input type="submit" name ="action" value="Account Manager">
                                                     <input type="submit" name="action" value="Playlist" > 
                                                     <input type="submit" name ="action" id="My profile" value="My profile">
@@ -257,6 +271,7 @@
                                 <div class="col-md-3 browse-grid">
                                     <form action="playlist" method="post"> 
                                         <input type="hidden" value="<%=showplaylist.getPlaylistID()%>" name="playlistID">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                         <button name="action" value="View playlist" type="submit">
                                             <img src="<%=showplaylist.getCover()%>" style="width:215px;height:215px" ></button>
                                         <a class="sing" href="single.html"><%=showplaylist.getName()%></a>
@@ -274,6 +289,7 @@
                                                         <div class="sign-right" style="width:85%">
                                                             <form action="playlist" method="post" enctype="multipart/form-data">
                                                                 <input id="PlaylistID" type="hidden" name="playlistID">
+                                                                <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                                 <h3>Playlist Setting</h3>
                                                                 <input type="file" name="cover">
                                                                 <label>Playlist's new name:</label>

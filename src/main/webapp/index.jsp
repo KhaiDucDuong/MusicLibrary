@@ -3,6 +3,7 @@
 <%@page import="DBUtil.MusicDB"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.List"%>
+<%@page import ="Utils.CSRF" %>
 <%@page import="LibraryClass.Music"%>
 <%@page import="LibraryClass.Music"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,6 +11,15 @@
 <!DOCTYPE HTML>
 <html>
     <head>
+        <%
+            // generate a random CSRF token
+            String csrf_token = CSRF.getToken();
+
+            // place the CSRF token in a cookie
+            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("csrf", csrf_token);
+            response.addCookie(cookie);
+        %>
+
         <title>Mosaic a Entertainment Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -106,6 +116,7 @@
                                 <div class="sign">
                                     <div class="sign-right">
                                         <form action="login" method="post" onsubmit="return validateForm()">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                             <h3>Create your account </h3>
                                             <input type="hidden" name="action" value="registerUser">
                                             <label>Name</label><br>
@@ -144,6 +155,7 @@
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
                                     <form action="search" method="post">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
@@ -202,6 +214,7 @@
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
                                                 <form action="login" method="post" id="loginForm">
+                                                    <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                                     <p>${message}</p>
                                                     <input type="hidden" name="action" value="loginUser">
 
@@ -227,6 +240,7 @@
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox" style="margin-top:10px">  
                                                     <form action="login" method="post" id="loginForm">
+                                                        <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -254,6 +268,7 @@
                                                             <fieldset>
                                                                 <label>Email = ${loggeduser.getGmail()}</label>
                                                             </fieldset>
+                                                            <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                                             <input type="submit" name ="action" value="Account Manager">
                                                             <input type="submit" name="action" value="Playlist" > 
                                                             <input type="submit" name ="action" id="My profile" value="My profile">
@@ -399,6 +414,7 @@
                                         <% for (Playlist playlist : randPlaylist) {%>
                                         <div class="col-md-3 content-grid">
                                             <form action="search" method="post"> 
+                                                <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                                 <input type="hidden" value="<%=playlist.getPlaylistID()%>" name="playlistID">
                                                 <button class="btn" name="action" value="View playlist" type="submit">
                                                     <a  href="#"><img src="<%=playlist.getCover()%>" style="width:320px;height:320px"></a>
@@ -428,6 +444,7 @@
                                     <% for (Playlist playlist : first8Playlist) {%>
                                     <li>
                                         <form action="search" method="post"> 
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                             <input type="hidden" value="<%=playlist.getPlaylistID()%>" name="playlistID">
                                             <button class="btn" name="action" value="View playlist" type="submit">
                                                 <a  href="#"><img src="<%=playlist.getCover()%>" style="width:200px;height:200px"></a>
@@ -437,9 +454,9 @@
                                     </li>
                                     <% }%>
                                 </ul>
-                                
-                                
-                                
+
+
+
                                 <div class="modal fade" id="addToPlaylist" tabindex="-1" role="dialog" aria-labelledby="modalLabelLarge" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content">
@@ -451,6 +468,7 @@
                                                 <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
                                             </div>
                                             <form method="post" action="playlist">
+                                                <input type="hidden" name="csrf_token" value="<%= csrf_token%>"/>
                                                 <div class="modal-body">
                                                     <c:choose>
                                                         <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
@@ -503,9 +521,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
-                                
+
+
+
                                 <script type="text/javascript">
                                     $(window).load(function () {
 

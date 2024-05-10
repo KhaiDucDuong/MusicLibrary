@@ -1,9 +1,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@page import ="Utils.CSRF" %>
 <!DOCTYPE html>
 <html>
     <head>
+        <%
+            // generate a random CSRF token
+            String csrf_token = CSRF.getToken();
+
+            // place the CSRF token in a cookie
+            javax.servlet.http.Cookie cookie = new javax.servlet.http.Cookie("csrf", csrf_token);
+            response.addCookie(cookie);
+        %>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="Cache-control" content="no-cache">
         <title>Profile</title>
@@ -63,6 +72,7 @@
                                 <div class="sign">
                                     <div class="sign-right">
                                         <form action="login" method="post" onsubmit="return validateForm()">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <h3>Create your account </h3>
                                             <input type="hidden" name="action" value="registerUser">
                                             <label>Name</label><br>
@@ -98,6 +108,7 @@
                             <div class="col-md-4 serch-part">
                                 <div id="sb-search" class="sb-search">
                                     <form action="search" method="post">
+                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                         <input class="sb-search-input" placeholder="Search" type="search" name="songSearch" id="search">
                                         <input class="sb-search-submit" type="submit" name="action" value="search">
                                         <span class="sb-icon-search"> </span>
@@ -156,6 +167,7 @@
                                         <div id="loginpop"> <a href="#" id="loginButton"><span>Login <i class="arrow glyphicon glyphicon-chevron-right"></i></span></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"><i class="fa fa-sign-in"></i></a>
                                             <div id="loginBox">  
                                                 <form action="login" method="post" id="loginForm">
+                                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                     <p>${message}</p>
                                                     <input type="hidden" name="action" value="loginUser">
 
@@ -181,6 +193,7 @@
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox" style="margin-top:10px">  
                                                     <form action="login" method="post" id="loginForm">
+                                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -201,6 +214,7 @@
                                             <div id="loginpop"> <a href="#" id="loginButton"><img class="miniprofile" src="${loggeduser.getImage()}"/></a><a class="top-sign" href="#" data-toggle="modal" data-target="#myModal5"></a>
                                                 <div id="loginBox">  
                                                     <form action="login" method="post" id="loginForm">
+                                                        <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                         <fieldset id="body">
                                                             <fieldset>
                                                                 <label>Username = ${loggeduser.getName()}</label>
@@ -261,6 +275,7 @@
                                     <td id="info-row" class="col-xs-4" colspan="1">
                                         <c:if test="${loggeduser.getUserID() == artist.getUserID()}">
                                             <form method="post" action="login">
+                                                <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                                 <button type="submit" name="action" value="start_create_newMusic" class="btn btn-light">Upload new song</button>
                                                 <p>${message}</p>  
                                             </form>
@@ -436,6 +451,7 @@
                                     <h4 class="modal-title" id="modalLabelLarge">Add song to playlist:</h4>
                                 </div>
                                 <form method="post" action="playlist">
+                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                     <div class="modal-body">
                                         <c:choose>
                                             <c:when test="${loggeduser != null and loggedUserPlaylists.size() > 0}">
@@ -499,6 +515,7 @@
                         <div class = "modal-dialog" role = "document">
                             <div class = "modal-content">
                                 <form method="post" action="musicServlet">
+                                    <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                     <div class = "modal-header">
                                         <button type = "button" class = "close" data-dismiss = "modal" aria-label = "Close">
                                             <span aria-hidden = "true"> × </span>
@@ -531,6 +548,7 @@
                                 <c:if test="${empty loggeduser}">
                                     <c:forEach items="${userPlaylists}" var="userPlaylist">
                                         <form method="post" action="search">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
                                             <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
                                                 <div class="thumbnail">
@@ -555,6 +573,7 @@
                                 <c:if test="${not empty loggeduser}">
                                     <c:forEach items="${userPlaylists}" var="userPlaylist">
                                         <form method="post" action="playlist">
+                                            <input type="hidden" name="csrf_token" value="<%= csrf_token %>"/>
                                             <input type="hidden" value="${userPlaylist.getPlaylistID()}" name="playlistID">
                                             <div class="col-xs-4 col-lg-2 max-height-col padding-bottom">
                                                 <div class="thumbnail">
