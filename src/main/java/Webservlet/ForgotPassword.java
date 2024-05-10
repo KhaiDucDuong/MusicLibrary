@@ -1,8 +1,10 @@
 package Webservlet;
 
+
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
+import LibraryClass.CSRFTokenUtil;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -45,45 +47,59 @@ public class ForgotPassword extends HttpServlet {
                 int otpvalue = generateOTP();
                 HttpSession mySession = request.getSession();
 
-                String to = email;// change accordingly
+                // Tạo và lưu trữ CSRF token trong phiên của người dùng
+                String csrfToken = CSRFTokenUtil.generateCSRFToken();
+                mySession.setAttribute("csrfToken", csrfToken);
 
-                // Get the session object
-                Properties props = new Properties();
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.socketFactory.port", "465");
-                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.port", "465");
-                Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication("trongvumaimtv@gmail.com", "klfnasnzxuvnkddy");// Put your email
-                        // id and
-                        // password here
+                // Lấy CSRF token từ yêu cầu
+                String requestToken = request.getParameter("csrfToken");
+                String sessionToken = (String) mySession.getAttribute("csrfToken");
+
+                // Kiểm tra CSRF token từ yêu cầu có khớp với token trong phiên không
+                if (sessionToken != null && sessionToken.equals(requestToken)) {
+
+                    String to = email;// change accordingly
+
+                    // Get the session object
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com");
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
+                    Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+                        protected PasswordAuthentication getPasswordAuthentication() {
+                            return new PasswordAuthentication("trongvumaimtv@gmail.com", "klfnasnzxuvnkddy");// Put your email
+                            // id and
+                            // password here
+                        }
+                    });
+                    // compose message
+                    try {
+                        MimeMessage message = new MimeMessage(session);
+                        message.setFrom(new InternetAddress(email));// change accordingly
+                        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+                        message.setSubject("Hello!");
+                        message.setText("Your OTP is: " + otpvalue);
+                        // send message
+                        Transport.send(message);
+                        System.out.println("Message sent successfully");
+                    } catch (MessagingException e) {
+                        dispatcher = request.getRequestDispatcher("index.jsp");
+                        request.setAttribute("message", "Something went wrong.");
+                        dispatcher.forward(request, response);
+                        throw new RuntimeException(e);
                     }
-                });
-                // compose message
-                try {
-                    MimeMessage message = new MimeMessage(session);
-                    message.setFrom(new InternetAddress(email));// change accordingly
-                    message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-                    message.setSubject("Hello!");
-                    message.setText("Your OTP is: " + otpvalue);
-                    // send message
-                    Transport.send(message);
-                    System.out.println("Message sent successfully");
-                } catch (MessagingException e) {
-                    dispatcher = request.getRequestDispatcher("index.jsp");
-                    request.setAttribute("message", "Something went wrong.");
+                    dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
+                    request.setAttribute("message", "OTP is sent to your email id");
+                    //request.setAttribute("connection", con);
+                    mySession.setAttribute("otp", otpvalue);
+                    mySession.setAttribute("email", email);
                     dispatcher.forward(request, response);
-                    throw new RuntimeException(e);   
+                    //request.setAttribute("status", "success");
+                    mySession.removeAttribute("csrfToken");
+                    
                 }
-                dispatcher = request.getRequestDispatcher("EnterOtp.jsp");
-                request.setAttribute("message", "OTP is sent to your email id");
-                //request.setAttribute("connection", con);
-                mySession.setAttribute("otp", otpvalue);
-                mySession.setAttribute("email", email);
-                dispatcher.forward(request, response);
-                //request.setAttribute("status", "success");
 
             }
         } catch (Exception ex) {
