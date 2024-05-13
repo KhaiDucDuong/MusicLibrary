@@ -23,7 +23,7 @@
         <title>Mosaic a Entertainment Category Flat Bootstrap Responsive Website Template | Home :: w3layouts</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta http-equiv="Content-Security-policy" content="style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://code.jquery.com; connect-src 'self'; img-src 'self'; frame-src 'self'; media-src 'self' http://localhost:8080/MusicLibrary/songs; object-src 'self'; manifest-src 'self'; form-action 'self'; font-src 'self' https://cdn.linearicons.com https://fonts.gstatic.com;"/>
+        <!--<meta http-equiv="Content-Security-policy" content="style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://code.jquery.com; media-src 'self' http://localhost:8080/MusicLibrary/songs; font-src 'self' https://cdn.linearicons.com https://fonts.gstatic.com; default-src 'self'"/>-->
         <meta name="keywords" content="Mosaic Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
               Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
         <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
@@ -41,6 +41,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="js/jquery-2.1.4.js"></script>
         <script src="js/play_music_script.js"></script>
+        <script src="js/frame_buster.js"></script>
         <script>
             function passIDToModal(ID) {
                 var inputElement = document.getElementById('songID');
@@ -57,7 +58,7 @@
 
     </head> 
     <!-- /w3layouts-agile -->
-    <body class="sticky-header left-side-collapsed"  onload="initMap()">
+    <body class="sticky-header left-side-collapsed"  onload="">
         <script>
             $(document).ready(function () {
                 var successMessage = "${messagelogin}";

@@ -52,13 +52,13 @@ public class adminServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.addHeader("Content-Security-Policy", "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
-                + "script-src 'self' 'unsafe-inline' https://code.jquery.com; "
-                + "frame-ancestors 'self'; connect-src 'self'; img-src 'self'; frame-src 'self'; "
-                + "media-src 'self' http://localhost:8080/MusicLibrary/songs; object-src 'self'; manifest-src 'self'; "
-                + "form-action 'self'; "
-                + "font-src 'self' https://cdn.linearicons.com https://fonts.gstatic.com;");
-        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+//        response.addHeader("Content-Security-Policy", "default-src 'self'; "
+//                + "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+//                + "script-src 'self' 'unsafe-inline' https://code.jquery.com; "
+//                + "frame-ancestors 'self'; "
+//                + "media-src 'self' http://localhost:8080/MusicLibrary/songs; "
+//                + "font-src 'self' https://cdn.linearicons.com https://fonts.gstatic.com;");
+//        response.setHeader("X-Frame-Options", "DENY");
         String action = request.getParameter("action");
         String url = "/Admin.jsp";
         User user = (User) request.getSession().getAttribute("loggeduser");
